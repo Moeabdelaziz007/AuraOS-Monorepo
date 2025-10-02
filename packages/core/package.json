@@ -1,14 +1,14 @@
 {
   "name": "@auraos/core",
   "version": "1.0.0",
+  "type": "module",
   "description": "AuraOS Core - Kernel and system components",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },

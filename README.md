@@ -49,6 +49,9 @@ AuraOS-Monorepo/
 
 - Node.js 18+
 - pnpm 8+
+- Docker & Docker Compose (for self-hosted AI)
+- NVIDIA GPU with 8GB+ VRAM (optional, for vLLM)
+- pnpm 8+
 - Python 3.11+
 - Git
 
@@ -79,6 +82,48 @@ pnpm install
 # Build all packages
 pnpm build
 ```
+
+### AI Provider Setup
+
+AuraOS supports two AI providers:
+
+#### Option 1: Anthropic Claude (Cloud-based)
+
+```bash
+# Set API key
+export ANTHROPIC_API_KEY="your-api-key-here"
+
+# Or add to .env file
+echo "AI_PROVIDER=anthropic" >> .env
+echo "ANTHROPIC_API_KEY=your-api-key-here" >> .env
+```
+
+#### Option 2: vLLM (Self-hosted, Recommended)
+
+```bash
+# 1. Configure environment
+cp .env.example .env
+# Edit .env and set:
+#   AI_PROVIDER=vllm
+#   VLLM_MODEL=meta-llama/Llama-3.1-8B-Instruct
+
+# 2. Start vLLM service (requires NVIDIA GPU)
+docker compose -f docker-compose.vllm.yml up -d
+
+# 3. Wait for model download (first run only, ~10 minutes)
+docker compose -f docker-compose.vllm.yml logs -f
+
+# 4. Verify vLLM is running
+curl http://localhost:8000/health
+```
+
+**Benefits of vLLM:**
+- ✅ No API costs
+- ✅ Complete privacy
+- ✅ Works offline
+- ✅ Customizable models
+
+See [vLLM Setup Guide](docs/VLLM_SETUP_GUIDE.md) for detailed instructions.
 
 ### Development
 
