@@ -506,7 +506,7 @@ export class EmulatorControlMCPServer extends BaseMCPServer {
 
   // Emulator operation implementations
 
-  private async createEmulator(type: string, config?: any): Promise<any> {
+  private async createEmulator(type: string, _config?: any): Promise<any> {
     const id = `emu_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
     const state: EmulatorState = {
@@ -618,9 +618,7 @@ export class EmulatorControlMCPServer extends BaseMCPServer {
     };
   }
 
-  private async readMemory(id: string, address: number, length: number): Promise<any> {
-    const emulator = this.getEmulator(id);
-
+  private async readMemory(_id: string, address: number, length: number): Promise<any> {
     // Simulate memory read
     const data = new Array(length).fill(0).map(() => Math.floor(Math.random() * 256));
 

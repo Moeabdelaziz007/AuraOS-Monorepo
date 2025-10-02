@@ -1,9 +1,13 @@
-
-import { Dashboard } from './components/dashboard/Dashboard';
+import { DesktopOS } from './components/desktop/DesktopOS';
+import { ThemeProvider } from './components/theme-provider';
 import './App.css';
 
 function App() {
-  return <Dashboard />;
+  return (
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <DesktopOS />
+    </ThemeProvider>
+  );
 }
 
 export default App;

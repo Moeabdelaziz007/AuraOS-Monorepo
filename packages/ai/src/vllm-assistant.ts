@@ -107,16 +107,17 @@ Available tools will be provided in each request. Use them to help users accompl
 
           // Execute each tool call
           for (const toolCall of choice.message.tool_calls) {
-            console.log(`[AI] Using tool: ${toolCall.function.name}`);
-            console.log(`[AI] Input:`, toolCall.function.arguments);
+            const toolFunction = (toolCall as any).function;
+            console.log(`[AI] Using tool: ${toolFunction.name}`);
+            console.log(`[AI] Input:`, toolFunction.arguments);
 
             try {
               // Parse tool arguments
-              const toolInput = JSON.parse(toolCall.function.arguments);
+              const toolInput = JSON.parse(toolFunction.arguments);
 
               // Execute tool through MCP gateway
               const toolRequest: ToolRequest = {
-                tool: toolCall.function.name,
+                tool: toolFunction.name,
                 input: toolInput,
               };
 

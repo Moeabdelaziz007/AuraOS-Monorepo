@@ -46,8 +46,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className = '', onError, aiConfi
       try {
         // Create MCP Gateway
         const gateway = new MCPGateway({
-          maxServers: 10,
-          requestTimeout: 30000,
+          timeout: 30000,
           enableLogging: true,
         });
 

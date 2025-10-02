@@ -592,7 +592,7 @@ export class FileSystemMCPServer extends BaseMCPServer {
     return { results };
   }
 
-  private async watchPath(filePath: string, recursive?: boolean): Promise<any> {
+  private async watchPath(filePath: string, _recursive?: boolean): Promise<any> {
     const fullPath = this.resolvePath(filePath);
     await this.validatePath(fullPath);
 
