@@ -23,7 +23,7 @@ interface FileItem {
 
 export function AIFileManagerApp() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [currentPath, setCurrentPath] = useState("Home")
+  const [currentPath] = useState("Home")
   const [files] = useState<FileItem[]>([
     {
       id: "1",

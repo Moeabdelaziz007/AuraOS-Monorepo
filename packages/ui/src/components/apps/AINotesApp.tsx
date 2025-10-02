@@ -28,7 +28,7 @@ export function AINotesApp() {
     },
   ])
   const [selectedNote, setSelectedNote] = useState<Note | null>(notes[0])
-  const [isEditing, setIsEditing] = useState(false)
+  const [, setIsEditing] = useState(false)
 
   const createNewNote = () => {
     const newNote: Note = {

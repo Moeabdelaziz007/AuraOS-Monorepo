@@ -1,50 +1,12 @@
 /**
  * AI Chat Component
  * Interactive chat interface for AuraOS AI Assistant
- * 
- * TODO: Reconnect MCP servers after fixing cross-package TypeScript issues
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-// Temporarily commented out to allow UI package to build independently
-// import { MCPGateway } from '../../../../ai/src/mcp/gateway';
-// import { createAIAssistant, IAIAssistant, AIAssistantConfig } from '../../../../ai/src/assistant-factory';
-// import { FileSystemMCPServer } from '../../../../core/src/mcp/filesystem';
-// import { EmulatorControlMCPServer } from '../../../../core/src/mcp/emulator';
+import { MCPGateway, createAIAssistant, type IAIAssistant, type AIAssistantConfig } from '@auraos/ai';
+import { FileSystemMCPServer, EmulatorControlMCPServer } from '@auraos/core';
 import './AIChat.css';
-
-// Temporary type stubs - TODO: Remove when reconnecting MCP servers
-interface AIAssistantConfig {
-  provider: 'anthropic' | 'vllm';
-  apiKey?: string;
-  vllmUrl?: string;
-  modelName?: string;
-}
-
-interface IAIAssistant {
-  chat: (message: string) => Promise<string>;
-  clearHistory?: () => void;
-}
-
-class MCPGateway {
-  constructor(config: any) {}
-  async registerServer(server: any) {}
-}
-
-class FileSystemMCPServer {
-  constructor(path: string) {}
-}
-
-class EmulatorControlMCPServer {
-  constructor() {}
-}
-
-async function createAIAssistant(gateway: MCPGateway, config: AIAssistantConfig): Promise<IAIAssistant> {
-  return {
-    chat: async (_message: string) => "AI functionality temporarily disabled during v0 integration",
-    clearHistory: () => {}
-  };
-}
 
 interface Message {
   id: string;
@@ -220,7 +182,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className = '', onError, aiConfi
         timestamp: new Date(),
       },
     ]);
-    if (assistant) {
+    if (assistant && assistant.clearHistory) {
       assistant.clearHistory();
     }
   };

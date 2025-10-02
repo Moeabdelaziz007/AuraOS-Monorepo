@@ -5,12 +5,12 @@
     "rootDir": "./src",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-    "paths": {
-      "@auraos/ai": ["../ai/src/index.ts"],
-      "@auraos/core": ["../core/src/index.ts"]
-    }
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"],
+  "references": [
+    { "path": "../ai" },
+    { "path": "../core" }
+  ]
 }
