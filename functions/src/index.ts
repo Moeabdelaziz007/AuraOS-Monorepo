@@ -39,7 +39,7 @@ async function callGeminiApi(prompt: string, model = 'models/text-bison-001') {
   return res.json();
 }
 
-export const callAI = functions.https.onCall(async (data: CallAIRequest, context): Promise<CallAIResponse> => {
+export const callAI = functions.https.onCall(async (data: CallAIRequest, context: functions.https.CallableContext): Promise<CallAIResponse> => {
   // Authentication check
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'The function must be called while authenticated.');
