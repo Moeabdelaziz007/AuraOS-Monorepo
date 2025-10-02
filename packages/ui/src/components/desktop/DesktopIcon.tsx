@@ -14,10 +14,11 @@ interface DesktopIconProps {
     position: { x: number; y: number }
     color: "cyan" | "purple" | "green" | "yellow"
   }
+  onClick?: () => void
   onDoubleClick: () => void
 }
 
-export function DesktopIcon({ icon, onDoubleClick }: DesktopIconProps) {
+export function DesktopIcon({ icon, onClick, onDoubleClick }: DesktopIconProps) {
   const getColorClasses = (color: string) => {
     switch (color) {
       case "cyan":
@@ -39,9 +40,10 @@ export function DesktopIcon({ icon, onDoubleClick }: DesktopIconProps) {
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ scale: 1.05, y: -4 }}
       whileTap={{ scale: 0.95 }}
+      onClick={onClick}
       onDoubleClick={onDoubleClick}
       className={cn(
-        "absolute flex w-28 flex-col items-center gap-3 rounded-xl p-4 transition-all duration-200",
+        "absolute flex w-28 flex-col items-center gap-3 rounded-xl p-4 transition-all duration-200 cursor-pointer",
         getColorClasses(icon.color),
       )}
       style={{

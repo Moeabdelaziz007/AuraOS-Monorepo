@@ -118,10 +118,14 @@ export function DesktopOS() {
     },
   ])
 
-  const handleIconDoubleClick = (iconId: string) => {
+  const handleIconClick = (iconId: string) => {
     if (!openWindows.includes(iconId)) {
       setOpenWindows([...openWindows, iconId])
     }
+  }
+
+  const handleIconDoubleClick = (iconId: string) => {
+    handleIconClick(iconId)
   }
 
   const handleCloseWindow = (windowId: string) => {
@@ -209,7 +213,12 @@ export function DesktopOS() {
         {/* Desktop Icons */}
         <div className="relative z-10 h-[calc(100vh-56px)] w-full">
           {desktopIcons.map((icon) => (
-            <DesktopIcon key={icon.id} icon={icon} onDoubleClick={() => handleIconDoubleClick(icon.id)} />
+            <DesktopIcon 
+              key={icon.id} 
+              icon={icon} 
+              onClick={() => handleIconClick(icon.id)}
+              onDoubleClick={() => handleIconDoubleClick(icon.id)} 
+            />
           ))}
         </div>
 
