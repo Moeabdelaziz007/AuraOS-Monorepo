@@ -1,0 +1,14 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "Advanced calculator with mathematical functions",
+  "author": "AI Vintage OS Team",
+  "type": "tool",
+  "dependencies": [],
+  "permissions": ["ui_access"],
+  "tags": ["math", "calculator", "tools"],
+  "icon": "https://example.com/calculator-icon.png",
+  "homepage": "https://github.com/ai-vintage-os/plugins/calculator",
+  "license": "MIT",
+  "min_os_version": "1.0.0"
+}

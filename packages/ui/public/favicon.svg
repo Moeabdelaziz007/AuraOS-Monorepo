@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="terminal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="url(#bg)"/>
+
+  <!-- Terminal screen -->
+  <rect x="4" y="6" width="24" height="20" rx="2" fill="#0a0a0a" stroke="url(#terminal)" stroke-width="1"/>
+
+  <!-- Terminal text lines -->
+  <rect x="8" y="10" width="12" height="1" fill="url(#terminal)"/>
+  <rect x="8" y="12" width="8" height="1" fill="url(#terminal)"/>
+  <rect x="8" y="14" width="14" height="1" fill="url(#terminal)"/>
+  <rect x="8" y="16" width="6" height="1" fill="url(#terminal)"/>
+
+  <!-- Cursor -->
+  <rect x="10" y="18" width="2" height="1" fill="url(#accent)"/>
+
+  <!-- AI indicator (small sparkle) -->
+  <circle cx="24" cy="10" r="2" fill="url(#accent)" opacity="0.8"/>
+  <path d="M24 8 L24 12 M22 10 L26 10" stroke="url(#accent)" stroke-width="0.5" opacity="0.6"/>
+</svg>

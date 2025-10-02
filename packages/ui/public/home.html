@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelfOS - AI Vintage Operating System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #22c55e, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.8)); }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #22c55e;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #94a3b8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            background: rgba(34, 197, 94, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(34, 197, 94, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #22c55e;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .status {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 5px;
+        }
+
+        .status-label {
+            color: #94a3b8;
+        }
+
+        .status-value {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            color: #64748b;
+        }
+
+        .terminal-line {
+            font-family: 'Courier New', monospace;
+            color: #22c55e;
+            margin: 0.5rem 0;
+        }
+
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🚀</div>
+        <h1 class="title">SelfOS</h1>
+        <p class="subtitle">AI Vintage Operating System</p>
+
+        <div class="terminal-line">
+            <span class="cursor">█</span> System initialized successfully...
+        </div>
+        <div class="terminal-line">
+            <span class="cursor">█</span> AI modules loaded and ready
+        </div>
+        <div class="terminal-line">
+            <span class="cursor">█</span> Welcome to the future of computing
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">AI Integration</div>
+                <div class="feature-desc">Real-time AI interactions with multiple providers</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">Vintage Aesthetics</div>
+                <div class="feature-desc">Retro terminal and classic computing themes</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Modern Performance</div>
+                <div class="feature-desc">Fast, responsive, and optimized</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔧</div>
+                <div class="feature-title">Emulator Support</div>
+                <div class="feature-desc">Built-in emulator for classic computing</div>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3 style="color: #22c55e; margin-bottom: 1rem;">System Status</h3>
+            <div class="status-item">
+                <span class="status-label">AI Assistant:</span>
+                <span class="status-value">Online</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Emulator:</span>
+                <span class="status-value">Ready</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Theme Engine:</span>
+                <span class="status-value">Active</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Connection:</span>
+                <span class="status-value">Stable</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ by Mohamed Abdelaziz</p>
+            <p>Version 1.0.0 | Built with React + TypeScript</p>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive terminal effects
+        const lines = document.querySelectorAll('.terminal-line');
+        lines.forEach((line, index) => {
+            setTimeout(() => {
+                line.style.opacity = '1';
+                line.style.transform = 'translateX(0)';
+            }, index * 500);
+        });
+
+        // Update status values dynamically
+        setInterval(() => {
+            const statusValues = document.querySelectorAll('.status-value');
+            statusValues.forEach(value => {
+                if (value.textContent === 'Online') {
+                    value.style.color = '#22c55e';
+                } else if (value.textContent === 'Ready') {
+                    value.style.color = '#3b82f6';
+                } else if (value.textContent === 'Active') {
+                    value.style.color = '#8b5cf6';
+                } else if (value.textContent === 'Stable') {
+                    value.style.color = '#22c55e';
+                }
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

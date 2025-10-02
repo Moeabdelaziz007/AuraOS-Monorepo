@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "auraos-monorepo"
+  },
+  "targets": {
+    "auraos-monorepo": {
+      "hosting": {
+        "production": [
+          "auraos-monorepo"
+        ],
+        "staging": [
+          "auraos-staging"
+        ]
+      }
+    }
+  }
+}

@@ -1,5 +1,16 @@
 {
   "name": "@auraos/desktop",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "echo \"build @auraos/desktop\"",
+    "dev": "echo \"dev @auraos/desktop\"",
+    "test": "echo \"test @auraos/desktop\""
+  }
+}
+{
+  "name": "@auraos/desktop",
   "version": "1.0.0",
   "description": "AuraOS Desktop - Desktop environment",
   "main": "./dist/index.js",

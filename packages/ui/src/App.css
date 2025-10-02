@@ -1,0 +1,293 @@
+/* SelfOS - AI Vintage Operating System Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  color: #e94560;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e94560;
+  backdrop-filter: blur(10px);
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  color: #e94560;
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.status-indicator {
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.connected {
+  color: #4ade80;
+}
+
+.status-indicator.disconnected {
+  color: #f87171;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.terminal {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  border: 1px solid #e94560;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+}
+
+.terminal-header {
+  background: #e94560;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.terminal-buttons .button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-buttons .red { background: #ff5f56; }
+.terminal-buttons .yellow { background: #ffbd2e; }
+.terminal-buttons .green { background: #27ca3f; }
+
+.terminal-title {
+  color: white;
+  font-weight: bold;
+}
+
+.terminal-body {
+  padding: 1rem;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.output-console {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  font-family: 'Courier New', monospace;
+}
+
+.welcome-message {
+  color: #4ade80;
+  margin-bottom: 1rem;
+}
+
+.welcome-message p {
+  margin-bottom: 0.5rem;
+}
+
+.output-line {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.output-line.success .output-result {
+  color: #4ade80;
+}
+
+.output-line.error .output-result {
+  color: #f87171;
+}
+
+.output-line.info .output-result {
+  color: #60a5fa;
+}
+
+.prompt {
+  color: #e94560;
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.command {
+  color: #fbbf24;
+}
+
+.output-result {
+  margin-left: 1rem;
+  margin-top: 0.25rem;
+}
+
+.command-input-form {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e94560;
+}
+
+.command-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fbbf24;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  outline: none;
+}
+
+.command-input::placeholder {
+  color: #6b7280;
+}
+
+.sidebar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-panel, .quick-commands {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e94560;
+  backdrop-filter: blur(10px);
+}
+
+.info-panel h3, .quick-commands h3 {
+  color: #e94560;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+}
+
+.info-item .label {
+  color: #6b7280;
+}
+
+.info-item .value {
+  color: #4ade80;
+  font-weight: bold;
+}
+
+.quick-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quick-commands button {
+  background: rgba(233, 69, 96, 0.2);
+  border: 1px solid #e94560;
+  color: #e94560;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  transition: all 0.3s ease;
+}
+
+.quick-commands button:hover {
+  background: rgba(233, 69, 96, 0.3);
+  box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+.app-footer {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 1rem 2rem;
+  text-align: center;
+  border-top: 1px solid #e94560;
+  backdrop-filter: blur(10px);
+}
+
+.app-footer p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-main {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .terminal-body {
+    height: 400px;
+  }
+
+  .app-header h1 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Scrollbar Styling */
+.output-console::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-console::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.output-console::-webkit-scrollbar-thumb {
+  background: #e94560;
+  border-radius: 4px;
+}
+
+.output-console::-webkit-scrollbar-thumb:hover {
+  background: #f87171;
+}

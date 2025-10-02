@@ -1,0 +1,59 @@
+{
+  "name": "custom-ai-agent",
+  "version": "1.0.0",
+  "description": "Custom AI agent with specialized knowledge and personality",
+  "author": "SelfOS Team",
+  "main": "index.ts",
+  "config": {
+    "name": {
+      "type": "string",
+      "default": "Custom Agent",
+      "description": "Name of the AI agent"
+    },
+    "personality": {
+      "type": "string",
+      "default": "helpful and knowledgeable",
+      "description": "Personality description for the agent"
+    },
+    "knowledgeBase": {
+      "type": "array",
+      "default": [],
+      "description": "Initial knowledge base entries"
+    },
+    "specializations": {
+      "type": "array",
+      "default": [],
+      "description": "Areas of specialization"
+    },
+    "responseStyle": {
+      "type": "string",
+      "default": "casual",
+      "enum": ["formal", "casual", "technical", "creative"],
+      "description": "Response style of the agent"
+    },
+    "maxContextLength": {
+      "type": "number",
+      "default": 20,
+      "description": "Maximum conversation history length"
+    },
+    "learningEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable learning from interactions"
+    }
+  },
+  "permissions": [
+    "ai",
+    "storage",
+    "ui"
+  ],
+  "dependencies": {},
+  "keywords": [
+    "ai",
+    "agent",
+    "custom",
+    "knowledge",
+    "learning"
+  ],
+  "license": "MIT"
+}
