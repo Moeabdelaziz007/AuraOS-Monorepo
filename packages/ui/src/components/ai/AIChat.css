@@ -44,12 +44,24 @@
   }
 }
 
+.title-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .ai-chat-title h3 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
   color: #00ffff;
   text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.provider-name {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
 }
 
 .status-badge {

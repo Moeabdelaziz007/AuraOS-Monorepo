@@ -5,7 +5,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MCPGateway } from '../../../../ai/src/mcp/gateway';
-import { AIAssistant } from '../../../../ai/src/assistant';
+import { createAIAssistant, IAIAssistant, AIAssistantConfig } from '../../../../ai/src/assistant-factory';
 import { FileSystemMCPServer } from '../../../../core/src/mcp/filesystem';
 import { EmulatorControlMCPServer } from '../../../../core/src/mcp/emulator';
 import './AIChat.css';
@@ -21,9 +21,10 @@ interface Message {
 interface AIChatProps {
   className?: string;
   onError?: (error: Error) => void;
+  aiConfig?: AIAssistantConfig;
 }
 
-export const AIChat: React.FC<AIChatProps> = ({ className = '', onError }) => {
+export const AIChat: React.FC<AIChatProps> = ({ className = '', onError, aiConfig }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '0',
@@ -34,9 +35,10 @@ export const AIChat: React.FC<AIChatProps> = ({ className = '', onError }) => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [assistant, setAssistant] = useState<AIAssistant | null>(null);
+  const [assistant, setAssistant] = useState<IAIAssistant | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [providerName, setProviderName] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -58,10 +60,24 @@ export const AIChat: React.FC<AIChatProps> = ({ className = '', onError }) => {
         await gateway.registerServer(fsServer);
         await gateway.registerServer(emuServer);
 
-        // Create AI Assistant
-        const aiAssistant = new AIAssistant(gateway);
+        // Determine AI provider configuration
+        const config: AIAssistantConfig = aiConfig || {
+          provider: (process.env.AI_PROVIDER as 'anthropic' | 'vllm') || 'anthropic',
+          ...(process.env.AI_PROVIDER === 'vllm'
+            ? {
+                vllmUrl: process.env.VLLM_URL || 'http://localhost:8000/v1',
+                modelName: process.env.VLLM_MODEL || 'meta-llama/Llama-3.1-8B-Instruct',
+              }
+            : {
+                apiKey: process.env.ANTHROPIC_API_KEY,
+              }),
+        };
+
+        // Create AI Assistant using factory
+        const aiAssistant = await createAIAssistant(gateway, config);
 
         setAssistant(aiAssistant);
+        setProviderName(config.provider === 'vllm' ? 'vLLM (Self-Hosted)' : 'Anthropic Claude');
         setIsInitialized(true);
         setError(null);
       } catch (err) {
@@ -80,7 +96,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className = '', onError }) => {
     return () => {
       // Gateway cleanup would go here if needed
     };
-  }, [onError]);
+  }, [onError, aiConfig]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -186,7 +202,10 @@ export const AIChat: React.FC<AIChatProps> = ({ className = '', onError }) => {
       <div className="ai-chat-header">
         <div className="ai-chat-title">
           <span className="ai-icon">🤖</span>
-          <h3>AI Assistant</h3>
+          <div className="title-content">
+            <h3>AI Assistant</h3>
+            {providerName && <span className="provider-name">{providerName}</span>}
+          </div>
           {isInitialized && (
             <span className="status-badge online">Online</span>
           )}

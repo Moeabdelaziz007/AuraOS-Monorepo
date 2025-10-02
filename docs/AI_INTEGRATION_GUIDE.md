@@ -36,21 +36,50 @@ AuraOS integrates AI models (Claude, GPT, etc.) with the MCP (Model Context Prot
 
 ## Quick Start
 
-### 1. Setup Environment
+### 1. Choose Your AI Provider
+
+AuraOS supports two AI providers:
+
+#### Option A: Anthropic Claude (Cloud-based)
 
 ```bash
 # Set your Anthropic API key
 export ANTHROPIC_API_KEY="your-api-key-here"
+export AI_PROVIDER="anthropic"
 
 # Or create .env file
-echo "ANTHROPIC_API_KEY=your-api-key-here" > .env
+echo "AI_PROVIDER=anthropic" > .env
+echo "ANTHROPIC_API_KEY=your-api-key-here" >> .env
 ```
+
+**Pros:** Easy setup, no hardware requirements
+**Cons:** Requires API key, costs per request, needs internet
+
+#### Option B: vLLM (Self-hosted, Recommended)
+
+```bash
+# 1. Start vLLM service
+docker compose -f docker-compose.vllm.yml up -d
+
+# 2. Configure environment
+echo "AI_PROVIDER=vllm" > .env
+echo "VLLM_URL=http://localhost:8000/v1" >> .env
+echo "VLLM_MODEL=meta-llama/Llama-3.1-8B-Instruct" >> .env
+
+# 3. Wait for model download (first run only)
+docker compose -f docker-compose.vllm.yml logs -f
+```
+
+**Pros:** No API costs, privacy, offline capable, customizable
+**Cons:** Requires NVIDIA GPU (8GB+ VRAM)
+
+See [vLLM Setup Guide](./VLLM_SETUP_GUIDE.md) for detailed instructions.
 
 ### 2. Basic Usage
 
 ```typescript
 import { MCPGateway } from '@auraos/ai/mcp/gateway';
-import { AIAssistant } from '@auraos/ai/assistant';
+import { createAIAssistant } from '@auraos/ai/assistant-factory';
 import { FileSystemMCPServer } from '@auraos/core/mcp/filesystem';
 
 // Create gateway and register servers
@@ -63,8 +92,15 @@ const gateway = new MCPGateway({
 const fsServer = new FileSystemMCPServer('/workspace');
 await gateway.registerServer(fsServer);
 
-// Create AI assistant
-const assistant = new AIAssistant(gateway);
+// Create AI assistant (automatically uses provider from environment)
+const assistant = await createAIAssistant(gateway, {
+  provider: process.env.AI_PROVIDER as 'anthropic' | 'vllm',
+  // For Anthropic:
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  // For vLLM:
+  vllmUrl: process.env.VLLM_URL,
+  modelName: process.env.VLLM_MODEL,
+});
 
 // Chat with AI
 const response = await assistant.chat(
@@ -74,17 +110,24 @@ const response = await assistant.chat(
 console.log(response);
 ```
 
-## AIAssistant API
+## AI Assistant Factory API
 
-### Constructor
+### createAIAssistant
 
 ```typescript
-constructor(gateway: MCPGateway, apiKey?: string)
+async function createAIAssistant(
+  gateway: MCPGateway,
+  config: AIAssistantConfig
+): Promise<IAIAssistant>
 ```
 
 **Parameters:**
 - `gateway` - MCP Gateway instance with registered servers
-- `apiKey` - Anthropic API key (optional, defaults to `ANTHROPIC_API_KEY` env var)
+- `config` - Provider configuration:
+  - For Anthropic: `{ provider: 'anthropic', apiKey?: string }`
+  - For vLLM: `{ provider: 'vllm', vllmUrl?: string, modelName?: string }`
+
+**Returns:** AI Assistant instance implementing `IAIAssistant` interface
 
 ### Methods
 
@@ -164,6 +207,45 @@ Get MCP gateway statistics.
 const stats = assistant.getStats();
 console.log(`Total requests: ${stats.totalRequests}`);
 console.log(`Success rate: ${(stats.successfulRequests / stats.totalRequests) * 100}%`);
+```
+
+## Provider-Specific Examples
+
+### Using Anthropic Claude
+
+```typescript
+import { createAIAssistant } from '@auraos/ai/assistant-factory';
+
+const assistant = await createAIAssistant(gateway, {
+  provider: 'anthropic',
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+const response = await assistant.chat('Hello!');
+```
+
+### Using vLLM (Self-Hosted)
+
+```typescript
+import { createAIAssistant } from '@auraos/ai/assistant-factory';
+
+const assistant = await createAIAssistant(gateway, {
+  provider: 'vllm',
+  vllmUrl: 'http://localhost:8000/v1',
+  modelName: 'meta-llama/Llama-3.1-8B-Instruct',
+});
+
+const response = await assistant.chat('Hello!');
+```
+
+### Switching Providers Dynamically
+
+```typescript
+import { createAIAssistant, getProviderFromEnv } from '@auraos/ai/assistant-factory';
+
+// Automatically use provider from environment
+const config = getProviderFromEnv();
+const assistant = await createAIAssistant(gateway, config);
 ```
 
 ## Usage Examples

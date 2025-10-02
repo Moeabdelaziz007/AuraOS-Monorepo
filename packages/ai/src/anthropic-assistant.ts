@@ -1,6 +1,6 @@
 /**
- * AI Assistant
- * Connects AI models to MCP Gateway for tool execution
+ * Anthropic AI Assistant
+ * Connects Anthropic Claude to MCP Gateway for tool execution
  */
 
 import Anthropic from '@anthropic-ai/sdk';
@@ -28,7 +28,7 @@ interface ChatOptions {
   systemPrompt?: string;
 }
 
-export class AIAssistant {
+export class AnthropicAIAssistant {
   private mcp: MCPGateway;
   private claude: Anthropic;
   private conversationHistory: Message[] = [];
@@ -245,9 +245,9 @@ Available tools will be provided in each request. Use them to help users accompl
 }
 
 /**
- * Create a pre-configured AI Assistant instance
+ * Create a pre-configured Anthropic AI Assistant instance
  */
-export async function createAIAssistant(gateway: MCPGateway, apiKey?: string): Promise<AIAssistant> {
-  const assistant = new AIAssistant(gateway, apiKey);
+export async function createAnthropicAIAssistant(gateway: MCPGateway, apiKey?: string): Promise<AnthropicAIAssistant> {
+  const assistant = new AnthropicAIAssistant(gateway, apiKey);
   return assistant;
 }
