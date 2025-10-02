@@ -492,11 +492,36 @@ Error: Invalid input: Missing required field: path
 
 **Solution:** Check the tool's `inputSchema` and provide all required fields.
 
+## AI Integration
+
+AuraOS includes an AI Assistant that can use MCP tools through natural language. See the [AI Integration Guide](./AI_INTEGRATION_GUIDE.md) for details.
+
+**Quick Example:**
+
+```typescript
+import { MCPGateway } from '@auraos/ai/mcp/gateway';
+import { AIAssistant } from '@auraos/ai/assistant';
+import { FileSystemMCPServer } from '@auraos/core/mcp/filesystem';
+
+const gateway = new MCPGateway();
+const fsServer = new FileSystemMCPServer('/workspace');
+await gateway.registerServer(fsServer);
+
+const assistant = new AIAssistant(gateway);
+
+// AI can now use filesystem tools through natural language
+const response = await assistant.chat(
+  'Create a file called hello.txt with the content "Hello, AuraOS!"'
+);
+
+console.log(response);
+```
+
 ## Next Steps
 
-- Explore the [MCP Integration Strategy](../MCP_INTEGRATION_STRATEGY.md) for planned servers
-- Check the [API Reference](./API_REFERENCE.md) for detailed type definitions
-- See [Examples](../examples/mcp/) for more usage patterns
+- **[AI Integration Guide](./AI_INTEGRATION_GUIDE.md)** - Connect AI models to MCP tools
+- [MCP Integration Strategy](../MCP_INTEGRATION_STRATEGY.md) - Planned MCP servers
+- [Examples](../packages/ai/src/examples/) - Code samples and demos
 
 ## Support
 
