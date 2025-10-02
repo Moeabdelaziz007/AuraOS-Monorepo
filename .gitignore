@@ -2,6 +2,7 @@
 node_modules/
 .pnp
 .pnp.js
+.pnpm-store/
 
 # Testing
 coverage/
@@ -13,6 +14,12 @@ dist/
 build/
 .next/
 out/
+
+# TypeScript build artifacts in src directories
+packages/*/src/**/*.js
+packages/*/src/**/*.d.ts
+packages/*/src/**/*.js.map
+packages/*/src/**/*.d.ts.map
 
 # Misc
 .DS_Store
