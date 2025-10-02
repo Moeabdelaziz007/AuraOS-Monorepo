@@ -1,15 +1,12 @@
 {
   "projects": {
-    "default": "auraos-monorepo"
+    "default": "selfos-62f70"
   },
   "targets": {
-    "auraos-monorepo": {
+    "selfos-62f70": {
       "hosting": {
         "production": [
-          "auraos-monorepo"
-        ],
-        "staging": [
-          "auraos-staging"
+          "selfos-62f70"
         ]
       }
     }
