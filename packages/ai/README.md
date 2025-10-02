@@ -10,6 +10,8 @@ AI integration package for AuraOS with Model Context Protocol (MCP) support.
 - 📝 **Conversation Management** - Multi-turn conversations with context
 - 📊 **Performance Monitoring** - Track tool usage and performance
 - 🧪 **Comprehensive Testing** - Full test coverage
+- 🌐 **Multiple Providers** - Anthropic Claude, Z.AI GLM, vLLM support
+- 💰 **Free Tier Available** - Z.AI GLM-4.5-Flash is completely FREE
 
 ## Installation
 
@@ -20,17 +22,23 @@ pnpm add @auraos/ai
 ## Quick Start
 
 ```typescript
-import { MCPGateway } from '@auraos/ai/mcp/gateway';
-import { AIAssistant } from '@auraos/ai/assistant';
+import { MCPGateway, createAIAssistantFromEnv } from '@auraos/ai';
 import { FileSystemMCPServer } from '@auraos/core/mcp/filesystem';
 
-// Setup
+// Setup MCP Gateway
 const gateway = new MCPGateway();
 const fsServer = new FileSystemMCPServer('/workspace');
 await gateway.registerServer(fsServer);
 
-// Create AI assistant
-const assistant = new AIAssistant(gateway);
+// Create AI assistant (auto-detects provider from env)
+const assistant = await createAIAssistantFromEnv(gateway);
+
+// Or create with specific provider
+import { ZAIAssistant } from '@auraos/ai';
+const zaiAssistant = new ZAIAssistant({
+  apiKey: process.env.ZAI_API_KEY,
+  model: 'glm-4.5-flash', // FREE model
+}, gateway);
 
 // Chat with AI
 const response = await assistant.chat(
@@ -211,8 +219,19 @@ pnpm test --coverage
 ### Environment Variables
 
 ```bash
-# Required for AI Assistant
+# AI Provider Selection
+AI_PROVIDER=anthropic  # Options: anthropic, vllm, zai
+
+# Anthropic Configuration
 ANTHROPIC_API_KEY=your-api-key-here
+
+# Z.AI Configuration (FREE tier available)
+ZAI_API_KEY=your-zai-api-key-here
+ZAI_MODEL=glm-4.5-flash  # FREE model
+
+# vLLM Configuration
+VLLM_URL=http://localhost:8000/v1
+VLLM_MODEL=meta-llama/Llama-3.1-8B-Instruct
 ```
 
 ### Gateway Configuration
@@ -242,13 +261,14 @@ See the [MCP Usage Guide](../../docs/MCP_USAGE_GUIDE.md) and [AI Integration Gui
 ## Architecture
 
 ```
-AIAssistant
+AI Assistant Factory
     ├── Anthropic Claude API
-    ├── MCPGateway
-    │   ├── FileSystem Server
-    │   ├── Emulator Server
-    │   └── Custom Servers
-    └── Conversation History
+    ├── Z.AI GLM Models (FREE tier)
+    ├── vLLM (Self-hosted)
+    └── MCPGateway
+        ├── FileSystem Server
+        ├── Emulator Server
+        └── Custom Servers
 ```
 
 ## Dependencies
@@ -256,6 +276,7 @@ AIAssistant
 - `@anthropic-ai/sdk` - Claude AI integration
 - `@modelcontextprotocol/sdk` - MCP protocol support
 - `zod` - Schema validation
+- `node-fetch` - HTTP requests (for Z.AI and vLLM)
 
 ## License
 

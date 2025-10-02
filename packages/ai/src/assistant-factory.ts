@@ -6,11 +6,12 @@
 import { MCPGateway } from './mcp/gateway';
 import { AnthropicAIAssistant } from './anthropic-assistant';
 import { VLLMAIAssistant } from './vllm-assistant';
+import { ZAIAssistant } from './zai-assistant';
 
 /**
  * AI Provider types
  */
-export type AIProvider = 'anthropic' | 'vllm';
+export type AIProvider = 'anthropic' | 'vllm' | 'zai';
 
 /**
  * Base AI Assistant interface
@@ -43,9 +44,19 @@ export interface VLLMConfig {
 }
 
 /**
+ * Configuration for Z.AI provider
+ */
+export interface ZAIConfig {
+  provider: 'zai';
+  apiKey?: string;
+  model?: string;
+  baseUrl?: string;
+}
+
+/**
  * Union type for all provider configurations
  */
-export type AIAssistantConfig = AnthropicConfig | VLLMConfig;
+export type AIAssistantConfig = AnthropicConfig | VLLMConfig | ZAIConfig;
 
 /**
  * Factory function to create AI assistant based on provider
@@ -63,6 +74,16 @@ export async function createAIAssistant(
         gateway,
         config.vllmUrl || 'http://localhost:8000/v1',
         config.modelName
+      );
+
+    case 'zai':
+      return new ZAIAssistant(
+        {
+          apiKey: config.apiKey || process.env.ZAI_API_KEY || '',
+          model: config.model || 'glm-4.5-flash',
+          baseUrl: config.baseUrl,
+        },
+        gateway
       );
 
     default:
@@ -88,6 +109,14 @@ export function getProviderFromEnv(): AIAssistantConfig {
         provider: 'vllm',
         vllmUrl: process.env.VLLM_URL || 'http://localhost:8000/v1',
         modelName: process.env.VLLM_MODEL || 'meta-llama/Llama-3.1-8B-Instruct',
+      };
+
+    case 'zai':
+      return {
+        provider: 'zai',
+        apiKey: process.env.ZAI_API_KEY,
+        model: process.env.ZAI_MODEL || 'glm-4.5-flash',
+        baseUrl: process.env.ZAI_BASE_URL,
       };
 
     default:
@@ -130,6 +159,15 @@ export function validateConfig(config: AIAssistantConfig): { valid: boolean; err
         };
       }
 
+    case 'zai':
+      if (!config.apiKey && !process.env.ZAI_API_KEY) {
+        return {
+          valid: false,
+          error: 'Z.AI API key is required. Set ZAI_API_KEY environment variable or provide apiKey in config.',
+        };
+      }
+      return { valid: true };
+
     default:
       return {
         valid: false,
@@ -142,7 +180,7 @@ export function validateConfig(config: AIAssistantConfig): { valid: boolean; err
  * Get available providers
  */
 export function getAvailableProviders(): AIProvider[] {
-  return ['anthropic', 'vllm'];
+  return ['anthropic', 'vllm', 'zai'];
 }
 
 /**
@@ -154,6 +192,8 @@ export function getProviderDisplayName(provider: AIProvider): string {
       return 'Anthropic Claude';
     case 'vllm':
       return 'vLLM (Self-Hosted)';
+    case 'zai':
+      return 'Z.AI GLM Models';
     default:
       return provider;
   }
@@ -168,6 +208,8 @@ export function getProviderDescription(provider: AIProvider): string {
       return 'Cloud-based AI using Anthropic Claude models. Requires API key and internet connection.';
     case 'vllm':
       return 'Self-hosted open-source models using vLLM. No API key required, works offline.';
+    case 'zai':
+      return 'Z.AI GLM models with free tier (GLM-4.5-Flash). Excellent for coding, translation, and content creation.';
     default:
       return '';
   }

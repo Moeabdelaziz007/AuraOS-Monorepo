@@ -18,7 +18,11 @@ export {
   type AIAssistantConfig,
   type AnthropicConfig,
   type VLLMConfig,
+  type ZAIConfig,
 } from './assistant-factory';
+
+// Z.AI Assistant
+export { ZAIAssistant } from './zai-assistant';
 
 // MCP Gateway
 export { MCPGateway } from './mcp/gateway';
