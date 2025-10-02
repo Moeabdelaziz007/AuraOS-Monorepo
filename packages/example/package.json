@@ -1,0 +1,10 @@
+{
+	"name": "@auraos/example",
+	"version": "0.0.0",
+	"private": true,
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "echo \"build example\"",
+		"test": "echo \"no tests\""
+	}
+}
