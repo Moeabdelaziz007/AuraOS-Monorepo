@@ -43,6 +43,7 @@ interface DesktopIconData {
 export function DesktopOS() {
   const [startMenuOpen, setStartMenuOpen] = useState(false)
   const [openWindows, setOpenWindows] = useState<string[]>([])
+  const [windowPositions, setWindowPositions] = useState<Record<string, { x: number; y: number }>>({})
   const [desktopIcons] = useState<DesktopIconData[]>([
     {
       id: "ai-agents",
@@ -118,8 +119,29 @@ export function DesktopOS() {
     },
   ])
 
+  const calculateWindowPosition = (index: number) => {
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+    
+    // Calculate center position with offset for multiple windows
+    const baseX = Math.max(50, (viewportWidth - 800) / 2)
+    const baseY = Math.max(50, (viewportHeight - 600) / 2)
+    
+    // Add offset for each window (cascade effect)
+    const offsetX = (index % 5) * 50
+    const offsetY = (index % 5) * 50
+    
+    return {
+      x: baseX + offsetX,
+      y: baseY + offsetY,
+    }
+  }
+
   const handleIconClick = (iconId: string) => {
     if (!openWindows.includes(iconId)) {
+      const newPosition = calculateWindowPosition(openWindows.length)
+      setWindowPositions({ ...windowPositions, [iconId]: newPosition })
       setOpenWindows([...openWindows, iconId])
     }
   }
@@ -183,25 +205,35 @@ export function DesktopOS() {
   }
 
   const getWindowSize = (windowId: string) => {
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+    
+    // Calculate responsive sizes (max 90% of viewport)
+    const maxWidth = Math.min(viewportWidth * 0.9, 1200)
+    const maxHeight = Math.min(viewportHeight * 0.85, 800)
+    
     switch (windowId) {
       case "ai-agents":
-        return { width: 1000, height: 700 }
+        return { width: Math.min(1000, maxWidth), height: Math.min(700, maxHeight) }
       case "ai-notes":
-        return { width: 900, height: 600 }
+        return { width: Math.min(900, maxWidth), height: Math.min(600, maxHeight) }
       case "ai-code-editor":
-        return { width: 800, height: 600 }
+        return { width: Math.min(1000, maxWidth), height: Math.min(650, maxHeight) }
       case "ai-file-manager":
-        return { width: 700, height: 500 }
+        return { width: Math.min(800, maxWidth), height: Math.min(550, maxHeight) }
       case "ai-terminal":
-        return { width: 800, height: 500 }
+        return { width: Math.min(900, maxWidth), height: Math.min(500, maxHeight) }
       case "ai-automation":
-        return { width: 900, height: 650 }
+        return { width: Math.min(950, maxWidth), height: Math.min(650, maxHeight) }
       case "ai-autopilot":
-        return { width: 800, height: 700 }
+        return { width: Math.min(850, maxWidth), height: Math.min(700, maxHeight) }
       case "ai-assistant":
-        return { width: 700, height: 700 }
+        return { width: Math.min(700, maxWidth), height: Math.min(700, maxHeight) }
+      case "settings":
+        return { width: Math.min(700, maxWidth), height: Math.min(500, maxHeight) }
       default:
-        return { width: 600, height: 400 }
+        return { width: Math.min(600, maxWidth), height: Math.min(400, maxHeight) }
     }
   }
 
@@ -224,9 +256,11 @@ export function DesktopOS() {
 
         {/* Open Windows */}
         <AnimatePresence>
-          {openWindows.map((windowId, index) => {
+          {openWindows.map((windowId) => {
             const icon = desktopIcons.find((i) => i.id === windowId)
             if (!icon) return null
+
+            const position = windowPositions[windowId] || { x: 100, y: 80 }
 
             return (
               <AppWindow
@@ -235,10 +269,7 @@ export function DesktopOS() {
                 title={icon.name}
                 icon={icon.icon}
                 color={icon.color}
-                initialPosition={{
-                  x: 100 + index * 40,
-                  y: 80 + index * 40,
-                }}
+                initialPosition={position}
                 initialSize={getWindowSize(windowId)}
                 onClose={() => handleCloseWindow(windowId)}
               >

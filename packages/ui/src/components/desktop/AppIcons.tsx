@@ -1,23 +1,24 @@
 import type React from "react"
 
 export const AIAgentsIcon: React.FC<{ className?: string }> = ({ className = "h-8 w-8" }) => (
-  <svg viewBox="0 0 24 24" fill="none" className={className}>
+  <svg viewBox="0 0 24 24" fill="none" className={className} style={{ filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.5))' }}>
     <defs>
       <linearGradient id="agents-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#06b6d4" />
-        <stop offset="100%" stopColor="#3b82f6" />
+        <stop offset="50%" stopColor="#3b82f6" />
+        <stop offset="100%" stopColor="#8b5cf6" />
       </linearGradient>
     </defs>
-    <circle cx="12" cy="8" r="3" stroke="url(#agents-gradient)" strokeWidth="2" fill="none" />
+    <circle cx="12" cy="8" r="3" stroke="url(#agents-gradient)" strokeWidth="2.5" fill="none" />
     <path
       d="M12 11v4m0 0l-3 3m3-3l3 3M6 8a6 6 0 0112 0"
       stroke="url(#agents-gradient)"
-      strokeWidth="2"
+      strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <circle cx="6" cy="18" r="2" fill="url(#agents-gradient)" opacity="0.6" />
-    <circle cx="18" cy="18" r="2" fill="url(#agents-gradient)" opacity="0.6" />
+    <circle cx="6" cy="18" r="2.5" fill="url(#agents-gradient)" opacity="0.8" />
+    <circle cx="18" cy="18" r="2.5" fill="url(#agents-gradient)" opacity="0.8" />
   </svg>
 )
 
