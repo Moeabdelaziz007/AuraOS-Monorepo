@@ -1,0 +1,27 @@
+{
+  "name": "@auraos/emulator",
+  "version": "1.0.0",
+  "description": "AuraOS Emulator - 6502 CPU emulator",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["auraos", "emulator"],
+  "author": "Mohamed Abdelaziz",
+  "license": "MIT"
+}
