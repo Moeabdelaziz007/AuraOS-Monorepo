@@ -1,7 +1,7 @@
 {
   "name": "@auraos/ai",
   "version": "1.0.0",
-  "description": "AuraOS AI - Artificial intelligence engine",
+  "description": "AuraOS AI - Artificial intelligence engine with MCP support",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,17 @@
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["auraos", "ai"],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "@anthropic-ai/sdk": "^0.9.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "keywords": ["auraos", "ai", "mcp", "model-context-protocol"],
   "author": "Mohamed Abdelaziz",
   "license": "MIT"
 }
