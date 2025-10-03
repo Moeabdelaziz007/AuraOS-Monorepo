@@ -609,7 +609,7 @@ export class RewardSystem {
       this.lastSuccessDate = new Date();
       
       // Check streak achievements
-      this.checkStreakAchievements(rewards);
+      this.checkStreakAchievementsWithRewards(rewards);
     } else {
       this.streak = 0;
     }
@@ -794,9 +794,9 @@ export class RewardSystem {
   }
 
   /**
-   * Check streak achievements
+   * Check streak achievements (with rewards array)
    */
-  private checkStreakAchievements(rewards: Reward[]): void {
+  private checkStreakAchievementsWithRewards(rewards: Reward[]): void {
     this.achievements.forEach(achievement => {
       if (achievement.type === 'streak' && !achievement.unlockedAt) {
         if (this.streak >= achievement.requirement) {
