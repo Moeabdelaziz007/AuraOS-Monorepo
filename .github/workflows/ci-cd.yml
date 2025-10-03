@@ -9,6 +9,7 @@ on:
 env:
   NODE_VERSION: '18'
   PNPM_VERSION: '8'
+  NPM_VERSION: '10'
 
 jobs:
   # Job 1: Install and Cache Dependencies

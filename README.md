@@ -48,8 +48,8 @@ AuraOS-Monorepo/
 ### Prerequisites
 
 - Node.js 18+
-- pnpm 8+
-- Python 3.11+
+- npm 10+ or pnpm 8+
+- Python 3.11+ (optional, for backend)
 - Git
 
 ### Installation
@@ -59,13 +59,25 @@ AuraOS-Monorepo/
 git clone https://github.com/Moeabdelaziz007/AuraOS-Monorepo.git
 cd AuraOS-Monorepo
 
-# Run setup script
-./scripts/setup.sh
-
-# Or manually:
+# Install dependencies
+npm install
+# or
 pnpm install
-./scripts/create-package-files.sh
 ```
+
+### Run Desktop OS
+
+```bash
+# Start the desktop environment
+npm run dev:desktop
+
+# Or
+cd packages/ui
+npm install
+npm run dev
+```
+
+Open your browser to http://localhost:5173
 
 ### Integrate Components from Other Repos
 
@@ -83,21 +95,38 @@ pnpm build
 ### Development
 
 ```bash
-# Start all services in development mode
-pnpm dev
+# Start desktop environment
+npm run dev:desktop
 
-# Start specific package
-pnpm --filter @auraos/ui dev
+# Build for production
+npm run build:desktop
+
+# Deploy to Firebase
+npm run deploy
 
 # Run tests
-pnpm test
+npm test
 
 # Lint code
-pnpm lint
+npm run lint
 
 # Format code
-pnpm format
+npm run format
 ```
+
+### Deployment
+
+```bash
+# Build and deploy to Firebase
+./scripts/deploy-desktop.sh
+
+# Or manually
+cd packages/ui
+npm run build
+firebase deploy --only hosting
+```
+
+See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for complete instructions.
 
 ## 📦 Packages
 
