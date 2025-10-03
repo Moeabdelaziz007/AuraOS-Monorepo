@@ -120,5 +120,17 @@ service cloud.firestore {
       allow read: if isOwner(userId);
       allow write: if isOwner(userId);
     }
+    
+    // Autopilot Rewards - System can write, authenticated users can read
+    match /autopilot_rewards/{rewardId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only system/functions can write
+    }
+    
+    // Autopilot Metrics - System can write, authenticated users can read
+    match /autopilot_metrics/{autopilotId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only system/functions can write
+    }
   }
 }

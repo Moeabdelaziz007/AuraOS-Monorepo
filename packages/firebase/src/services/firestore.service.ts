@@ -45,6 +45,8 @@ const COLLECTIONS = {
   GOALS: 'user_goals',
   ANALYTICS: 'analytics',
   REWARDS: 'user_rewards',
+  AUTOPILOT_REWARDS: 'autopilot_rewards',
+  AUTOPILOT_METRICS: 'autopilot_metrics',
 } as const;
 
 /**
@@ -555,6 +557,59 @@ export const rewardsService = {
   },
 };
 
+/**
+ * Autopilot Rewards Service
+ */
+export const autopilotRewardsService = {
+  async create(reward: any): Promise<void> {
+    const rewardRef = doc(collection(db, COLLECTIONS.AUTOPILOT_REWARDS));
+    await setDoc(rewardRef, {
+      ...reward,
+      timestamp: Timestamp.fromDate(reward.timestamp),
+    });
+  },
+
+  async getRecent(limitCount: number = 10): Promise<any[]> {
+    const rewardsQuery = query(
+      collection(db, COLLECTIONS.AUTOPILOT_REWARDS),
+      orderBy('timestamp', 'desc'),
+      limit(limitCount)
+    );
+    
+    const snapshot = await getDocs(rewardsQuery);
+    return snapshot.docs.map(doc => ({
+      ...doc.data(),
+      timestamp: doc.data().timestamp?.toDate() || new Date(),
+    }));
+  },
+};
+
+/**
+ * Autopilot Metrics Service
+ */
+export const autopilotMetricsService = {
+  async get(autopilotId: string): Promise<any | null> {
+    const metricsRef = doc(db, COLLECTIONS.AUTOPILOT_METRICS, autopilotId);
+    const snapshot = await getDoc(metricsRef);
+    
+    if (!snapshot.exists()) return null;
+    
+    const data = snapshot.data();
+    return {
+      ...data,
+      lastUpdated: data.lastUpdated?.toDate() || new Date(),
+    };
+  },
+
+  async update(autopilotId: string, metrics: any): Promise<void> {
+    const metricsRef = doc(db, COLLECTIONS.AUTOPILOT_METRICS, autopilotId);
+    await setDoc(metricsRef, {
+      ...metrics,
+      lastUpdated: Timestamp.fromDate(metrics.lastUpdated),
+    }, { merge: true });
+  },
+};
+
 export const firestoreService = {
   user: userProfileService,
   session: learningSessionService,
@@ -563,4 +618,6 @@ export const firestoreService = {
   pattern: learningPatternService,
   goal: userGoalService,
   rewards: rewardsService,
+  autopilotRewards: autopilotRewardsService,
+  autopilotMetrics: autopilotMetricsService,
 };
