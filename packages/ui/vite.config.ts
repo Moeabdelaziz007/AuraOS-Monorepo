@@ -7,6 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@auraos/firebase': path.resolve(__dirname, '../firebase/src'),
+      '@auraos/hooks': path.resolve(__dirname, '../hooks/src'),
     },
   },
   build: {
