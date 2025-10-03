@@ -1,27 +1,35 @@
 {
   "name": "@auraos/desktop",
   "version": "1.0.0",
-  "description": "AuraOS Desktop - Desktop environment",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
+  "description": "AuraOS Desktop - Full Desktop Environment with Window Management",
+  "type": "module",
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["auraos", "desktop"],
+  "dependencies": {
+    "@auraos/core": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.6",
+    "react-resizable": "^3.0.5",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vitest": "^1.1.0"
+  },
+  "keywords": ["auraos", "desktop", "window-manager"],
   "author": "Mohamed Abdelaziz",
   "license": "MIT"
 }
