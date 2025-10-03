@@ -7,14 +7,24 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./server": {
-      "import": "./dist/server.mjs",
+      "import": "./dist/server.js",
       "require": "./dist/server.js",
       "types": "./dist/server.d.ts"
+    },
+    "./vfs": {
+      "import": "./dist/vfs/index.js",
+      "require": "./dist/vfs/index.js",
+      "types": "./dist/vfs/index.d.ts"
+    },
+    "./command-parser": {
+      "import": "./dist/command-parser/index.js",
+      "require": "./dist/command-parser/index.js",
+      "types": "./dist/command-parser/index.d.ts"
     }
   },
   "scripts": {

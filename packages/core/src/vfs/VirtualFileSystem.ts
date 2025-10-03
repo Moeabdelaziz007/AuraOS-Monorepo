@@ -139,7 +139,9 @@ Try these commands in the terminal:
 Enjoy exploring AuraOS!
 `,
         };
-        readmeEntry.size = readmeEntry.content?.length || 0;
+        readmeEntry.size = typeof readmeEntry.content === 'string' 
+          ? readmeEntry.content.length 
+          : readmeEntry.content?.byteLength || 0;
         fileStore.add(readmeEntry);
       };
     });
