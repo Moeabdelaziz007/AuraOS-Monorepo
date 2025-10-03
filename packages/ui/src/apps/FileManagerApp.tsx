@@ -324,7 +324,7 @@ export const FileManagerApp: React.FC<FileManagerAppProps> = ({
                   <span>125 GB</span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-2">
-                  <div className="bg-primary h-2 rounded-full" style={{ width: '45%' }}></div>
+                  <div className="bg-primary h-2 rounded-full w-[45%]"></div>
                 </div>
                 <div className="text-xs text-muted-foreground">
                   125 GB of 512 GB used

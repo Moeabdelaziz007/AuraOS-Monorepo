@@ -7,19 +7,12 @@ import React from 'react';
 import { useLearningLoop } from '@auraos/hooks';
 import { useAuth } from '../contexts/AuthContext';
 import Layout from '../components/layout/Layout';
-import Dashboard from '../components/dashboard/Dashboard';
+import DashboardComponent from '../components/dashboard/Dashboard';
 import DataTable from '../components/dashboard/DataTable';
 
 export function Dashboard() {
-  const { user, logout, userProfile: profile, loading: profileLoading, updateUserProfile: updatePreferences } = useAuth();
-  const {
-    insights,
-    patterns,
-    sessions,
-    loading: learningLoading,
-    acknowledgeInsight,
-    refresh,
-  } = useLearningLoop();
+  const { userProfile: profile, loading: profileLoading } = useAuth();
+  const { loading: learningLoading } = useLearningLoop();
 
   const handleNavigate = (path: string) => {
     console.log('Navigate to:', path);
@@ -55,7 +48,7 @@ export function Dashboard() {
     <Layout currentPath="/dashboard" onNavigate={handleNavigate}>
       <div className="space-y-6">
         {/* Modern Dashboard Component */}
-        <Dashboard />
+        <DashboardComponent />
         
         {/* Data Table for Projects/Workflows */}
         <DataTable 

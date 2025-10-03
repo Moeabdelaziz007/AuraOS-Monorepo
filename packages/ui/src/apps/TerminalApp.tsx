@@ -209,7 +209,6 @@ config.json`;
       <div 
         ref={terminalRef}
         className="flex-1 overflow-auto p-4 font-mono text-sm bg-black text-green-400"
-        style={{ fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace' }}
       >
         {outputs.map((output) => (
           <div key={output.id} className="mb-2">

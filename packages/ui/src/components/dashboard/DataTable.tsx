@@ -34,10 +34,10 @@ import {
   Trash2, 
   Download,
   Archive,
-  Filter,
   ChevronLeft,
   ChevronRight,
-  Checkbox
+  Square,
+  CheckSquare
 } from 'lucide-react';
 
 interface Project {
@@ -287,7 +287,7 @@ const DataTable: React.FC<DataTableProps> = ({
                     onClick={handleSelectAll}
                     className="h-8 w-8 p-0"
                   >
-                    <Checkbox className="h-4 w-4" />
+                        <Square className="h-4 w-4" />
                   </Button>
                 </TableHead>
                 <TableHead 
@@ -340,10 +340,11 @@ const DataTable: React.FC<DataTableProps> = ({
                         onClick={() => handleSelectRow(item.id)}
                         className="h-8 w-8 p-0"
                       >
-                        <Checkbox 
-                          className="h-4 w-4" 
-                          checked={selectedRows.includes(item.id)}
-                        />
+                        {selectedRows.includes(item.id) ? (
+                          <CheckSquare className="h-4 w-4" />
+                        ) : (
+                          <Square className="h-4 w-4" />
+                        )}
                       </Button>
                     </TableCell>
                     <TableCell className="font-medium">{item.name}</TableCell>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Sidebar } from './Sidebar';
-import { Notifications } from './Notifications';
+import Sidebar from './Sidebar';
+import Notifications from './Notifications';
 import { Button } from '@/components/ui/button';
 import { 
   Menu, 

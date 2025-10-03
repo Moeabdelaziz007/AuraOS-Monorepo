@@ -9,8 +9,6 @@ import {
   Terminal, 
   Settings, 
   HelpCircle,
-  Menu,
-  X,
   LogOut,
   ChevronLeft,
   ChevronRight
