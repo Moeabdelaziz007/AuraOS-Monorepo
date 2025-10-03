@@ -18,6 +18,24 @@ service cloud.firestore {
         // Prevent users from modifying their own subscription data
         (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription']));
       allow delete: if false; // Users cannot delete themselves
+      
+      // Usage subcollection - only Cloud Functions can write
+      match /usage/{document=**} {
+        allow read: if isOwner(userId);
+        allow write: if false;
+      }
+    }
+    
+    // Subscriptions collection - only Cloud Functions can write
+    match /subscriptions/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+    
+    // Content generations log - only Cloud Functions can write
+    match /content_generations/{generationId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow write: if false;
     }
     
     // Projects collection
