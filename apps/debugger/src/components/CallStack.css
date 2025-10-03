@@ -1,0 +1,52 @@
+.call-stack {
+  font-size: 12px;
+}
+
+.call-stack.empty {
+  padding: 20px;
+  text-align: center;
+  color: #858585;
+}
+
+.call-stack.empty .hint {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.stack-frame {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid #3e3e42;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.stack-frame:hover {
+  background-color: #2a2d2e;
+}
+
+.stack-frame:last-child {
+  border-bottom: none;
+}
+
+.frame-index {
+  color: #858585;
+  font-weight: 600;
+  min-width: 20px;
+}
+
+.frame-info {
+  flex: 1;
+}
+
+.frame-function {
+  color: #dcdcaa;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.frame-location {
+  color: #858585;
+  font-size: 11px;
+}

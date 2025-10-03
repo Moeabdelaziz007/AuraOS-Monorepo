@@ -1,0 +1,45 @@
+.debug-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.control-btn {
+  padding: 6px 12px;
+  background-color: #0e639c;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.control-btn:hover:not(:disabled) {
+  background-color: #1177bb;
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-btn.run {
+  background-color: #16825d;
+}
+
+.control-btn.run:hover:not(:disabled) {
+  background-color: #1a9d6f;
+}
+
+.control-btn.stop {
+  background-color: #c5000b;
+}
+
+.control-btn.stop:hover:not(:disabled) {
+  background-color: #e81123;
+}

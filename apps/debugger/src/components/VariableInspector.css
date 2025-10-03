@@ -1,0 +1,55 @@
+.variable-inspector {
+  font-size: 12px;
+}
+
+.variable-inspector.empty {
+  padding: 20px;
+  text-align: center;
+  color: #858585;
+}
+
+.variable-inspector.empty .hint {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.variable-item {
+  padding: 8px;
+  border-bottom: 1px solid #3e3e42;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.variable-item:last-child {
+  border-bottom: none;
+}
+
+.variable-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.variable-name {
+  color: #9cdcfe;
+  font-weight: 500;
+}
+
+.variable-type {
+  color: #4ec9b0;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.variable-value {
+  color: #ce9178;
+  margin-left: 12px;
+  word-break: break-all;
+}
+
+.variable-scope {
+  color: #858585;
+  font-size: 10px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
