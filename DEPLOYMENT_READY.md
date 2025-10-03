@@ -3,7 +3,7 @@
 ## ✅ All Systems Ready
 
 Everything is configured and ready to deploy to:
-**https://adept-student-469614-k2.web.app**
+**https://auraos-ac2e0.web.app**
 
 ---
 
@@ -140,14 +140,14 @@ firebase deploy --only hosting --token "$FIREBASE_TOKEN"
 
 ## 🌐 Deployment Target
 
-**Project ID:** `adept-student-469614-k2`
+**Project ID:** `auraos-ac2e0`
 
 **URLs:**
-- Primary: https://adept-student-469614-k2.web.app
-- Alternative: https://adept-student-469614-k2.firebaseapp.com
+- Primary: https://auraos-ac2e0.web.app
+- Alternative: https://auraos-ac2e0.firebaseapp.com
 
 **Firebase Console:**
-https://console.firebase.google.com/project/adept-student-469614-k2
+https://console.firebase.google.com/project/auraos-ac2e0
 
 ---
 

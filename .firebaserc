@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "adept-student-469614-k2"
+    "default": "auraos-ac2e0"
   },
   "targets": {
-    "adept-student-469614-k2": {
+    "auraos-ac2e0": {
       "hosting": {
         "production": [
-          "adept-student-469614-k2"
+          "auraos-ac2e0"
         ]
       }
     }
