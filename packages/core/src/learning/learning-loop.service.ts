@@ -318,6 +318,7 @@ class LearningLoopService {
 
   /**
    * Parse AI insights from response
+   * Safely parses AI-generated insights with proper validation
    */
   private parseAIInsights(aiResponse: string): Array<Omit<Insight, 'id' | 'sessionId' | 'userId' | 'timestamp' | 'acknowledged'>> {
     const insights: Array<Omit<Insight, 'id' | 'sessionId' | 'userId' | 'timestamp' | 'acknowledged'>> = [];
@@ -325,19 +326,36 @@ class LearningLoopService {
     // Try to parse structured response
     try {
       const parsed = JSON.parse(aiResponse);
+      
+      // Validate that parsed data is an array
       if (Array.isArray(parsed)) {
-        return parsed;
+        // Validate each insight has required fields
+        const validInsights = parsed.filter(insight => 
+          insight && 
+          typeof insight === 'object' &&
+          insight.type && 
+          insight.title && 
+          insight.description
+        );
+        
+        if (validInsights.length > 0) {
+          return validInsights;
+        }
       }
-    } catch {
-      // If not JSON, create a single insight from the text
-      insights.push({
-        type: 'suggestion',
-        title: 'AI Insight',
-        description: aiResponse,
-        data: {},
-        priority: 'medium',
-      });
+      
+      // If parsed but not valid array, fall through to create default insight
+    } catch (error) {
+      console.warn('[Learning Loop] Failed to parse AI insights as JSON:', error);
     }
+    
+    // If not JSON or invalid structure, create a single insight from the text
+    insights.push({
+      type: 'suggestion',
+      title: 'AI Insight',
+      description: aiResponse.substring(0, 500), // Limit description length
+      data: {},
+      priority: 'medium',
+    });
 
     return insights;
   }
