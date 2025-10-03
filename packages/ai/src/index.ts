@@ -1,9 +1,9 @@
 /**
- * AuraOS AI Package
- * MCP (Model Context Protocol) infrastructure
+ * AuraOS AI Engine
+ * Placeholder for AI services and MCP integration.
  */
 
-export * from './mcp/types';
-export * from './mcp/server';
-export * from './mcp/gateway';
-export * from './mcp/client';
+export type Tool = {}; // Placeholder type
+export class BaseMCPServer {} // Placeholder class
+export class MCPGateway {} // Placeholder class
+export class MCPClient {} // Placeholder class

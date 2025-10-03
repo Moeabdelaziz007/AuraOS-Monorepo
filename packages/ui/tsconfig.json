@@ -3,16 +3,19 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": ".",
     "jsx": "react-jsx",
     "noEmit": true,
     "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "paths": {
-      "@auraos/firebase": ["../firebase/src"],
-      "@auraos/hooks": ["../hooks/src"]
+      "@/": ["src/*"],
+      "@auraos/core/*": ["../core/src/*"],
+      "@auraos/ai": ["../ai/src/index.ts"],
+      "@auraos/firebase": ["../firebase/src/index.ts"],
+      "@auraos/hooks": ["../hooks/src/index.ts"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
+  "include": ["src"]
 }

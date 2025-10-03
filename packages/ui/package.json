@@ -37,7 +37,8 @@
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.8",
-    "vitest": "^1.0.4"
+    "vitest": "^1.0.4",
+    "vite-plugin-monorepo-alias": "^1.0.0"
   },
   "keywords": ["auraos", "ui", "desktop", "window-manager"],
   "author": "Mohamed Abdelaziz",
