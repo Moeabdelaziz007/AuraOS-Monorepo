@@ -10,7 +10,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../config/firebase';
+import { auth, db } from '@auraos/firebase';
 
 interface UserProfile {
   uid: string;

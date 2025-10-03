@@ -13,7 +13,11 @@ service cloud.firestore {
     // Users collection
     match /users/{userId} {
       allow read: if isAuthenticated();
-      allow write: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && 
+        // Prevent users from modifying their own subscription data
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription']));
+      allow delete: if false; // Users cannot delete themselves
     }
     
     // Projects collection
