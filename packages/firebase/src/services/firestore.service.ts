@@ -44,6 +44,7 @@ const COLLECTIONS = {
   PATTERNS: 'learning_patterns',
   GOALS: 'user_goals',
   ANALYTICS: 'analytics',
+  REWARDS: 'user_rewards',
 } as const;
 
 /**
@@ -479,6 +480,81 @@ export const userGoalService = {
   },
 };
 
+/**
+ * Rewards Service
+ */
+export const rewardsService = {
+  async create(userId: string, rewards: any): Promise<void> {
+    const rewardsRef = doc(db, COLLECTIONS.REWARDS, userId);
+    await setDoc(rewardsRef, {
+      ...rewards,
+      lastActiveDate: Timestamp.fromDate(rewards.lastActiveDate),
+    });
+  },
+
+  async get(userId: string): Promise<any | null> {
+    const rewardsRef = doc(db, COLLECTIONS.REWARDS, userId);
+    const snapshot = await getDoc(rewardsRef);
+    
+    if (!snapshot.exists()) return null;
+    
+    const data = snapshot.data();
+    return {
+      ...data,
+      lastActiveDate: data.lastActiveDate?.toDate() || new Date(),
+      achievements: data.achievements?.map((a: any) => ({
+        ...a,
+        unlockedAt: a.unlockedAt?.toDate(),
+      })) || [],
+      badges: data.badges?.map((b: any) => ({
+        ...b,
+        earnedAt: b.earnedAt?.toDate(),
+      })) || [],
+    };
+  },
+
+  async update(userId: string, rewards: any): Promise<void> {
+    const rewardsRef = doc(db, COLLECTIONS.REWARDS, userId);
+    await updateDoc(rewardsRef, {
+      ...rewards,
+      lastActiveDate: Timestamp.fromDate(rewards.lastActiveDate),
+    });
+  },
+
+  async incrementStats(userId: string, stats: Record<string, number>): Promise<void> {
+    const rewardsRef = doc(db, COLLECTIONS.REWARDS, userId);
+    const updates: Record<string, any> = {};
+    
+    for (const [key, value] of Object.entries(stats)) {
+      updates[`stats.${key}`] = increment(value);
+    }
+    
+    await updateDoc(rewardsRef, updates);
+  },
+
+  async getLeaderboard(limitCount: number = 10): Promise<any[]> {
+    const rewardsQuery = query(
+      collection(db, COLLECTIONS.REWARDS),
+      orderBy('totalPoints', 'desc'),
+      limit(limitCount)
+    );
+    
+    const snapshot = await getDocs(rewardsQuery);
+    return snapshot.docs.map(doc => ({
+      ...doc.data(),
+      lastActiveDate: doc.data().lastActiveDate?.toDate() || new Date(),
+      achievements: doc.data().achievements?.map((a: any) => ({
+        ...a,
+        unlockedAt: a.unlockedAt?.toDate(),
+      })) || [],
+      badges: doc.data().badges?.map((b: any) => ({
+        ...b,
+        earnedAt: b.earnedAt?.toDate(),
+      })) || [],
+    }));
+  },
+};
+
 export const firestoreService = {
   user: userProfileService,
   session: learningSessionService,
@@ -486,4 +562,5 @@ export const firestoreService = {
   insight: insightService,
   pattern: learningPatternService,
   goal: userGoalService,
+  rewards: rewardsService,
 };

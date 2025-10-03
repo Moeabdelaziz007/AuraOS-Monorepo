@@ -5,6 +5,7 @@
 
 import { firestoreService } from '@auraos/firebase/services/firestore.service';
 import { aiService } from '../ai/services';
+import { rewardSystemService, type RewardEvent } from './reward-system.service';
 import type {
   Activity,
   Insight,
@@ -32,8 +33,14 @@ class LearningLoopService {
   /**
    * Initialize learning loop for a user
    */
-  async initialize(userId: string): Promise<void> {
+  async initialize(userId: string): Promise<RewardEvent[]> {
     this.userId = userId;
+
+    // Initialize rewards if not exists
+    await rewardSystemService.initializeRewards(userId);
+
+    // Update daily streak
+    const streakEvents = await rewardSystemService.updateStreak(userId);
 
     // Check for existing active session
     const activeSession = await firestoreService.session.getActiveSession(userId);
@@ -50,6 +57,8 @@ class LearningLoopService {
 
     // Update user stats
     await firestoreService.user.incrementStat(userId, 'totalSessions');
+
+    return streakEvents;
   }
 
   /**
@@ -106,23 +115,29 @@ class LearningLoopService {
   /**
    * Track app launch
    */
-  async trackAppLaunch(appId: string, appName: string): Promise<void> {
+  async trackAppLaunch(appId: string, appName: string): Promise<RewardEvent[]> {
     await this.trackActivity(
       'app_launch',
       { appId, appName },
       { success: true }
     );
+
+    if (!this.userId) return [];
+    return await rewardSystemService.awardPoints(this.userId, 'APP_LAUNCH', { appId, appName });
   }
 
   /**
    * Track command execution
    */
-  async trackCommand(command: string, success: boolean, errorMessage?: string): Promise<void> {
+  async trackCommand(command: string, success: boolean, errorMessage?: string): Promise<RewardEvent[]> {
     await this.trackActivity(
       'command_execution',
       { command },
       { success, errorMessage }
     );
+
+    if (!this.userId || !success) return [];
+    return await rewardSystemService.awardPoints(this.userId, 'COMMAND_EXECUTION', { command });
   }
 
   /**
@@ -132,12 +147,15 @@ class LearningLoopService {
     operation: string,
     filePath: string,
     success: boolean
-  ): Promise<void> {
+  ): Promise<RewardEvent[]> {
     await this.trackActivity(
       'file_operation',
       { operation, filePath },
       { success }
     );
+
+    if (!this.userId || !success) return [];
+    return await rewardSystemService.awardPoints(this.userId, 'FILE_OPERATION', { operation, filePath });
   }
 
   /**
@@ -148,12 +166,15 @@ class LearningLoopService {
     response: string,
     model: string,
     duration: number
-  ): Promise<void> {
+  ): Promise<RewardEvent[]> {
     await this.trackActivity(
       'ai_interaction',
       { prompt, response, model },
       { success: true, duration }
     );
+
+    if (!this.userId) return [];
+    return await rewardSystemService.awardPoints(this.userId, 'AI_INTERACTION', { model, duration });
   }
 
   /**
@@ -369,8 +390,11 @@ class LearningLoopService {
   /**
    * Acknowledge insight
    */
-  async acknowledgeInsight(insightId: string): Promise<void> {
+  async acknowledgeInsight(insightId: string): Promise<RewardEvent[]> {
     await firestoreService.insight.acknowledge(insightId);
+    
+    if (!this.userId) return [];
+    return await rewardSystemService.awardPoints(this.userId, 'INSIGHT_ACKNOWLEDGED');
   }
 
   /**
