@@ -1,0 +1,11 @@
+{
+  "name": "@auraos/example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Example package - no dev script'",
+    "build": "echo 'Example package - no build script'",
+    "preview": "echo 'Example package - no preview script'"
+  }
+}
