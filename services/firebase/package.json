@@ -1,7 +1,7 @@
 {
-  "name": "@auraos/firebase",
+  "name": "@auraos/firebase-services",
   "version": "1.0.0",
-  "description": "AuraOS Firebase - Cloud services",
+  "description": "AuraOS Firebase Services - Cloud infrastructure",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

@@ -1,6 +1,7 @@
 import React from 'react';
 import { DesktopApp } from '../types/window';
-import { useLearningLoop, useUserProfile } from '@auraos/hooks';
+import { useLearningLoop } from '@auraos/hooks';
+import { useAuth } from '../contexts/AuthContext';
 
 interface DesktopProps {
   apps: DesktopApp[];
@@ -9,7 +10,7 @@ interface DesktopProps {
 
 export const Desktop: React.FC<DesktopProps> = ({ apps, onAppLaunch }) => {
   const { trackAppLaunch } = useLearningLoop();
-  const { profile } = useUserProfile();
+  const { userProfile: profile } = useAuth();
 
   const handleDoubleClick = (appId: string) => {
     const app = apps.find(a => a.id === appId);

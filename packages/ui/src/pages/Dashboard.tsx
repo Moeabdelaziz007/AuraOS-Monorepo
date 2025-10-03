@@ -4,12 +4,11 @@
  */
 
 import React from 'react';
-import { useUserProfile, useLearningLoop } from '@auraos/hooks';
+import { useLearningLoop } from '@auraos/hooks';
 import { useAuth } from '../contexts/AuthContext';
 
 export function Dashboard() {
-  const { user, logout } = useAuth();
-  const { profile, loading: profileLoading, updatePreferences } = useUserProfile();
+  const { user, logout, userProfile: profile, loading: profileLoading, updateUserProfile: updatePreferences } = useAuth();
   const {
     insights,
     patterns,
