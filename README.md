@@ -54,13 +54,37 @@ pnpm -r build
 
 # 5. تشغيل التطبيق
 pnpm --filter @auraos/ui dev
+
+# 6. نشر تلقائي (Automated Deployment)
+npm run auto-deploy
 ```
+
+### 🚀 Automated Deployment
+
+The project includes automated deployment that:
+- ✅ Commits and pushes changes to GitHub
+- ✅ Builds the project
+- ✅ Deploys to Firebase Hosting
+- ✅ Updates Firestore Rules
+
+**Quick Deploy:**
+```bash
+npm run auto-deploy
+```
+
+**Custom Commit Message:**
+```bash
+./scripts/auto-deploy.sh "feat: your message"
+```
+
+See [Automation Guide](./docs/AUTOMATION.md) for details.
 
 ## 📖 التوثيق الكامل
 
 - 📘 [دليل الإعداد التفصيلي](./SETUP.md)
 - 📗 [Core Package Documentation](./packages/core/README.md)
 - 📕 [Hooks Package Documentation](./packages/hooks/README.md)
+- 🚀 [Automated Deployment Guide](./docs/AUTOMATION.md)
 
 ## 🎯 ما تم إنجازه
 
