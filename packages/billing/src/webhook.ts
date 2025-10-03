@@ -1,6 +1,5 @@
 import Stripe from 'stripe';
 import { getStripeClient } from './stripe-client';
-import type { StripeWebhookEvent } from './types';
 
 /**
  * Verify and construct Stripe webhook event

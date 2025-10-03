@@ -1,4 +1,4 @@
-import type { SubscriptionTier, TierLimits, UserSubscription } from './types';
+import type { TierLimits, UserSubscription } from './types';
 import { TIER_LIMITS } from './types';
 
 /**
