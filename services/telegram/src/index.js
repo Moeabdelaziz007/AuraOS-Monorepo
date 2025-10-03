@@ -2,6 +2,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import CursorIntegration from './cursor-integration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,8 +22,24 @@ console.log('🤖 Starting AuraOS Telegram Bot...');
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
+// Initialize Cursor integration
+const cursor = new CursorIntegration();
+
 // Store user sessions
 const userSessions = new Map();
+
+// Rate limiting
+const rateLimits = new Map();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 20;
+
+// Analytics
+const analytics = {
+  totalMessages: 0,
+  totalCommands: 0,
+  commandUsage: new Map(),
+  startTime: Date.now()
+};
 
 // Helper function to check if user is admin
 function isAdmin(userId) {
@@ -41,15 +58,93 @@ function getSystemInfo() {
   };
 }
 
+// Rate limiting middleware
+function checkRateLimit(userId) {
+  const now = Date.now();
+  const userLimit = rateLimits.get(userId) || { count: 0, resetTime: now + RATE_LIMIT_WINDOW };
+  
+  if (now > userLimit.resetTime) {
+    rateLimits.set(userId, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+  
+  if (userLimit.count >= MAX_REQUESTS_PER_WINDOW) {
+    return false;
+  }
+  
+  userLimit.count++;
+  rateLimits.set(userId, userLimit);
+  return true;
+}
+
+// Track command usage
+function trackCommand(command) {
+  analytics.totalCommands++;
+  const count = analytics.commandUsage.get(command) || 0;
+  analytics.commandUsage.set(command, count + 1);
+}
+
+// Create inline keyboard
+function createMainKeyboard() {
+  return {
+    inline_keyboard: [
+      [
+        { text: '📊 Status', callback_data: 'cmd_status' },
+        { text: 'ℹ️ Info', callback_data: 'cmd_info' }
+      ],
+      [
+        { text: '🏓 Ping', callback_data: 'cmd_ping' },
+        { text: '⏱️ Uptime', callback_data: 'cmd_uptime' }
+      ],
+      [
+        { text: '💾 Memory', callback_data: 'cmd_memory' },
+        { text: '🔖 Version', callback_data: 'cmd_version' }
+      ],
+      [
+        { text: '📚 Help', callback_data: 'cmd_help' }
+      ]
+    ]
+  };
+}
+
+function createAdminKeyboard() {
+  return {
+    inline_keyboard: [
+      [
+        { text: '📊 Stats', callback_data: 'admin_stats' },
+        { text: '👥 Users', callback_data: 'admin_users' }
+      ],
+      [
+        { text: '📈 Analytics', callback_data: 'admin_analytics' },
+        { text: '🔄 Refresh', callback_data: 'admin_refresh' }
+      ],
+      [
+        { text: '« Back', callback_data: 'cmd_start' }
+      ]
+    ]
+  };
+}
+
 // Command: /start
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
+  const userId = msg.from.id;
   const userName = msg.from.first_name || 'User';
+  
+  if (!checkRateLimit(userId)) {
+    bot.sendMessage(chatId, '⚠️ Rate limit exceeded. Please wait a moment.');
+    return;
+  }
+  
+  trackCommand('start');
   
   const welcomeMessage = `
 🌟 *Welcome to AuraOS Bot!* 🌟
 
 Hello ${userName}! I'm your AI-powered operating system assistant.
+
+*Quick Actions:*
+Use the buttons below for quick access to features!
 
 *Available Commands:*
 /help - Show all commands
@@ -59,6 +154,7 @@ Hello ${userName}! I'm your AI-powered operating system assistant.
 /echo <text> - Echo your message
 /time - Current server time
 /uptime - Bot uptime
+/menu - Show interactive menu
 
 *Admin Commands:*
 /admin - Admin panel (admins only)
@@ -68,14 +164,18 @@ Hello ${userName}! I'm your AI-powered operating system assistant.
 Type /help for more details!
   `;
   
-  bot.sendMessage(chatId, welcomeMessage, { parse_mode: 'Markdown' });
+  bot.sendMessage(chatId, welcomeMessage, { 
+    parse_mode: 'Markdown',
+    reply_markup: createMainKeyboard()
+  });
   
   userSessions.set(chatId, {
     userId: msg.from.id,
     username: msg.from.username,
     firstName: msg.from.first_name,
     startedAt: new Date(),
-    messageCount: 0
+    messageCount: 0,
+    lastActivity: new Date()
   });
 });
 
@@ -269,25 +369,33 @@ bot.onText(/\/admin/, (msg) => {
     return;
   }
   
+  trackCommand('admin');
+  
   const adminMessage = `
 🔐 *Admin Panel*
 
 *Available Commands:*
 • /stats - Detailed statistics
 • /users - List active users
+• /analytics - Usage analytics
 • /broadcast <msg> - Send to all users
 • /restart - Restart bot (coming soon)
 • /logs - View logs (coming soon)
 
-*System Info:*
+*Quick Stats:*
 👥 Active Users: ${userSessions.size}
 💾 Memory: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB
 ⏱️ Uptime: ${Math.floor(process.uptime() / 60)} minutes
+📨 Total Messages: ${analytics.totalMessages}
+⚡ Total Commands: ${analytics.totalCommands}
 
 Admin access granted ✅
   `;
   
-  bot.sendMessage(chatId, adminMessage, { parse_mode: 'Markdown' });
+  bot.sendMessage(chatId, adminMessage, { 
+    parse_mode: 'Markdown',
+    reply_markup: createAdminKeyboard()
+  });
 });
 
 // Command: /stats (Admin only)
@@ -384,9 +492,340 @@ bot.onText(/\/broadcast (.+)/, (msg, match) => {
   }, 1000);
 });
 
+// Command: /menu
+bot.onText(/\/menu/, (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!checkRateLimit(userId)) {
+    bot.sendMessage(chatId, '⚠️ Rate limit exceeded. Please wait a moment.');
+    return;
+  }
+  
+  trackCommand('menu');
+  
+  bot.sendMessage(chatId, '🎛️ *Interactive Menu*\n\nSelect an option:', {
+    parse_mode: 'Markdown',
+    reply_markup: createMainKeyboard()
+  });
+});
+
+// Command: /analytics (Admin only)
+bot.onText(/\/analytics/, (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('analytics');
+  
+  const uptime = Date.now() - analytics.startTime;
+  const hours = Math.floor(uptime / 3600000);
+  const minutes = Math.floor((uptime % 3600000) / 60000);
+  
+  let commandStats = '*Top Commands:*\n';
+  const sortedCommands = Array.from(analytics.commandUsage.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10);
+  
+  sortedCommands.forEach(([cmd, count], index) => {
+    commandStats += `${index + 1}. /${cmd}: ${count} times\n`;
+  });
+  
+  const analyticsMessage = `
+📈 *Bot Analytics*
+
+*Usage Statistics:*
+📨 Total Messages: ${analytics.totalMessages}
+⚡ Total Commands: ${analytics.totalCommands}
+👥 Active Users: ${userSessions.size}
+⏱️ Running: ${hours}h ${minutes}m
+
+${commandStats}
+
+*Performance:*
+💾 Memory: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB
+🔄 Rate Limits Active: ${rateLimits.size}
+  `;
+  
+  bot.sendMessage(chatId, analyticsMessage, { parse_mode: 'Markdown' });
+});
+
+// Handle callback queries (inline button clicks)
+bot.on('callback_query', (query) => {
+  const chatId = query.message.chat.id;
+  const userId = query.from.id;
+  const data = query.data;
+  
+  // Answer callback to remove loading state
+  bot.answerCallbackQuery(query.id);
+  
+  if (!checkRateLimit(userId)) {
+    bot.sendMessage(chatId, '⚠️ Rate limit exceeded. Please wait a moment.');
+    return;
+  }
+  
+  // Handle different callback actions
+  switch (data) {
+    case 'cmd_start':
+      bot.sendMessage(chatId, '🎛️ *Main Menu*', {
+        parse_mode: 'Markdown',
+        reply_markup: createMainKeyboard()
+      });
+      break;
+      
+    case 'cmd_status':
+      trackCommand('status');
+      const info = getSystemInfo();
+      bot.sendMessage(chatId, `
+📊 *System Status*
+
+🟢 Status: ${info.status}
+⏱️ Uptime: ${Math.floor(info.uptime / 60)} minutes
+💾 Memory: ${Math.round(info.memory.heapUsed / 1024 / 1024)}MB / ${Math.round(info.memory.heapTotal / 1024 / 1024)}MB
+🕐 Time: ${new Date().toLocaleString()}
+👥 Active Users: ${userSessions.size}
+
+All systems operational! ✅
+      `, { parse_mode: 'Markdown', reply_markup: createMainKeyboard() });
+      break;
+      
+    case 'cmd_info':
+      trackCommand('info');
+      bot.sendMessage(chatId, `
+ℹ️ *AuraOS Bot Information*
+
+*Name:* AuraOS Telegram Bot
+*Version:* 1.0.0
+*Platform:* Node.js ${process.version}
+*Architecture:* ${process.arch}
+*OS:* ${process.platform}
+
+*Features:*
+• 🤖 AI Integration
+• 📁 File System Access (MCP)
+• 🔧 System Control
+• 📊 Real-time Monitoring
+• 🔔 Notifications
+• ⚡ Rate Limiting
+• 📈 Analytics
+
+*Repository:*
+github.com/Moeabdelaziz007/AuraOS-Monorepo
+
+Built with ❤️ by Mohamed Abdelaziz
+      `, { parse_mode: 'Markdown', reply_markup: createMainKeyboard() });
+      break;
+      
+    case 'cmd_ping':
+      trackCommand('ping');
+      const startTime = Date.now();
+      bot.sendMessage(chatId, '🏓 Pong!').then(() => {
+        const latency = Date.now() - startTime;
+        bot.sendMessage(chatId, `⚡ Response time: ${latency}ms`, {
+          reply_markup: createMainKeyboard()
+        });
+      });
+      break;
+      
+    case 'cmd_uptime':
+      trackCommand('uptime');
+      const uptime = process.uptime();
+      const hours = Math.floor(uptime / 3600);
+      const minutes = Math.floor((uptime % 3600) / 60);
+      const seconds = Math.floor(uptime % 60);
+      bot.sendMessage(chatId, `
+⏱️ *Bot Uptime*
+
+🕐 ${hours}h ${minutes}m ${seconds}s
+📊 Total: ${Math.floor(uptime)} seconds
+
+Bot has been running smoothly! ✅
+      `, { parse_mode: 'Markdown', reply_markup: createMainKeyboard() });
+      break;
+      
+    case 'cmd_memory':
+      trackCommand('memory');
+      const mem = process.memoryUsage();
+      bot.sendMessage(chatId, `
+💾 *Memory Usage*
+
+Heap Used: ${Math.round(mem.heapUsed / 1024 / 1024)}MB
+Heap Total: ${Math.round(mem.heapTotal / 1024 / 1024)}MB
+RSS: ${Math.round(mem.rss / 1024 / 1024)}MB
+External: ${Math.round(mem.external / 1024 / 1024)}MB
+
+Usage: ${Math.round((mem.heapUsed / mem.heapTotal) * 100)}%
+      `, { parse_mode: 'Markdown', reply_markup: createMainKeyboard() });
+      break;
+      
+    case 'cmd_version':
+      trackCommand('version');
+      bot.sendMessage(chatId, `
+🔖 *AuraOS Version*
+
+Version: 1.0.0
+Build: Enhanced
+Node.js: ${process.version}
+Bot API: node-telegram-bot-api v0.66.0
+
+Status: Production Ready ✅
+      `, { parse_mode: 'Markdown', reply_markup: createMainKeyboard() });
+      break;
+      
+    case 'cmd_help':
+      trackCommand('help');
+      bot.sendMessage(chatId, `
+📚 *AuraOS Bot - Help Guide*
+
+*Basic Commands:*
+• /start - Initialize bot session
+• /menu - Show interactive menu
+• /help - Show this help message
+• /status - Get system status
+• /info - Bot information
+• /ping - Test bot response
+• /echo <text> - Echo your message
+• /time - Current server time
+• /uptime - How long bot has been running
+
+*System Commands:*
+• /memory - Memory usage
+• /version - AuraOS version
+
+*Admin Commands:* (Admins only)
+• /admin - Access admin panel
+• /analytics - Usage analytics
+• /broadcast <message> - Send to all users
+• /stats - Detailed statistics
+• /users - List active users
+
+*Features:*
+✅ AI-powered responses
+✅ System monitoring
+✅ Real-time notifications
+✅ Rate limiting protection
+✅ Interactive buttons
+✅ Usage analytics
+
+Need help? Contact the admin!
+      `, { parse_mode: 'Markdown', reply_markup: createMainKeyboard() });
+      break;
+      
+    case 'admin_stats':
+      if (!isAdmin(userId)) {
+        bot.sendMessage(chatId, '❌ Access denied.');
+        return;
+      }
+      trackCommand('stats');
+      const memStats = process.memoryUsage();
+      const uptimeStats = process.uptime();
+      bot.sendMessage(chatId, `
+📊 *Detailed Statistics*
+
+*Users:*
+👥 Active Sessions: ${userSessions.size}
+🔐 Admins: ${ADMIN_USER_IDS.length}
+
+*System:*
+💾 Heap Used: ${Math.round(memStats.heapUsed / 1024 / 1024)}MB
+💾 Heap Total: ${Math.round(memStats.heapTotal / 1024 / 1024)}MB
+💾 RSS: ${Math.round(memStats.rss / 1024 / 1024)}MB
+⏱️ Uptime: ${Math.floor(uptimeStats / 3600)}h ${Math.floor((uptimeStats % 3600) / 60)}m
+
+*Platform:*
+🖥️ Node.js: ${process.version}
+🏗️ Arch: ${process.arch}
+🐧 OS: ${process.platform}
+
+*Performance:*
+📈 CPU Usage: ${Math.round(process.cpuUsage().user / 1000)}ms
+🔄 Event Loop: Active
+      `, { parse_mode: 'Markdown', reply_markup: createAdminKeyboard() });
+      break;
+      
+    case 'admin_users':
+      if (!isAdmin(userId)) {
+        bot.sendMessage(chatId, '❌ Access denied.');
+        return;
+      }
+      trackCommand('users');
+      if (userSessions.size === 0) {
+        bot.sendMessage(chatId, '📭 No active user sessions.', {
+          reply_markup: createAdminKeyboard()
+        });
+        return;
+      }
+      
+      let userList = '👥 *Active Users:*\n\n';
+      let index = 1;
+      
+      for (const [chatId, session] of userSessions.entries()) {
+        const duration = Math.floor((Date.now() - session.startedAt) / 1000 / 60);
+        userList += `${index}. ${session.firstName} (@${session.username || 'N/A'})\n`;
+        userList += `   ID: ${session.userId}\n`;
+        userList += `   Duration: ${duration}m\n`;
+        userList += `   Messages: ${session.messageCount}\n\n`;
+        index++;
+      }
+      
+      bot.sendMessage(chatId, userList, { 
+        parse_mode: 'Markdown',
+        reply_markup: createAdminKeyboard()
+      });
+      break;
+      
+    case 'admin_analytics':
+      if (!isAdmin(userId)) {
+        bot.sendMessage(chatId, '❌ Access denied.');
+        return;
+      }
+      trackCommand('analytics');
+      const analyticsUptime = Date.now() - analytics.startTime;
+      const analyticsHours = Math.floor(analyticsUptime / 3600000);
+      const analyticsMinutes = Math.floor((analyticsUptime % 3600000) / 60000);
+      
+      let cmdStats = '*Top Commands:*\n';
+      const sortedCmds = Array.from(analytics.commandUsage.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+      
+      sortedCmds.forEach(([cmd, count], idx) => {
+        cmdStats += `${idx + 1}. /${cmd}: ${count}x\n`;
+      });
+      
+      bot.sendMessage(chatId, `
+📈 *Bot Analytics*
+
+*Usage:*
+📨 Total Messages: ${analytics.totalMessages}
+⚡ Total Commands: ${analytics.totalCommands}
+👥 Active Users: ${userSessions.size}
+⏱️ Running: ${analyticsHours}h ${analyticsMinutes}m
+
+${cmdStats}
+
+*Performance:*
+💾 Memory: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB
+🔄 Rate Limits: ${rateLimits.size}
+      `, { parse_mode: 'Markdown', reply_markup: createAdminKeyboard() });
+      break;
+      
+    case 'admin_refresh':
+      bot.sendMessage(chatId, '🔄 Refreshed!', {
+        reply_markup: createAdminKeyboard()
+      });
+      break;
+  }
+});
+
 // Handle all text messages (not commands)
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
+  const userId = msg.from.id;
   const text = msg.text;
   
   // Skip if it's a command
@@ -394,10 +833,18 @@ bot.on('message', (msg) => {
     return;
   }
   
+  if (!checkRateLimit(userId)) {
+    bot.sendMessage(chatId, '⚠️ Rate limit exceeded. Please wait a moment.');
+    return;
+  }
+  
+  analytics.totalMessages++;
+  
   // Update session message count
   if (userSessions.has(chatId)) {
     const session = userSessions.get(chatId);
     session.messageCount++;
+    session.lastActivity = new Date();
   }
   
   // Simple AI-like responses
@@ -405,15 +852,25 @@ bot.on('message', (msg) => {
     const lowerText = text.toLowerCase();
     
     if (lowerText.includes('hello') || lowerText.includes('hi')) {
-      bot.sendMessage(chatId, '👋 Hello! How can I help you today?');
+      bot.sendMessage(chatId, '👋 Hello! How can I help you today?\n\nTry /menu for quick actions!', {
+        reply_markup: createMainKeyboard()
+      });
     } else if (lowerText.includes('how are you')) {
-      bot.sendMessage(chatId, '🤖 I\'m functioning perfectly! All systems operational.');
+      bot.sendMessage(chatId, '🤖 I\'m functioning perfectly! All systems operational.\n\nWhat can I do for you?', {
+        reply_markup: createMainKeyboard()
+      });
     } else if (lowerText.includes('thank')) {
       bot.sendMessage(chatId, '😊 You\'re welcome! Happy to help!');
     } else if (lowerText.includes('help')) {
-      bot.sendMessage(chatId, 'Type /help to see all available commands!');
+      bot.sendMessage(chatId, 'Type /help to see all available commands!\n\nOr use /menu for quick access.', {
+        reply_markup: createMainKeyboard()
+      });
+    } else if (lowerText.includes('menu')) {
+      bot.sendMessage(chatId, '🎛️ Here\'s the interactive menu:', {
+        reply_markup: createMainKeyboard()
+      });
     } else {
-      bot.sendMessage(chatId, `You said: "${text}"\n\nTry /help for available commands!`);
+      bot.sendMessage(chatId, `You said: "${text}"\n\nTry /menu for quick actions or /help for all commands!`);
     }
   }
 });
@@ -427,6 +884,26 @@ bot.on('error', (error) => {
   console.error('❌ Bot error:', error.message);
 });
 
+// Set bot commands menu
+bot.setMyCommands([
+  { command: 'start', description: 'Start the bot' },
+  { command: 'menu', description: 'Show interactive menu' },
+  { command: 'help', description: 'Show help message' },
+  { command: 'status', description: 'System status' },
+  { command: 'info', description: 'Bot information' },
+  { command: 'ping', description: 'Test bot response' },
+  { command: 'echo', description: 'Echo your message' },
+  { command: 'time', description: 'Current server time' },
+  { command: 'uptime', description: 'Bot uptime' },
+  { command: 'memory', description: 'Memory usage' },
+  { command: 'version', description: 'AuraOS version' },
+  { command: 'admin', description: 'Admin panel (admins only)' }
+]).then(() => {
+  console.log('✅ Bot commands menu set successfully');
+}).catch(err => {
+  console.error('❌ Failed to set commands menu:', err.message);
+});
+
 // Startup notification
 if (ADMIN_CHAT_ID) {
   bot.sendMessage(ADMIN_CHAT_ID, `
@@ -434,10 +911,20 @@ if (ADMIN_CHAT_ID) {
 
 ✅ Bot is now online and ready
 🕐 Started at: ${new Date().toLocaleString()}
-🤖 Version: 1.0.0
+🤖 Version: 1.0.0 Enhanced
 
-Type /help to see available commands.
-  `, { parse_mode: 'Markdown' }).catch(err => {
+*New Features:*
+• ⚡ Rate limiting protection
+• 🎛️ Interactive inline keyboards
+• 📈 Usage analytics
+• 📋 Command menu autocomplete
+• 🔄 Improved error handling
+
+Type /help to see available commands or /menu for quick access.
+  `, { 
+    parse_mode: 'Markdown',
+    reply_markup: createMainKeyboard()
+  }).catch(err => {
     console.error('Failed to send startup notification:', err.message);
   });
 }
@@ -445,4 +932,7 @@ Type /help to see available commands.
 console.log('✅ AuraOS Telegram Bot is running!');
 console.log(`📱 Bot Token: ${BOT_TOKEN.substring(0, 10)}...`);
 console.log(`👤 Admin Chat ID: ${ADMIN_CHAT_ID}`);
-console.log('🎯 Listening for messages...\n');
+console.log('🎯 Listening for messages...');
+console.log('🎛️ Interactive keyboards enabled');
+console.log('⚡ Rate limiting active');
+console.log('📈 Analytics tracking enabled\n');
