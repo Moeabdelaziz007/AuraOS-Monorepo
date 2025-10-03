@@ -40,7 +40,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run unit tests
-        run: pnpm test:unit || echo "No unit tests configured yet"
+        run: |
+          pnpm --filter @auraos/terminal test:unit
+          pnpm --filter @auraos/debugger test:unit
+          pnpm --filter @auraos/desktop test:unit
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
@@ -85,7 +88,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run integration tests
-        run: pnpm test:integration || echo "No integration tests configured yet"
+        run: |
+          pnpm --filter @auraos/terminal test:integration
+          pnpm --filter @auraos/debugger test:integration
+          pnpm --filter @auraos/desktop test:integration
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
 
@@ -117,7 +123,7 @@ jobs:
         run: pnpm build
 
       - name: Run E2E tests
-        run: pnpm test:e2e || echo "No E2E tests configured yet"
+        run: pnpm exec playwright test
 
       - name: Upload test artifacts
         uses: actions/upload-artifact@v3
@@ -184,6 +190,74 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+  # Autopilot Tests
+  autopilot-tests:
+    name: Autopilot Test Runner
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests]
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run autopilot test analysis
+        run: node scripts/autopilot-test.ts
+        env:
+          CI: true
+          AUTO_FIX: false
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Upload autopilot report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: autopilot-report
+          path: autopilot-report.json
+
+      - name: Comment PR with autopilot results
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const report = JSON.parse(fs.readFileSync('autopilot-report.json', 'utf8'));
+              
+              const body = `## 🤖 Autopilot Test Report
+              
+              **Total Tests:** ${report.totalTests}
+              **Passed:** ✅ ${report.passed}
+              **Failed:** ❌ ${report.failed}
+              **Success Rate:** ${report.successRate}%
+              
+              ${report.failed > 0 ? `### Failed Tests\n${report.failures.slice(0, 5).map(f => `- **${f.test}**\n  - File: \`${f.file}\`\n  - Error: ${f.error}\n  - Suggested Fix: ${f.suggestedFix || 'Analyzing...'}`).join('\n\n')}` : ''}
+              
+              ${report.suggestions && report.suggestions.length > 0 ? `\n### 💡 Suggestions\n${report.suggestions.map(s => `- ${s}`).join('\n')}` : ''}
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            } catch (error) {
+              console.log('No autopilot report found or error reading it:', error.message);
+            }
+
   # Code Coverage
   coverage:
     name: Code Coverage
@@ -207,7 +281,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests with coverage
-        run: pnpm test:coverage || echo "No coverage configured yet"
+        run: |
+          pnpm --filter @auraos/terminal test:coverage
+          pnpm --filter @auraos/debugger test:coverage
+          pnpm --filter @auraos/desktop test:coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
