@@ -1,278 +1,83 @@
----------------
+---
+const codeExample = `import { AuraAI } from '@auraai/sdk';
 
-// Developer Documentation component
+const ai = new AuraAI();
 
----// Developer Documentation component
+await ai.organizeFiles({
+  source: '/downloads',
+  strategy: 'smart-categorization',
+  learnFromUser: true
+});
 
+await ai.optimizePerformance({
+  predictiveMode: true,
+  adaptToWorkflow: true
+});`;
+---
 
-
-<section id="docs" class="py-20 bg-black">---// Developer Documentation component
-
+<section id="docs" class="py-20 bg-black">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
     <div class="text-center mb-16">
-
       <h2 class="text-4xl sm:text-5xl font-bold mb-6">
-
-        Developer <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</span><section id="docs" class="py-20 bg-black">---// Developer Documentation component// Developer Documentation component
-
+        Developer <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</span>
       </h2>
-
-      <p class="text-xl text-gray-300 max-w-3xl mx-auto">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        Build the next generation of applications with AuraAI's powerful development platform.
-
-      </p>    <div class="text-center mb-16">
-
+      <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+        Build the next generation of applications with the powerful AuraAI development platform.
+      </p>
     </div>
 
-          <h2 class="text-4xl sm:text-5xl font-bold mb-6">
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">        Developer <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</span><section id="docs" class="py-20 bg-black">------
-
+      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">
         <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-4">
-
-          <div class="w-6 h-6 text-white">⚡</div>      </h2>
-
+          <span class="text-2xl">⚡</span>
         </div>
-
-        <h3 class="text-xl font-bold mb-3">Quick Start Guide</h3>      <p class="text-xl text-gray-300 max-w-3xl mx-auto">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
+        <h3 class="text-xl font-bold mb-3">Quick Start Guide</h3>
         <p class="text-gray-300 mb-4">Get up and running with AuraAI development in minutes.</p>
-
-        <ul class="space-y-2 text-sm text-gray-400">        Build the next generation of applications with AuraAI's powerful development platform.
-
-          <li>• SDK Installation</li>
-
-          <li>• Hello World App</li>      </p>    <div class="text-center mb-16">
-
-          <li>• AI Integration Basics</li>
-
-          <li>• Deployment Guide</li>    </div>
-
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>SDK Installation</li>
+          <li>Hello World App</li>
+          <li>AI Integration Basics</li>
+          <li>Deployment Guide</li>
         </ul>
-
-        <button class="mt-4 text-blue-500 hover:text-cyan-500 transition-colors">View Guide →</button>          <h2 class="text-4xl sm:text-5xl font-bold mb-6">
-
+        <button class="mt-4 text-blue-500 hover:text-cyan-500 transition-colors">View Guide</button>
       </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
       <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">
-
-        <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mb-4">      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">        Developer <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</span><section id="docs" class="py-20 bg-black"><section id="docs" class="py-20 bg-black">
-
-          <div class="w-6 h-6 text-white">📚</div>
-
-        </div>        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-4">
-
-        <h3 class="text-xl font-bold mb-3">API Reference</h3>
-
-        <p class="text-gray-300 mb-4">Comprehensive documentation for all AuraAI APIs.</p>          <div class="w-6 h-6 text-white">⚡</div>      </h2>
-
-        <ul class="space-y-2 text-sm text-gray-400">
-
-          <li>• Core System APIs</li>        </div>
-
-          <li>• AI Service Integration</li>
-
-          <li>• Security Framework</li>        <h3 class="text-xl font-bold mb-3">Quick Start Guide</h3>      <p class="text-xl text-gray-300 max-w-3xl mx-auto">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          <li>• Performance Monitoring</li>
-
-        </ul>        <p class="text-gray-300 mb-4">Get up and running with AuraAI development in minutes.</p>
-
-        <button class="mt-4 text-purple-500 hover:text-blue-500 transition-colors">Browse APIs →</button>
-
-      </div>        <ul class="space-y-2 text-sm text-gray-400">        Build the next generation of applications with AuraAI's powerful development platform.
-
-      
-
-      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">          <li>• SDK Installation</li>
-
-        <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
-
-          <div class="w-6 h-6 text-white">👥</div>          <li>• Hello World App</li>      </p>    <div class="text-center mb-16">    <div class="text-center mb-16">
-
+        <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mb-4">
+          <span class="text-2xl">📚</span>
         </div>
-
-        <h3 class="text-xl font-bold mb-3">Developer Community</h3>          <li>• AI Integration Basics</li>
-
-        <p class="text-gray-300 mb-4">Connect with other developers building on AuraAI.</p>
-
-        <ul class="space-y-2 text-sm text-gray-400">          <li>• Deployment Guide</li>    </div>
-
-          <li>• Discord Community</li>
-
-          <li>• GitHub Repositories</li>        </ul>
-
-          <li>• Developer Forums</li>
-
-          <li>• Weekly Office Hours</li>        <button class="mt-4 text-blue-500 hover:text-cyan-500 transition-colors">View Guide →</button>          <h2 class="text-4xl sm:text-5xl font-bold mb-6">      <h2 class="text-4xl sm:text-5xl font-bold mb-6">
-
-        </ul>
-
-        <button class="mt-4 text-cyan-500 hover:text-purple-500 transition-colors">Join Community →</button>      </div>
-
-      </div>
-
-    </div>          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-  </div>
-
-</section>      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">
-
-        <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mb-4">      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">        Developer <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</span>        Developer <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</span>
-
-          <div class="w-6 h-6 text-white">📚</div>
-
-        </div>        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-4">
-
         <h3 class="text-xl font-bold mb-3">API Reference</h3>
-
-        <p class="text-gray-300 mb-4">Comprehensive documentation for all AuraAI APIs.</p>          <div class="w-6 h-6 text-white">⚡</div>      </h2>      </h2>
-
+        <p class="text-gray-300 mb-4">Comprehensive documentation for all AuraAI APIs.</p>
         <ul class="space-y-2 text-sm text-gray-400">
-
-          <li>• Core System APIs</li>        </div>
-
-          <li>• AI Service Integration</li>
-
-          <li>• Security Framework</li>        <h3 class="text-xl font-bold mb-3">Quick Start Guide</h3>      <p class="text-xl text-gray-300 max-w-3xl mx-auto">      <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-
-          <li>• Performance Monitoring</li>
-
-        </ul>        <p class="text-gray-300 mb-4">Get up and running with AuraAI development in minutes.</p>
-
-        <button class="mt-4 text-purple-500 hover:text-blue-500 transition-colors">Browse APIs →</button>
-
-      </div>        <ul class="space-y-2 text-sm text-gray-400">        Build the next generation of applications with AuraAI's powerful development platform.        Build the next generation of applications with AuraAI's powerful development platform.
-
-      
-
-      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">          <li>• SDK Installation</li>
-
-        <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
-
-          <div class="w-6 h-6 text-white">👥</div>          <li>• Hello World App</li>      </p>      </p>
-
-        </div>
-
-        <h3 class="text-xl font-bold mb-3">Developer Community</h3>          <li>• AI Integration Basics</li>
-
-        <p class="text-gray-300 mb-4">Connect with other developers building on AuraAI.</p>
-
-        <ul class="space-y-2 text-sm text-gray-400">          <li>• Deployment Guide</li>    </div>    </div>
-
-          <li>• Discord Community</li>
-
-          <li>• GitHub Repositories</li>        </ul>
-
-          <li>• Developer Forums</li>
-
-          <li>• Weekly Office Hours</li>        <button class="mt-4 text-blue-500 hover:text-cyan-500 transition-colors">View Guide →</button>        
-
+          <li>Core System APIs</li>
+          <li>AI Service Integration</li>
+          <li>Security Framework</li>
+          <li>Performance Monitoring</li>
         </ul>
-
-        <button class="mt-4 text-cyan-500 hover:text-purple-500 transition-colors">Join Community →</button>      </div>
-
+        <button class="mt-4 text-purple-500 hover:text-blue-500 transition-colors">Browse APIs</button>
       </div>
-
-    </div>          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
+      
+      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">
+        <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
+          <span class="text-2xl">👥</span>
+        </div>
+        <h3 class="text-xl font-bold mb-3">Developer Community</h3>
+        <p class="text-gray-300 mb-4">Connect with other developers building on AuraAI.</p>
+        <ul class="space-y-2 text-gray-400">
+          <li>Discord Community</li>
+          <li>GitHub Repositories</li>
+          <li>Developer Forums</li>
+          <li>Weekly Office Hours</li>
+        </ul>
+        <button class="mt-4 text-cyan-500 hover:text-purple-500 transition-colors">Join Community</button>
+      </div>
+    </div>
     
-
     <div class="mt-16">
       <h3 class="text-2xl font-bold mb-6 text-center">Simple AI Integration Example</h3>
       <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 overflow-x-auto">
-        <pre class="text-sm text-gray-300"><code>// Example AI integration code
-import { AuraAI } from '@auraai/sdk';
-
-const ai = new AuraAI();
-
-// Intelligent file organization
-await ai.organizeFiles({
-  source: '/downloads',
-  strategy: 'smart-categorization',
-  learnFromUser: true
-});
-
-// Predictive resource allocation
-await ai.optimizePerformance({
-  predictiveMode: true,
-  adaptToWorkflow: true
-});</code></pre>
+        <pre class="text-sm text-gray-300">{codeExample}</pre>
       </div>
-    </div>          <li>• Performance Monitoring</li>
-
+    </div>
   </div>
-
-</section>        </ul>        <p class="text-gray-300 mb-4">Get up and running with AuraAI development in minutes.</p>        <p class="text-gray-300 mb-4">Get up and running with AuraAI development in minutes.</p>
-
-        <button class="mt-4 text-purple-500 hover:text-blue-500 transition-colors">Browse APIs →</button>
-
-      </div>        <ul class="space-y-2 text-sm text-gray-400">        <ul class="space-y-2 text-sm text-gray-400">
-
-      
-
-      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">          <li>• SDK Installation</li>          <li>• SDK Installation</li>
-
-        <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
-
-          <div class="w-6 h-6 text-white">👥</div>          <li>• Hello World App</li>          <li>• Hello World App</li>
-
-        </div>
-
-        <h3 class="text-xl font-bold mb-3">Developer Community</h3>          <li>• AI Integration Basics</li>          <li>• AI Integration Basics</li>
-
-        <p class="text-gray-300 mb-4">Connect with other developers building on AuraAI.</p>
-
-        <ul class="space-y-2 text-sm text-gray-400">          <li>• Deployment Guide</li>          <li>• Deployment Guide</li>
-
-          <li>• Discord Community</li>
-
-          <li>• GitHub Repositories</li>        </ul>        </ul>
-
-          <li>• Developer Forums</li>
-
-          <li>• Weekly Office Hours</li>        <button class="mt-4 text-blue-500 hover:text-cyan-500 transition-colors">View Guide →</button>        <button class="mt-4 text-blue-500 hover:text-cyan-500 transition-colors">View Guide →</button>
-
-        </ul>
-
-        <button class="mt-4 text-cyan-500 hover:text-purple-500 transition-colors">Join Community →</button>      </div>      </div>
-
-      </div>
-
-    </div>            
-
-    
-
-    <div class="mt-16">      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">      <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700">
-
-      <h3 class="text-2xl font-bold mb-6 text-center">Simple AI Integration Example</h3>
-
-      <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 overflow-x-auto">        <pre class="text-sm text-gray-300"><code>// Example AI integration code
-import { AuraAI } from '@auraai/sdk';
-
-const ai = new AuraAI();
-
-// Intelligent file organization
-await ai.organizeFiles({
-  source: '/downloads',
-  strategy: 'smart-categorization',
-  learnFromUser: true
-});
-
-// Predictive resource allocation
-await ai.optimizePerformance({
-  predictiveMode: true,
-  adaptToWorkflow: true
-});</code></pre>
-      </div>
-    </div>          <li>• Performance Monitoring</li>    </div>    </div>
-
-  </div>  </div>
-
-</section></section>
+</section>

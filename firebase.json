@@ -7,7 +7,7 @@
     ]
   },
   "hosting": {
-    "public": "packages/ui/dist",
+    "public": "apps/landing-page/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
