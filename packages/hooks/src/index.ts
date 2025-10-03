@@ -6,3 +6,4 @@
 export { useLearningLoop } from './useLearningLoop';
 export { useUserProfile } from './useUserProfile';
 export { useAI } from './useAI';
+export { useMCP } from './useMCP';

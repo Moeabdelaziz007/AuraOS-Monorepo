@@ -1,7 +1,6 @@
 import React from 'react';
 import { DesktopApp } from '../types/window';
-import { useLearningLoop } from '../hooks/useLearningLoop';
-import { useUserProfile } from '../hooks/useUserProfile';
+import { useLearningLoop, useUserProfile } from '@auraos/hooks';
 
 interface DesktopProps {
   apps: DesktopApp[];

@@ -5,3 +5,4 @@
 
 export * from './ai';
 export * from './learning';
+export * from './mcp';

@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import { useUserProfile } from '../hooks/useUserProfile';
-import { useLearningLoop } from '../hooks/useLearningLoop';
+import { useUserProfile, useLearningLoop } from '@auraos/hooks';
 import { useAuth } from '../contexts/AuthContext';
 
 export function Dashboard() {

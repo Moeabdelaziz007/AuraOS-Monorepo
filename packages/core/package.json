@@ -21,6 +21,13 @@
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@auraos/ai": "workspace:*",
+    "@auraos/firebase": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
   "keywords": ["auraos", "core"],
   "author": "Mohamed Abdelaziz",
   "license": "MIT"

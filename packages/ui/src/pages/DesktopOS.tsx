@@ -64,15 +64,25 @@ export function DesktopOS() {
       return;
     }
 
-    // Create new window
+    // Create new window centered on screen
+    const windowWidth = 800;
+    const windowHeight = 600;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    // حساب المنتصف مع إزاحة بسيطة لكل نافذة جديدة
+    const offset = windows.length * 30;
+    const centerX = Math.max(50, (screenWidth - windowWidth) / 2 + offset);
+    const centerY = Math.max(50, (screenHeight - windowHeight) / 2 + offset);
+
     const newWindow: WindowState = {
       id: `window-${Date.now()}`,
       appId,
       title: app.name,
-      x: 100 + windows.length * 30,
-      y: 100 + windows.length * 30,
-      width: 800,
-      height: 600,
+      x: centerX,
+      y: centerY,
+      width: windowWidth,
+      height: windowHeight,
       minimized: false,
       maximized: false,
       zIndex: windows.length + 1,
