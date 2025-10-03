@@ -17,6 +17,7 @@
     "build": "pnpm -r build",
     "build:desktop": "./scripts/build-desktop.sh",
     "deploy": "./scripts/deploy-desktop.sh",
+    "auto-deploy": "./scripts/auto-deploy.sh",
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
     "lint:fix": "pnpm -r lint:fix",

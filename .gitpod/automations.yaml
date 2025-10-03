@@ -10,6 +10,28 @@ tasks:
         triggeredBy:
         - manual
 
+    auto-deploy:
+        name: Auto Deploy & Push
+        command: |
+            echo "🚀 Auto Deploy & Push"
+            
+            # Check if Firebase token is set
+            if [ -z "$FIREBASE_TOKEN" ]; then
+                echo "❌ FIREBASE_TOKEN not set"
+                exit 1
+            fi
+            
+            # Run auto-deploy script
+            ./scripts/auto-deploy.sh "chore: automated deployment"
+        triggeredBy:
+        - manual
+        - onFileChange:
+            patterns:
+            - "packages/ui/src/**/*.{ts,tsx,js,jsx}"
+            - "packages/core/src/**/*.{ts,tsx,js,jsx}"
+            - "firestore.rules"
+            - "firebase.json"
+
     deploy-firebase:
         name: Deploy to Firebase
         command: |
@@ -32,10 +54,10 @@ tasks:
             
             # Deploy to Firebase
             echo "Deploying to Firebase..."
-            firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+            firebase deploy --only hosting,firestore:rules --token "$FIREBASE_TOKEN"
             
             echo "✅ Deployment complete!"
-            echo "🌐 Your app is live at: https://selfos-62f70.web.app"
+            echo "🌐 Your app is live at: https://adept-student-469614-k2.web.app"
         triggeredBy:
         - manual
 
