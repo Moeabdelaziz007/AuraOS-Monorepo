@@ -3,71 +3,42 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Sign In - AuraOS">
-  <div class="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4 py-12 relative overflow-hidden">
-    <!-- Animated Space Background -->
+  <div class="min-h-screen bg-gradient-to-br from-blue-600/20 via-black to-purple-600/20 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <!-- Background Effects -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <!-- Stars -->
-      <div class="stars"></div>
-      <div class="stars2"></div>
-      <div class="stars3"></div>
-      
-      <!-- Dark Nebula Effects with Neon -->
-      <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#1a0033]/30 via-transparent to-[#001a33]/30"></div>
-      <div class="absolute top-20 left-10 w-96 h-96 bg-[#ff00ff]/5 rounded-full blur-3xl animate-pulse"></div>
-      <div class="absolute bottom-20 right-10 w-[500px] h-[500px] bg-[#00ffff]/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#ff00aa]/3 rounded-full blur-3xl"></div>
-      
-      <!-- Neon Grid Lines -->
-      <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#00ffff 1px, transparent 1px), linear-gradient(90deg, #00ffff 1px, transparent 1px); background-size: 50px 50px;"></div>
-      
-      <!-- Floating Neon Particles -->
-      <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-[#00ffff] rounded-full animate-float opacity-80 shadow-[0_0_10px_#00ffff]"></div>
-      <div class="absolute top-3/4 right-1/4 w-1.5 h-1.5 bg-[#ff00ff] rounded-full animate-float opacity-90 shadow-[0_0_8px_#ff00ff]" style="animation-delay: 0.5s;"></div>
-      <div class="absolute top-1/2 left-3/4 w-2 h-2 bg-[#00ff00] rounded-full animate-float opacity-70 shadow-[0_0_10px_#00ff00]" style="animation-delay: 1s;"></div>
-      <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-[#ffff00] rounded-full animate-float opacity-80 shadow-[0_0_6px_#ffff00]" style="animation-delay: 1.5s;"></div>
+      <div class="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-3xl"></div>
     </div>
 
     <!-- Auth Container -->
     <div class="relative z-10 w-full max-w-md">
       <!-- Logo with Space Theme -->
       <div class="text-center mb-8 animate-fade-in">
-        <div class="relative inline-block mb-6">
-          <!-- Neon Orbital Rings -->
-          <div class="absolute inset-0 w-20 h-20 border-2 border-[#00ffff] rounded-full animate-spin-slow shadow-[0_0_15px_#00ffff]"></div>
-          <div class="absolute inset-0 w-20 h-20 border-2 border-[#ff00ff] rounded-full animate-spin-reverse shadow-[0_0_15px_#ff00ff]"></div>
-          
-          <!-- Logo Core with Neon Glow -->
-          <div class="relative inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#ff00ff] via-[#00ffff] to-[#00ff00] rounded-full shadow-[0_0_30px_#00ffff,0_0_60px_#ff00ff]">
-            <div class="absolute inset-0 bg-gradient-to-br from-[#00ffff] to-[#ff00ff] rounded-full animate-pulse opacity-60"></div>
-            <svg class="w-10 h-10 text-white relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-          </div>
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl mb-4 shadow-lg shadow-blue-600/50">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
         </div>
         
-        <h1 class="text-4xl font-bold mb-2">
-          <span class="bg-gradient-to-r from-[#00ffff] via-[#ff00ff] to-[#00ff00] bg-clip-text text-transparent animate-gradient drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
+        <h1 class="text-3xl font-bold mb-2">
+          <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Welcome to AuraOS
           </span>
         </h1>
-        <p class="text-[#00ffff] text-lg font-medium drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Enter the future of computing</p>
+        <p class="text-gray-400">Sign in to access your workspace</p>
       </div>
 
-      <!-- Auth Card with Dark Glass Morphism & Neon Border -->
-      <div class="relative bg-[#0d0d15]/60 backdrop-blur-2xl rounded-3xl shadow-[0_0_50px_rgba(0,255,255,0.3)] border-2 border-[#00ffff]/30 p-8 animate-slide-up overflow-hidden">
-        <!-- Card Neon Glow Effect -->
-        <div class="absolute inset-0 bg-gradient-to-br from-[#ff00ff]/5 via-transparent to-[#00ffff]/5 rounded-3xl"></div>
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-[#ff00ff]/10 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-[#00ffff]/10 rounded-full blur-3xl"></div>
+      <!-- Auth Card -->
+      <div class="bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800 p-8 animate-slide-up">
         
         <div class="relative z-10">
-        <!-- Tabs with Neon Theme -->
-        <div class="flex gap-2 mb-6 bg-black/50 backdrop-blur-sm rounded-2xl p-1.5 border border-[#00ffff]/20">
-          <button id="signin-tab" class="flex-1 py-3 px-4 rounded-xl font-bold transition-all duration-300 text-white bg-gradient-to-r from-[#ff00ff] to-[#00ffff] shadow-[0_0_20px_rgba(0,255,255,0.5)] relative overflow-hidden group">
-            <span class="relative z-10 drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]">Sign In</span>
-            <div class="absolute inset-0 bg-gradient-to-r from-[#00ffff] to-[#ff00ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-6 bg-black/50 backdrop-blur-sm rounded-xl p-1">
+          <button id="signin-tab" class="flex-1 py-2.5 px-4 rounded-lg font-medium transition-all duration-200 text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-600/30">
+            Sign In
           </button>
-          <button id="signup-tab" class="flex-1 py-3 px-4 rounded-xl font-bold transition-all duration-300 text-[#00ffff]/60 hover:text-[#00ffff] hover:bg-[#00ffff]/10 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]">
+          <button id="signup-tab" class="flex-1 py-2.5 px-4 rounded-lg font-medium transition-all duration-200 text-gray-400 hover:text-white hover:bg-gray-800">
             Sign Up
           </button>
         </div>
@@ -75,21 +46,21 @@ import Layout from '../layouts/Layout.astro';
         <!-- Sign In Form -->
         <form id="signin-form" class="space-y-4">
           <div>
-            <label for="signin-email" class="block text-sm font-bold text-[#00ffff] mb-2 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Email</label>
+            <label for="signin-email" class="block text-sm font-bold text-blue-400 mb-2 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Email</label>
             <input
               type="email"
               id="signin-email"
-              class="w-full px-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#00ffff]/30 rounded-xl text-white placeholder-[#00ffff]/40 focus:outline-none focus:ring-2 focus:ring-[#00ffff] focus:border-[#00ffff] focus:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-300 hover:border-[#00ffff]/50"
+              class="w-full px-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-blue-500/30 rounded-xl text-white placeholder-gray-400/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-300 hover:border-blue-500/50"
               placeholder="you@example.com"
               required
             />
           </div>
           <div>
-            <label for="signin-password" class="block text-sm font-bold text-[#00ffff] mb-2 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Password</label>
+            <label for="signin-password" class="block text-sm font-bold text-blue-400 mb-2 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Password</label>
             <input
               type="password"
               id="signin-password"
-              class="w-full px-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#00ffff]/30 rounded-xl text-white placeholder-[#00ffff]/40 focus:outline-none focus:ring-2 focus:ring-[#00ffff] focus:border-[#00ffff] focus:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-300 hover:border-[#00ffff]/50"
+              class="w-full px-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-blue-500/30 rounded-xl text-white placeholder-gray-400/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-300 hover:border-blue-500/50"
               placeholder="••••••••"
               required
             />
@@ -103,7 +74,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <button
             type="submit"
-            class="relative w-full py-4 px-4 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#00ff00] text-black font-black rounded-xl shadow-[0_0_30px_rgba(0,255,255,0.6)] hover:shadow-[0_0_50px_rgba(0,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.02] overflow-hidden group"
+            class="relative w-full py-4 px-4 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-purple-600 text-black font-black rounded-xl shadow-[0_0_30px_rgba(0,255,255,0.6)] hover:shadow-[0_0_50px_rgba(0,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.02] overflow-hidden group"
           >
             <span class="relative z-10 flex items-center justify-center gap-2 drop-shadow-[0_0_3px_rgba(0,0,0,0.8)]">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
@@ -212,21 +183,21 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- Debug Info -->
-      <div class="mt-4 p-3 bg-black/50 rounded-xl border border-[#00ffff]/20 text-xs">
+      <div class="mt-4 p-3 bg-black/50 rounded-xl border border-gray-700 text-xs">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-[#00ffff] font-bold">🔧 Debug Mode</span>
-          <button id="test-connection" class="px-3 py-1 bg-[#00ffff]/20 hover:bg-[#00ffff]/30 rounded text-[#00ffff] text-xs font-bold transition-all">
+          <span class="text-gray-400 font-bold">🔧 Debug Mode</span>
+          <button id="test-connection" class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded text-gray-300 text-xs font-bold transition-all">
             Test Connection
           </button>
         </div>
-        <div id="debug-output" class="text-[#00ffff]/60 font-mono text-[10px] max-h-32 overflow-y-auto">
+        <div id="debug-output" class="text-gray-500 font-mono text-[10px] max-h-32 overflow-y-auto">
           Waiting for actions...
         </div>
       </div>
 
       <!-- Footer -->
-      <p class="text-center text-[#00ffff]/60 text-sm mt-6 animate-fade-in">
-        By continuing, you agree to our <a href="#" class="text-[#00ffff] hover:text-[#ff00ff] transition-colors">Terms of Service</a> and <a href="#" class="text-[#00ffff] hover:text-[#ff00ff] transition-colors">Privacy Policy</a>
+      <p class="text-center text-gray-400 text-sm mt-6 animate-fade-in">
+        By continuing, you agree to our <a href="#" class="text-blue-400 hover:text-purple-400 transition-colors">Terms of Service</a> and <a href="#" class="text-blue-400 hover:text-purple-400 transition-colors">Privacy Policy</a>
       </p>
     </div>
   </div>
@@ -299,7 +270,11 @@ import Layout from '../layouts/Layout.astro';
             displayName: user.displayName,
             emailVerified: user.emailVerified
           });
-          addDebugLog(`User logged in: ${user.email}`, 'success');
+          addDebugLog(`User already logged in: ${user.email || 'Guest'}`, 'success');
+          
+          // Redirect to desktop if already authenticated
+          showSuccess('Already logged in! Redirecting...');
+          setTimeout(() => window.location.href = '/desktop', 1000);
         } else {
           console.log('👤 No user logged in');
           addDebugLog('No user currently logged in');
@@ -362,7 +337,7 @@ import Layout from '../layouts/Layout.astro';
       const debugOutput = document.getElementById('debug-output');
       const timestamp = new Date().toLocaleTimeString();
       const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
-      const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-[#00ffff]';
+      const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-blue-400';
       debugOutput.innerHTML += `<div class="${color}">[${timestamp}] ${icon} ${message}</div>`;
       debugOutput.scrollTop = debugOutput.scrollHeight;
     }
@@ -570,8 +545,8 @@ import Layout from '../layouts/Layout.astro';
         
         let errorMsg = 'Failed to create guest session.';
         if (error.code === 'auth/operation-not-allowed') {
-          errorMsg = '⚠️ Guest Mode requires Email/Password authentication to be enabled in Firebase Console.';
-          addDebugLog('Go to: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
+          errorMsg = '⚠️ Guest Mode requires Anonymous authentication to be enabled in Firebase Console.';
+          addDebugLog('Enable Anonymous auth at: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
         } else {
           errorMsg = error.message;
         }
