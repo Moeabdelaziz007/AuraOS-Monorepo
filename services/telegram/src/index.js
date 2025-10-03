@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import CursorIntegration from './cursor-integration.js';
+import { getMCPBridge } from './mcp-bridge.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,6 +25,14 @@ const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
 // Initialize Cursor integration
 const cursor = new CursorIntegration();
+
+// Initialize MCP Bridge
+const mcpBridge = getMCPBridge();
+mcpBridge.initialize().then(() => {
+  console.log('✅ MCP Bridge initialized');
+}).catch(err => {
+  console.error('❌ MCP Bridge initialization failed:', err);
+});
 
 // Store user sessions
 const userSessions = new Map();
@@ -921,6 +930,171 @@ bot.onText(/\/ai (.+)/, async (msg, match) => {
   } else {
     bot.sendMessage(chatId, `❌ Error: ${result.error}`);
   }
+});
+
+// ============================================
+// MCP COMMANDS (Model Context Protocol)
+// ============================================
+
+// Command: /mcp - Show MCP status and available tools
+bot.onText(/\/mcp/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('mcp');
+  
+  const stats = mcpBridge.getStats();
+  const tools = mcpBridge.getAvailableTools();
+  
+  let message = `🔧 *MCP Status*\n\n`;
+  message += `📊 Servers: ${stats.totalServers}\n`;
+  message += `🛠️ Tools: ${stats.totalTools}\n\n`;
+  message += `*Available Tools:*\n`;
+  
+  tools.forEach(tool => {
+    message += `• \`${tool.name}\` - ${tool.description}\n`;
+  });
+  
+  bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+});
+
+// Command: /fsread <path> - Read file via MCP
+bot.onText(/\/fsread (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('fsread');
+  const path = match[1];
+  
+  bot.sendMessage(chatId, `📖 Reading file: ${path}...`);
+  
+  const result = await mcpBridge.readFile(path);
+  const formatted = mcpBridge.formatResult(result);
+  
+  bot.sendMessage(chatId, formatted, { parse_mode: 'Markdown' });
+});
+
+// Command: /fswrite <path> <content> - Write file via MCP
+bot.onText(/\/fswrite (.+?) (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('fswrite');
+  const path = match[1];
+  const content = match[2];
+  
+  bot.sendMessage(chatId, `✍️ Writing to file: ${path}...`);
+  
+  const result = await mcpBridge.writeFile(path, content);
+  const formatted = mcpBridge.formatResult(result);
+  
+  bot.sendMessage(chatId, formatted, { parse_mode: 'Markdown' });
+});
+
+// Command: /fsls <path> - List directory via MCP
+bot.onText(/\/fsls (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('fsls');
+  const path = match[1];
+  
+  bot.sendMessage(chatId, `📁 Listing directory: ${path}...`);
+  
+  const result = await mcpBridge.listDirectory(path);
+  const formatted = mcpBridge.formatResult(result);
+  
+  bot.sendMessage(chatId, formatted, { parse_mode: 'Markdown' });
+});
+
+// Command: /basic <code> - Execute BASIC code via MCP
+bot.onText(/\/basic (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('basic');
+  const code = match[1];
+  
+  bot.sendMessage(chatId, `🔧 Executing BASIC code...`);
+  
+  const result = await mcpBridge.executeBasic(code);
+  const formatted = mcpBridge.formatResult(result);
+  
+  bot.sendMessage(chatId, formatted, { parse_mode: 'Markdown' });
+});
+
+// Command: /emulator <hex> - Load and run program in emulator
+bot.onText(/\/emulator (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('emulator');
+  const code = match[1];
+  
+  bot.sendMessage(chatId, `🎮 Loading program into emulator...`);
+  
+  // Load program
+  const loadResult = await mcpBridge.loadProgram(code);
+  if (!loadResult.success) {
+    bot.sendMessage(chatId, mcpBridge.formatResult(loadResult), { parse_mode: 'Markdown' });
+    return;
+  }
+  
+  // Run program
+  const runResult = await mcpBridge.runProgram(1000);
+  const formatted = mcpBridge.formatResult(runResult);
+  
+  bot.sendMessage(chatId, formatted, { parse_mode: 'Markdown' });
+});
+
+// Command: /registers - Get emulator CPU registers
+bot.onText(/\/registers/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('registers');
+  
+  bot.sendMessage(chatId, `🎮 Getting CPU registers...`);
+  
+  const result = await mcpBridge.getRegisters();
+  const formatted = mcpBridge.formatResult(result);
+  
+  bot.sendMessage(chatId, formatted, { parse_mode: 'Markdown' });
 });
 
 // Handle callback queries (inline button clicks)
