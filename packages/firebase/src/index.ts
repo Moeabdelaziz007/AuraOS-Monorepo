@@ -146,3 +146,7 @@ export class FirebaseService {
 export const createFirebaseService = (config: FirebaseConfig): FirebaseService => {
   return new FirebaseService(config);
 };
+
+// Re-export Firebase instances from config
+export { app, analytics, db, auth, storage } from './config/firebase';
+export { default as firebaseConfig } from './config/firebase';
