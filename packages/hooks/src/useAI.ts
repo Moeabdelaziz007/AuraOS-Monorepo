@@ -4,9 +4,9 @@
  */
 
 import { useState, useCallback } from 'react';
-import { aiService } from '../services/ai';
+import { aiService } from '@auraos/core/ai/services';
 import { useLearningLoop } from './useLearningLoop';
-import type { AIMessage, AIResponse } from '../services/ai/base.service';
+import type { AIMessage, AIResponse } from '@auraos/core/ai/services/base.service';
 
 export function useAI() {
   const [loading, setLoading] = useState(false);

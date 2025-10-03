@@ -3,15 +3,15 @@
  * Tracks user behavior, analyzes patterns, and provides AI-powered insights
  */
 
-import { firestoreService } from './firestore.service';
-import { aiService } from './ai';
+import { firestoreService } from '@auraos/firebase/services/firestore.service';
+import { aiService } from '../ai/services';
 import type {
   Activity,
   Insight,
   LearningPattern,
   LearningSession,
   UserProfile,
-} from '../types/user';
+} from '@auraos/firebase/types/user';
 
 interface LearningContext {
   userId: string;

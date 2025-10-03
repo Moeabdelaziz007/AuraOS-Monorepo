@@ -4,9 +4,9 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { firestoreService } from '../services/firestore.service';
-import { useAuth } from '../contexts/AuthContext';
-import type { UserProfile, UserPreferences } from '../types/user';
+import { firestoreService } from '@auraos/firebase/services/firestore.service';
+import { useAuth } from '@auraos/ui/contexts/AuthContext';
+import type { UserProfile, UserPreferences } from '@auraos/firebase/types/user';
 
 export function useUserProfile() {
   const { user } = useAuth();

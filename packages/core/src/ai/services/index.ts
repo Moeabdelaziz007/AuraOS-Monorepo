@@ -5,7 +5,7 @@
 
 import { geminiService } from './gemini.service';
 import { zaiService } from './zai.service';
-import { AIProvider, getProviderForFeature } from '../../config/ai';
+import { AIProvider, getProviderForFeature } from '../config';
 import { BaseAIService, AIMessage, AIResponse, AIRequestOptions } from './base.service';
 
 /**

@@ -1,0 +1,37 @@
+{
+  "name": "@auraos/hooks",
+  "version": "1.0.0",
+  "description": "AuraOS Hooks - Shared React hooks for state management",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "@auraos/core": "workspace:*",
+    "@auraos/firebase": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "typescript": "^5.3.3",
+    "tsup": "^8.0.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "keywords": ["auraos", "hooks", "react"],
+  "author": "Mohamed Abdelaziz",
+  "license": "MIT"
+}

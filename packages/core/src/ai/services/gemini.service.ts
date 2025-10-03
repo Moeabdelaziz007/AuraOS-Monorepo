@@ -10,7 +10,7 @@ import {
   AIStreamResponse,
   AIRequestOptions,
 } from './base.service';
-import { AI_CONFIG } from '../../config/ai';
+import { AI_CONFIG } from '../config';
 
 interface GeminiMessage {
   role: 'user' | 'model';

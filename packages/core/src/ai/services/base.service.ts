@@ -3,7 +3,7 @@
  * Common functionality for all AI providers
  */
 
-import { AI_CONFIG, AIProvider } from '../../config/ai';
+import { AI_CONFIG, AIProvider } from '../config';
 
 export interface AIMessage {
   role: 'user' | 'assistant' | 'system';
