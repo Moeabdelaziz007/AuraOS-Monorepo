@@ -1,12 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const http = require('http');
-const { Server } = require('socket.io');
-const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, query, where, orderBy } = require('firebase/firestore');
-const { getAuth } = require('firebase/auth');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import http from 'http';
+import { Server } from 'socket.io';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);

@@ -267,7 +267,7 @@ describe('Autopilot Integration', () => {
       userActivity: 'active' as const,
     };
     
-    const insights = analyzer.generateInsights(tasks, history, context);
+    const insights = analyzer.generateDetailedInsights(tasks, history, context);
     expect(Array.isArray(insights)).toBe(true);
   });
 });

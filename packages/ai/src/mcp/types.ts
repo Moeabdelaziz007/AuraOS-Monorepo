@@ -14,6 +14,10 @@ export const ToolSchema = z.object({
     properties: z.record(z.any()),
     required: z.array(z.string()).optional(),
   }),
+  outputSchema: z.object({
+    type: z.literal('object'),
+    properties: z.record(z.any()),
+  }).optional(),
 });
 
 export type Tool = z.infer<typeof ToolSchema>;
