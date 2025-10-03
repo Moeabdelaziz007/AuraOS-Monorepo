@@ -2,7 +2,6 @@
 node_modules/
 .pnp
 .pnp.js
-.pnpm-store/
 
 # Testing
 coverage/
@@ -67,3 +66,13 @@ ENV/
 # Logs
 logs/
 *.log
+pnpm-lock.yaml
+node_modules
+.env
+.env.*
+dist
+build
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
