@@ -82,23 +82,27 @@ See [Automation Guide](./docs/AUTOMATION.md) for details.
 ## 📖 التوثيق الكامل
 
 ### 🚀 Quick Start
-- ⚡ [Quick Start Guide](./QUICK-START.md) - **START HERE!** (30 seconds)
-- 📘 [Complete Setup Guide](./docs/COMPLETE-SETUP-GUIDE.md) - Everything you need
+| Document | Description | Time |
+|----------|-------------|------|
+| [Quick Start Guide](./QUICK-START.md) | Get running in 30 seconds | 5 min |
+| [Complete Setup](./docs/COMPLETE-SETUP-GUIDE.md) | Detailed installation | 15 min |
+| [Contributing](./CONTRIBUTING.md) | How to contribute | 10 min |
 
-### 🔧 Development
-- 💻 [IDE Setup Guide](./docs/IDE-SETUP.md) - VS Code, IntelliJ, Cursor, etc.
-- 🤖 [AI Agent Instructions](./.ai/INSTRUCTIONS.md) - For Claude, GPT, Copilot
-- 🚀 [Automation Guide](./docs/AUTOMATION.md) - Auto-deploy, auto-check, auto-debug
+### 📚 Documentation
+| Resource | Description |
+|----------|-------------|
+| [📑 Documentation Index](./DOCUMENTATION_INDEX.md) | **Complete documentation map** |
+| [📦 Package Docs](./DOCUMENTATION_INDEX.md#package-documentation) | All package READMEs |
+| [🔌 API Reference](./docs/API_REFERENCE.md) | REST API documentation |
+| [⚡ Socket.io Events](./docs/SOCKET_IO_EVENTS.md) | Real-time events |
 
-### 📦 Packages
-- 📗 [Core Package](./packages/core/README.md) - Business logic
-- 📕 [Hooks Package](./packages/hooks/README.md) - React hooks
-- 📙 [UI Package](./packages/ui/README.md) - Main application
-
-### 🔐 Configuration
-- 🔑 [Environment Template](./.env.template) - Required variables
-- 🔥 [Firebase Setup](./firebase.json) - Firebase configuration
-- 📝 [Deployment Summary](./docs/DEPLOYMENT-SUMMARY.md) - Deployment info
+### 🛠️ Development
+| Guide | Description |
+|-------|-------------|
+| [IDE Setup](./docs/IDE-SETUP.md) | Editor configuration |
+| [Week Plan](./WEEK_PLAN.md) | Current sprint plan |
+| [Testing Guide](./docs/TESTING_GUIDE.md) | Testing strategy |
+| [Automation](./docs/AUTOMATION.md) | Auto-deploy scripts |
 
 ## 🎯 ما تم إنجازه
 
