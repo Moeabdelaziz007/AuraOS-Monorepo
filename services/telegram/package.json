@@ -1,17 +1,31 @@
 {
   "name": "@auraos/telegram",
-  "version": "1.0.0",
-  "description": "AuraOS Telegram Bot Service",
-  "main": "./src/index.js",
+  "version": "2.0.0",
+  "description": "Enhanced AuraOS Telegram Bot with AI, MCP, Autopilot, and Learning",
+  "main": "./src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/index.js",
-    "start": "node src/index.js",
-    "test": "echo \"No tests yet\"",
-    "lint": "eslint src --ext .js",
-    "lint:fix": "eslint src --ext .js --fix"
+    "dev": "node --watch --loader ts-node/esm src/index.ts",
+    "start": "node --loader ts-node/esm src/index.ts",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.cache"
   },
-  "keywords": ["auraos", "telegram", "bot"],
+  "keywords": [
+    "auraos",
+    "telegram",
+    "bot",
+    "ai",
+    "mcp",
+    "autopilot",
+    "learning",
+    "typescript"
+  ],
   "author": "Mohamed Abdelaziz",
   "license": "MIT",
   "dependencies": {
@@ -19,6 +33,24 @@
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "eslint": "^8.56.0"
-  }
+    "@types/node": "^20.19.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Moeabdelaziz007/AuraOS-Monorepo.git",
+    "directory": "services/telegram"
+  },
+  "bugs": {
+    "url": "https://github.com/Moeabdelaziz007/AuraOS-Monorepo/issues"
+  },
+  "homepage": "https://github.com/Moeabdelaziz007/AuraOS-Monorepo#readme"
 }
