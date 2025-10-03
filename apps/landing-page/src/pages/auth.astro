@@ -160,7 +160,35 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword,
+      signInWithPopup,
+      GoogleAuthProvider,
+      GithubAuthProvider
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDqpCr3Gh0ZuA7-Frdrl9h1NWZ8gcGCTjI",
+      authDomain: "adept-student-469614-k2.firebaseapp.com",
+      databaseURL: "https://adept-student-469614-k2-default-rtdb.firebaseio.com",
+      projectId: "adept-student-469614-k2",
+      storageBucket: "adept-student-469614-k2.firebasestorage.app",
+      messagingSenderId: "436679358368",
+      appId: "1:436679358368:web:48c801ddca460d759c96c5",
+      measurementId: "G-F482TZLQ5B"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+
     // Tab switching
     const signinTab = document.getElementById('signin-tab');
     const signupTab = document.getElementById('signup-tab');
@@ -185,19 +213,94 @@ import Layout from '../layouts/Layout.astro';
       signinForm?.classList.add('hidden');
     });
 
-    // Form submissions (placeholder - will be connected to Firebase)
-    signinForm?.addEventListener('submit', (e) => {
+    // Helper function to show error
+    function showError(message) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-down';
+      errorDiv.textContent = message;
+      document.body.appendChild(errorDiv);
+      setTimeout(() => errorDiv.remove(), 5000);
+    }
+
+    // Helper function to show success
+    function showSuccess(message) {
+      const successDiv = document.createElement('div');
+      successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-down';
+      successDiv.textContent = message;
+      document.body.appendChild(successDiv);
+      setTimeout(() => successDiv.remove(), 3000);
+    }
+
+    // Sign In with Email/Password
+    signinForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      console.log('Sign in submitted');
-      // TODO: Implement Firebase authentication
-      window.location.href = '/desktop';
+      const email = document.getElementById('signin-email').value;
+      const password = document.getElementById('signin-password').value;
+      
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        showSuccess('Welcome back!');
+        setTimeout(() => window.location.href = '/desktop', 1000);
+      } catch (error) {
+        console.error('Sign in error:', error);
+        showError(error.message || 'Failed to sign in. Please check your credentials.');
+      }
     });
 
-    signupForm?.addEventListener('submit', (e) => {
+    // Sign Up with Email/Password
+    signupForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      console.log('Sign up submitted');
-      // TODO: Implement Firebase authentication
-      window.location.href = '/desktop';
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const confirmPassword = document.getElementById('signup-confirm').value;
+      
+      if (password !== confirmPassword) {
+        showError('Passwords do not match!');
+        return;
+      }
+
+      if (password.length < 6) {
+        showError('Password must be at least 6 characters long!');
+        return;
+      }
+      
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        showSuccess('Account created successfully!');
+        setTimeout(() => window.location.href = '/desktop', 1000);
+      } catch (error) {
+        console.error('Sign up error:', error);
+        showError(error.message || 'Failed to create account. Please try again.');
+      }
+    });
+
+    // Google Sign In
+    document.querySelectorAll('button').forEach(button => {
+      if (button.textContent.includes('Google')) {
+        button.addEventListener('click', async () => {
+          try {
+            const result = await signInWithPopup(auth, googleProvider);
+            showSuccess('Signed in with Google!');
+            setTimeout(() => window.location.href = '/desktop', 1000);
+          } catch (error) {
+            console.error('Google sign in error:', error);
+            showError(error.message || 'Failed to sign in with Google.');
+          }
+        });
+      }
+      
+      if (button.textContent.includes('GitHub')) {
+        button.addEventListener('click', async () => {
+          try {
+            const result = await signInWithPopup(auth, githubProvider);
+            showSuccess('Signed in with GitHub!');
+            setTimeout(() => window.location.href = '/desktop', 1000);
+          } catch (error) {
+            console.error('GitHub sign in error:', error);
+            showError(error.message || 'Failed to sign in with GitHub.');
+          }
+        });
+      }
     });
   </script>
 </Layout>

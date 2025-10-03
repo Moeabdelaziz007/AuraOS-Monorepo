@@ -24,6 +24,11 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <div class="flex items-center gap-3">
+          <a href="/profile" class="p-2 hover:bg-dark rounded-lg transition-colors" title="Profile">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </a>
           <button class="p-2 hover:bg-dark rounded-lg transition-colors" title="Settings">
             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -159,7 +164,34 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDqpCr3Gh0ZuA7-Frdrl9h1NWZ8gcGCTjI",
+      authDomain: "adept-student-469614-k2.firebaseapp.com",
+      databaseURL: "https://adept-student-469614-k2-default-rtdb.firebaseio.com",
+      projectId: "adept-student-469614-k2",
+      storageBucket: "adept-student-469614-k2.firebasestorage.app",
+      messagingSenderId: "436679358368",
+      appId: "1:436679358368:web:48c801ddca460d759c96c5",
+      measurementId: "G-F482TZLQ5B"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Check authentication
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // Not signed in, redirect to auth page
+        window.location.href = '/auth';
+      }
+    });
+
     // Update time and date
     function updateDateTime() {
       const now = new Date();
@@ -187,18 +219,36 @@ import Layout from '../layouts/Layout.astro';
 
     // Logout functionality
     const logoutBtn = document.getElementById('logout-btn');
-    logoutBtn?.addEventListener('click', () => {
+    logoutBtn?.addEventListener('click', async () => {
       if (confirm('Are you sure you want to logout?')) {
-        window.location.href = '/';
+        try {
+          await signOut(auth);
+          window.location.href = '/';
+        } catch (error) {
+          console.error('Logout error:', error);
+          alert('Failed to logout. Please try again.');
+        }
       }
     });
 
-    // App click handlers (placeholder)
+    // App click handlers
+    const appActions = {
+      'Files': () => alert('File Manager coming soon!'),
+      'Terminal': () => alert('Terminal coming soon!'),
+      'Browser': () => alert('Browser coming soon!'),
+      'Settings': () => alert('Settings coming soon!'),
+      'AI Assistant': () => alert('AI Assistant coming soon!'),
+      'Code Editor': () => alert('Code Editor coming soon!'),
+      'App Store': () => alert('App Store coming soon!'),
+      'Monitor': () => alert('System Monitor coming soon!'),
+    };
+
     document.querySelectorAll('.group').forEach(button => {
       button.addEventListener('click', function() {
         const appName = this.querySelector('h3')?.textContent;
-        console.log(`Opening ${appName}...`);
-        // TODO: Implement actual app launching
+        if (appName && appActions[appName]) {
+          appActions[appName]();
+        }
       });
     });
   </script>

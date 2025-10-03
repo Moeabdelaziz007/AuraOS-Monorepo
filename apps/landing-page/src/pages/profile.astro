@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Profile - AuraOS">
+  <div class="min-h-screen bg-gradient-to-br from-dark via-dark-lighter to-dark-light">
+    <!-- Top Bar -->}
+    <div class="bg-dark-lighter/90 backdrop-blur-xl border-b border-gray-800 px-4 py-2 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="/desktop" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          <span class="text-gray-400">Back to Desktop</span>
+        </a>
+      </div>
+      <h1 class="text-white font-semibold">User Profile</h1>
+      <div class="w-32"></div>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="max-w-4xl mx-auto p-8">
+      <!-- Profile Header -->
+      <div class="bg-dark-lighter/80 backdrop-blur-xl rounded-2xl border border-gray-800 p-8 mb-6 animate-fade-in">
+        <div class="flex items-center gap-6">
+          <div id="user-avatar" class="w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-3xl font-bold text-white">
+            U
+          </div>
+          <div class="flex-1">
+            <h2 id="user-name" class="text-2xl font-bold text-white mb-2">Loading...</h2>
+            <p id="user-email" class="text-gray-400 mb-4">Loading...</p>
+            <div class="flex gap-2">
+              <button id="edit-profile-btn" class="px-4 py-2 bg-primary hover:bg-primary-dark rounded-lg text-white transition-colors">
+                Edit Profile
+              </button>
+              <button id="change-password-btn" class="px-4 py-2 bg-dark hover:bg-dark-light border border-gray-700 rounded-lg text-white transition-colors">
+                Change Password
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-lighter/60 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+          <div class="text-gray-400 text-sm mb-2">Member Since</div>
+          <div id="member-since" class="text-white text-xl font-bold">Loading...</div>
+        </div>
+        <div class="bg-dark-lighter/60 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+          <div class="text-gray-400 text-sm mb-2">Total Sessions</div>
+          <div class="text-white text-xl font-bold">0</div>
+        </div>
+        <div class="bg-dark-lighter/60 backdrop-blur-xl rounded-xl border border-gray-800 p-6">
+          <div class="text-gray-400 text-sm mb-2">Learning Score</div>
+          <div class="text-white text-xl font-bold">0%</div>
+        </div>
+      </div>
+
+      <!-- Settings Sections -->
+      <div class="space-y-4">
+        <!-- Preferences -->
+        <div class="bg-dark-lighter/80 backdrop-blur-xl rounded-2xl border border-gray-800 p-6">
+          <h3 class="text-xl font-bold text-white mb-4">Preferences</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-white font-medium">Dark Mode</div>
+                <div class="text-gray-400 text-sm">Use dark theme across the platform</div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" checked class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-white font-medium">Email Notifications</div>
+                <div class="text-gray-400 text-sm">Receive updates and insights via email</div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" checked class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-white font-medium">AI Learning</div>
+                <div class="text-gray-400 text-sm">Allow AI to learn from your behavior</div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" checked class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy & Security -->
+        <div class="bg-dark-lighter/80 backdrop-blur-xl rounded-2xl border border-gray-800 p-6">
+          <h3 class="text-xl font-bold text-white mb-4">Privacy & Security</h3>
+          <div class="space-y-3">
+            <button class="w-full text-left px-4 py-3 bg-dark/50 hover:bg-dark rounded-lg text-white transition-colors flex items-center justify-between">
+              <span>Two-Factor Authentication</span>
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <button class="w-full text-left px-4 py-3 bg-dark/50 hover:bg-dark rounded-lg text-white transition-colors flex items-center justify-between">
+              <span>Connected Devices</span>
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <button class="w-full text-left px-4 py-3 bg-dark/50 hover:bg-dark rounded-lg text-white transition-colors flex items-center justify-between">
+              <span>Privacy Settings</span>
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="bg-red-500/10 backdrop-blur-xl rounded-2xl border border-red-500/30 p-6">
+          <h3 class="text-xl font-bold text-red-500 mb-4">Danger Zone</h3>
+          <div class="space-y-3">
+            <button id="delete-account-btn" class="w-full px-4 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 rounded-lg text-red-500 transition-colors">
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, updateProfile, deleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDqpCr3Gh0ZuA7-Frdrl9h1NWZ8gcGCTjI",
+      authDomain: "adept-student-469614-k2.firebaseapp.com",
+      databaseURL: "https://adept-student-469614-k2-default-rtdb.firebaseio.com",
+      projectId: "adept-student-469614-k2",
+      storageBucket: "adept-student-469614-k2.firebasestorage.app",
+      messagingSenderId: "436679358368",
+      appId: "1:436679358368:web:48c801ddca460d759c96c5",
+      measurementId: "G-F482TZLQ5B"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Check authentication and load user data
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = '/auth';
+        return;
+      }
+
+      // Update UI with user data
+      const nameEl = document.getElementById('user-name');
+      const emailEl = document.getElementById('user-email');
+      const avatarEl = document.getElementById('user-avatar');
+      const memberSinceEl = document.getElementById('member-since');
+
+      if (nameEl) nameEl.textContent = user.displayName || 'User';
+      if (emailEl) emailEl.textContent = user.email || '';
+      if (avatarEl) avatarEl.textContent = (user.displayName || user.email || 'U')[0].toUpperCase();
+      if (memberSinceEl && user.metadata.creationTime) {
+        const date = new Date(user.metadata.creationTime);
+        memberSinceEl.textContent = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      }
+    });
+
+    // Edit profile
+    document.getElementById('edit-profile-btn')?.addEventListener('click', () => {
+      const newName = prompt('Enter your new display name:');
+      if (newName && auth.currentUser) {
+        updateProfile(auth.currentUser, {
+          displayName: newName
+        }).then(() => {
+          alert('Profile updated successfully!');
+          location.reload();
+        }).catch((error) => {
+          alert('Failed to update profile: ' + error.message);
+        });
+      }
+    });
+
+    // Delete account
+    document.getElementById('delete-account-btn')?.addEventListener('click', async () => {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+          try {
+            if (auth.currentUser) {
+              await deleteUser(auth.currentUser);
+              alert('Account deleted successfully.');
+              window.location.href = '/';
+            }
+          } catch (error) {
+            alert('Failed to delete account: ' + error.message);
+          }
+        }
+      }
+    });
+  </script>
+</Layout>
