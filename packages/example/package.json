@@ -1,12 +1,11 @@
 {
-  "name": "example",
+  "name": "@auraos/example",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "dev": "echo 'Example package - no dev script'",
+    "build": "echo 'Example package - no build script'",
+    "preview": "echo 'Example package - no preview script'"
+  }
 }
