@@ -24,7 +24,7 @@ const Terminal: React.FC = () => {
     const initVFS = async () => {
       try {
         // Import VFS dynamically to avoid issues
-        const { VirtualFileSystem } = await import('../../../packages/core/src/vfs/VirtualFileSystem');
+        const { VirtualFileSystem } = await import('@auraos/core/vfs/VirtualFileSystem');
         const vfs = new VirtualFileSystem();
         await vfs.initialize();
         console.log('VFS initialized successfully');

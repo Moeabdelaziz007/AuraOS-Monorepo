@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@auraos/core': path.resolve(__dirname, '../../packages/core/src'),
     },
   },
   server: {
