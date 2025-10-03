@@ -3,7 +3,7 @@
  * Provides emulator control and management for AuraOS
  */
 
-import { BaseMCPServer, Tool } from '@auraos/ai';
+import { BaseMCPServer, Tool } from '@auraos/ai/src/mcp/server';
 
 interface EmulatorState {
   id: string;

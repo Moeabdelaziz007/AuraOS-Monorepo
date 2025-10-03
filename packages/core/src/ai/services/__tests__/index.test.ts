@@ -198,12 +198,12 @@ describe('AI Service - JSON.parse Error Handling', () => {
 
   describe('generateAutomation', () => {
     it('successfully generates automation script', async () => {
-      const { geminiService } = await import('../gemini.service');
-      const mockChat = vi.mocked(geminiService.chat);
+      const { zaiService } = await import('../zai.service');
+      const mockChat = vi.mocked(zaiService.chat);
       
       mockChat.mockResolvedValue({
         content: 'Generated automation script',
-        model: 'gemini-pro',
+        model: 'z-chat-v1',
       });
 
       const result = await aiService.generateAutomation('Create a backup script');

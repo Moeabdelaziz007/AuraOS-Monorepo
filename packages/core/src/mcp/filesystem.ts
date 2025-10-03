@@ -3,7 +3,7 @@
  * Provides file system operations for AuraOS
  */
 
-import { BaseMCPServer, Tool } from '@auraos/ai';
+import { BaseMCPServer, Tool } from '@auraos/ai/src/mcp/server';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 

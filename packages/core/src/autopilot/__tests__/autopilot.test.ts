@@ -186,7 +186,7 @@ describe('Smart Analyzer', () => {
       },
     ];
 
-    const smartRate = analyzer.calculateSmartRate(mockTasks, mockHistory);
+    const smartRate = analyzer.calculateSmartRateData(mockTasks, mockHistory);
     
     expect(smartRate).toHaveProperty('tasksCount');
     expect(smartRate).toHaveProperty('executionsCount');
