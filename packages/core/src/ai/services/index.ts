@@ -138,20 +138,32 @@ export const aiService = {
 
   /**
    * AI for MCP tools
+   * 
+   * BUG FIX: Added proper error handling for JSON.parse
+   * Previous implementation would crash if AI returned non-JSON response
+   * Now provides clear error message with context
    */
   async executeMCPTool(toolName: string, params: any): Promise<any> {
     const service = getAIServiceForFeature('mcpTools');
     const response = await service.chat([
       {
         role: 'system',
-        content: 'You are an MCP (Model Context Protocol) tool executor.',
+        content: 'You are an MCP (Model Context Protocol) tool executor. Always respond with valid JSON.',
       },
       {
         role: 'user',
         content: `Execute tool: ${toolName}\nParameters: ${JSON.stringify(params, null, 2)}`,
       },
     ]);
-    return JSON.parse(response.content);
+    
+    try {
+      return JSON.parse(response.content);
+    } catch (error) {
+      throw new Error(
+        `Failed to parse MCP tool response as JSON: ${error instanceof Error ? error.message : 'Unknown error'}\n` +
+        `Response content: ${response.content.substring(0, 200)}...`
+      );
+    }
   },
 };
 

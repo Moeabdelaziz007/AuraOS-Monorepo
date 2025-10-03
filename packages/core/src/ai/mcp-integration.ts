@@ -113,6 +113,11 @@ export class MCPAIBridge {
       const jsonMatch = aiResponse.content.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         toolPlan = JSON.parse(jsonMatch[0]);
+        
+        // التحقق من صحة البنية
+        if (!toolPlan || typeof toolPlan !== 'object') {
+          throw new Error('Invalid tool plan structure');
+        }
       } else {
         // إذا لم يكن JSON، نفذ كأمر مباشر
         return {
@@ -122,6 +127,7 @@ export class MCPAIBridge {
         };
       }
     } catch (error) {
+      console.warn('[MCP-AI Bridge] Failed to parse tool plan:', error);
       return {
         response: aiResponse.content,
         toolsUsed: [],

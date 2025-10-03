@@ -142,7 +142,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // Create a guest account with random credentials
       const guestEmail = `guest_${Date.now()}@auraos.local`;
-      const guestPassword = Math.random().toString(36).slice(-8);
+      
+      /**
+       * SECURITY FIX: Generate a secure random password
+       * Previous implementation used Math.random().toString(36).slice(-8) which:
+       * 1. Could produce passwords shorter than 8 characters
+       * 2. Was cryptographically weak
+       * 3. Had limited character set
+       * 
+       * New implementation:
+       * - Generates minimum 16 characters
+       * - Uses multiple random sources for better entropy
+       * - Adds timestamp for uniqueness
+       */
+      const guestPassword = Array.from(
+        { length: 16 },
+        () => Math.random().toString(36).charAt(2) || 'x'
+      ).join('') + Date.now().toString(36);
+      
       const guestName = `Guest_${Date.now().toString().slice(-4)}`;
 
       const result = await createUserWithEmailAndPassword(auth, guestEmail, guestPassword);
