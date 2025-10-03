@@ -81,10 +81,24 @@ See [Automation Guide](./docs/AUTOMATION.md) for details.
 
 ## 📖 التوثيق الكامل
 
-- 📘 [دليل الإعداد التفصيلي](./SETUP.md)
-- 📗 [Core Package Documentation](./packages/core/README.md)
-- 📕 [Hooks Package Documentation](./packages/hooks/README.md)
-- 🚀 [Automated Deployment Guide](./docs/AUTOMATION.md)
+### 🚀 Quick Start
+- ⚡ [Quick Start Guide](./QUICK-START.md) - **START HERE!** (30 seconds)
+- 📘 [Complete Setup Guide](./docs/COMPLETE-SETUP-GUIDE.md) - Everything you need
+
+### 🔧 Development
+- 💻 [IDE Setup Guide](./docs/IDE-SETUP.md) - VS Code, IntelliJ, Cursor, etc.
+- 🤖 [AI Agent Instructions](./.ai/INSTRUCTIONS.md) - For Claude, GPT, Copilot
+- 🚀 [Automation Guide](./docs/AUTOMATION.md) - Auto-deploy, auto-check, auto-debug
+
+### 📦 Packages
+- 📗 [Core Package](./packages/core/README.md) - Business logic
+- 📕 [Hooks Package](./packages/hooks/README.md) - React hooks
+- 📙 [UI Package](./packages/ui/README.md) - Main application
+
+### 🔐 Configuration
+- 🔑 [Environment Template](./.env.template) - Required variables
+- 🔥 [Firebase Setup](./firebase.json) - Firebase configuration
+- 📝 [Deployment Summary](./docs/DEPLOYMENT-SUMMARY.md) - Deployment info
 
 ## 🎯 ما تم إنجازه
 
