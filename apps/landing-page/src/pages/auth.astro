@@ -3,35 +3,71 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Sign In - AuraOS">
-  <div class="min-h-screen bg-gradient-to-br from-dark via-dark-lighter to-dark-light flex items-center justify-center px-4 py-12">
-    <!-- Background Effects -->
+  <div class="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <!-- Animated Space Background -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
-      <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-3xl"></div>
+      <!-- Stars -->
+      <div class="stars"></div>
+      <div class="stars2"></div>
+      <div class="stars3"></div>
+      
+      <!-- Dark Nebula Effects with Neon -->
+      <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#1a0033]/30 via-transparent to-[#001a33]/30"></div>
+      <div class="absolute top-20 left-10 w-96 h-96 bg-[#ff00ff]/5 rounded-full blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-20 right-10 w-[500px] h-[500px] bg-[#00ffff]/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#ff00aa]/3 rounded-full blur-3xl"></div>
+      
+      <!-- Neon Grid Lines -->
+      <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#00ffff 1px, transparent 1px), linear-gradient(90deg, #00ffff 1px, transparent 1px); background-size: 50px 50px;"></div>
+      
+      <!-- Floating Neon Particles -->
+      <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-[#00ffff] rounded-full animate-float opacity-80 shadow-[0_0_10px_#00ffff]"></div>
+      <div class="absolute top-3/4 right-1/4 w-1.5 h-1.5 bg-[#ff00ff] rounded-full animate-float opacity-90 shadow-[0_0_8px_#ff00ff]" style="animation-delay: 0.5s;"></div>
+      <div class="absolute top-1/2 left-3/4 w-2 h-2 bg-[#00ff00] rounded-full animate-float opacity-70 shadow-[0_0_10px_#00ff00]" style="animation-delay: 1s;"></div>
+      <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-[#ffff00] rounded-full animate-float opacity-80 shadow-[0_0_6px_#ffff00]" style="animation-delay: 1.5s;"></div>
     </div>
 
     <!-- Auth Container -->
     <div class="relative z-10 w-full max-w-md">
-      <!-- Logo -->
+      <!-- Logo with Space Theme -->
       <div class="text-center mb-8 animate-fade-in">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl mb-4 shadow-lg shadow-primary/50">
-          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-          </svg>
+        <div class="relative inline-block mb-6">
+          <!-- Neon Orbital Rings -->
+          <div class="absolute inset-0 w-20 h-20 border-2 border-[#00ffff] rounded-full animate-spin-slow shadow-[0_0_15px_#00ffff]"></div>
+          <div class="absolute inset-0 w-20 h-20 border-2 border-[#ff00ff] rounded-full animate-spin-reverse shadow-[0_0_15px_#ff00ff]"></div>
+          
+          <!-- Logo Core with Neon Glow -->
+          <div class="relative inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#ff00ff] via-[#00ffff] to-[#00ff00] rounded-full shadow-[0_0_30px_#00ffff,0_0_60px_#ff00ff]">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#00ffff] to-[#ff00ff] rounded-full animate-pulse opacity-60"></div>
+            <svg class="w-10 h-10 text-white relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
         </div>
-        <h1 class="text-3xl font-bold text-white mb-2">Welcome to AuraOS</h1>
-        <p class="text-gray-400">Sign in to access your workspace</p>
+        
+        <h1 class="text-4xl font-bold mb-2">
+          <span class="bg-gradient-to-r from-[#00ffff] via-[#ff00ff] to-[#00ff00] bg-clip-text text-transparent animate-gradient drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
+            Welcome to AuraOS
+          </span>
+        </h1>
+        <p class="text-[#00ffff] text-lg font-medium drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Enter the future of computing</p>
       </div>
 
-      <!-- Auth Card -->
-      <div class="bg-dark-lighter/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800 p-8 animate-slide-up">
-        <!-- Tabs -->
-        <div class="flex gap-2 mb-6 bg-dark/50 rounded-xl p-1">
-          <button id="signin-tab" class="flex-1 py-2.5 px-4 rounded-lg font-medium transition-all duration-200 text-white bg-primary shadow-lg shadow-primary/30">
-            Sign In
+      <!-- Auth Card with Dark Glass Morphism & Neon Border -->
+      <div class="relative bg-[#0d0d15]/60 backdrop-blur-2xl rounded-3xl shadow-[0_0_50px_rgba(0,255,255,0.3)] border-2 border-[#00ffff]/30 p-8 animate-slide-up overflow-hidden">
+        <!-- Card Neon Glow Effect -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#ff00ff]/5 via-transparent to-[#00ffff]/5 rounded-3xl"></div>
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-[#ff00ff]/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-[#00ffff]/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10">
+        <!-- Tabs with Neon Theme -->
+        <div class="flex gap-2 mb-6 bg-black/50 backdrop-blur-sm rounded-2xl p-1.5 border border-[#00ffff]/20">
+          <button id="signin-tab" class="flex-1 py-3 px-4 rounded-xl font-bold transition-all duration-300 text-white bg-gradient-to-r from-[#ff00ff] to-[#00ffff] shadow-[0_0_20px_rgba(0,255,255,0.5)] relative overflow-hidden group">
+            <span class="relative z-10 drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]">Sign In</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#00ffff] to-[#ff00ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
-          <button id="signup-tab" class="flex-1 py-2.5 px-4 rounded-lg font-medium transition-all duration-200 text-gray-400 hover:text-white">
+          <button id="signup-tab" class="flex-1 py-3 px-4 rounded-xl font-bold transition-all duration-300 text-[#00ffff]/60 hover:text-[#00ffff] hover:bg-[#00ffff]/10 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]">
             Sign Up
           </button>
         </div>
@@ -39,21 +75,21 @@ import Layout from '../layouts/Layout.astro';
         <!-- Sign In Form -->
         <form id="signin-form" class="space-y-4">
           <div>
-            <label for="signin-email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+            <label for="signin-email" class="block text-sm font-bold text-[#00ffff] mb-2 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Email</label>
             <input
               type="email"
               id="signin-email"
-              class="w-full px-4 py-3 bg-dark/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full px-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#00ffff]/30 rounded-xl text-white placeholder-[#00ffff]/40 focus:outline-none focus:ring-2 focus:ring-[#00ffff] focus:border-[#00ffff] focus:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-300 hover:border-[#00ffff]/50"
               placeholder="you@example.com"
               required
             />
           </div>
           <div>
-            <label for="signin-password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+            <label for="signin-password" class="block text-sm font-bold text-[#00ffff] mb-2 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">Password</label>
             <input
               type="password"
               id="signin-password"
-              class="w-full px-4 py-3 bg-dark/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full px-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#00ffff]/30 rounded-xl text-white placeholder-[#00ffff]/40 focus:outline-none focus:ring-2 focus:ring-[#00ffff] focus:border-[#00ffff] focus:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-300 hover:border-[#00ffff]/50"
               placeholder="••••••••"
               required
             />
@@ -67,9 +103,15 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <button
             type="submit"
-            class="w-full py-3 px-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/50 transition-all duration-200 transform hover:scale-[1.02]"
+            class="relative w-full py-4 px-4 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#00ff00] text-black font-black rounded-xl shadow-[0_0_30px_rgba(0,255,255,0.6)] hover:shadow-[0_0_50px_rgba(0,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.02] overflow-hidden group"
           >
-            Sign In
+            <span class="relative z-10 flex items-center justify-center gap-2 drop-shadow-[0_0_3px_rgba(0,0,0,0.8)]">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+              </svg>
+              SIGN IN
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#00ff00] via-[#00ffff] to-[#ff00ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
         </form>
 
@@ -80,7 +122,7 @@ import Layout from '../layouts/Layout.astro';
             <input
               type="text"
               id="signup-name"
-              class="w-full px-4 py-3 bg-dark/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full px-4 py-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500/50 transition-all duration-300 hover:border-gray-600"
               placeholder="John Doe"
               required
             />
@@ -90,7 +132,7 @@ import Layout from '../layouts/Layout.astro';
             <input
               type="email"
               id="signup-email"
-              class="w-full px-4 py-3 bg-dark/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full px-4 py-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500/50 transition-all duration-300 hover:border-gray-600"
               placeholder="you@example.com"
               required
             />
@@ -100,7 +142,7 @@ import Layout from '../layouts/Layout.astro';
             <input
               type="password"
               id="signup-password"
-              class="w-full px-4 py-3 bg-dark/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full px-4 py-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500/50 transition-all duration-300 hover:border-gray-600"
               placeholder="••••••••"
               required
             />
@@ -110,16 +152,22 @@ import Layout from '../layouts/Layout.astro';
             <input
               type="password"
               id="signup-confirm"
-              class="w-full px-4 py-3 bg-dark/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full px-4 py-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500/50 transition-all duration-300 hover:border-gray-600"
               placeholder="••••••••"
               required
             />
           </div>
           <button
             type="submit"
-            class="w-full py-3 px-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/50 transition-all duration-200 transform hover:scale-[1.02]"
+            class="relative w-full py-4 px-4 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-[1.02] overflow-hidden group"
           >
-            Create Account
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+              </svg>
+              Create Account
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
         </form>
 
@@ -134,28 +182,51 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- Social Login -->
-        <div class="grid grid-cols-2 gap-3">
-          <button class="flex items-center justify-center gap-2 py-3 px-4 bg-dark/50 border border-gray-700 rounded-xl text-gray-300 hover:bg-dark hover:border-gray-600 transition-all duration-200">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <div class="space-y-3">
+          <button id="google-signin" class="w-full flex items-center justify-center gap-3 py-3.5 px-4 bg-white hover:bg-gray-50 border border-gray-300 rounded-xl text-gray-700 font-semibold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg group">
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-            Google
+            <span>Continue with Google</span>
           </button>
-          <button class="flex items-center justify-center gap-2 py-3 px-4 bg-dark/50 border border-gray-700 rounded-xl text-gray-300 hover:bg-dark hover:border-gray-600 transition-all duration-200">
+          
+          <button id="github-signin" class="w-full flex items-center justify-center gap-3 py-3.5 px-4 bg-gray-900 hover:bg-gray-800 border border-gray-700 rounded-xl text-white font-semibold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-gray-900/50 group">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
-            GitHub
+            <span>Continue with GitHub</span>
           </button>
+          
+          <button id="guest-signin" class="w-full flex items-center justify-center gap-3 py-3.5 px-4 bg-black/30 backdrop-blur-sm hover:bg-black/50 border border-gray-700/50 rounded-xl text-gray-300 hover:text-white font-semibold transition-all duration-300 transform hover:scale-[1.02] group">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span>Continue as Guest</span>
+          </button>
+        </div>
+        
+        </div>
+      </div>
+
+      <!-- Debug Info -->
+      <div class="mt-4 p-3 bg-black/50 rounded-xl border border-[#00ffff]/20 text-xs">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[#00ffff] font-bold">🔧 Debug Mode</span>
+          <button id="test-connection" class="px-3 py-1 bg-[#00ffff]/20 hover:bg-[#00ffff]/30 rounded text-[#00ffff] text-xs font-bold transition-all">
+            Test Connection
+          </button>
+        </div>
+        <div id="debug-output" class="text-[#00ffff]/60 font-mono text-[10px] max-h-32 overflow-y-auto">
+          Waiting for actions...
         </div>
       </div>
 
       <!-- Footer -->
-      <p class="text-center text-gray-400 text-sm mt-6 animate-fade-in">
-        By continuing, you agree to our <a href="#" class="text-primary hover:text-primary-light transition-colors">Terms of Service</a> and <a href="#" class="text-primary hover:text-primary-light transition-colors">Privacy Policy</a>
+      <p class="text-center text-[#00ffff]/60 text-sm mt-6 animate-fade-in">
+        By continuing, you agree to our <a href="#" class="text-[#00ffff] hover:text-[#ff00ff] transition-colors">Terms of Service</a> and <a href="#" class="text-[#00ffff] hover:text-[#ff00ff] transition-colors">Privacy Policy</a>
       </p>
     </div>
   </div>
@@ -167,27 +238,100 @@ import Layout from '../layouts/Layout.astro';
       signInWithEmailAndPassword, 
       createUserWithEmailAndPassword,
       signInWithPopup,
+      signInAnonymously,
       GoogleAuthProvider,
       GithubAuthProvider
     } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyDqpCr3Gh0ZuA7-Frdrl9h1NWZ8gcGCTjI",
-      authDomain: "adept-student-469614-k2.firebaseapp.com",
-      databaseURL: "https://adept-student-469614-k2-default-rtdb.firebaseio.com",
-      projectId: "adept-student-469614-k2",
-      storageBucket: "adept-student-469614-k2.firebasestorage.app",
-      messagingSenderId: "436679358368",
-      appId: "1:436679358368:web:48c801ddca460d759c96c5",
-      measurementId: "G-F482TZLQ5B"
+      apiKey: "AIzaSyBmrG7iMS7hn46IRdRBrYVOd0ZJFTSBvX8",
+      authDomain: "auraos-ac2e0.firebaseapp.com",
+      projectId: "auraos-ac2e0",
+      storageBucket: "auraos-ac2e0.firebasestorage.app",
+      messagingSenderId: "53322697327",
+      appId: "1:53322697327:web:224560128eb0605c281b9a",
+      measurementId: "G-PDPF0MH7L8"
     };
 
     // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
-    const githubProvider = new GithubAuthProvider();
+    console.log('🔥 Initializing Firebase...');
+    console.log('📋 Firebase Config:', {
+      apiKey: firebaseConfig.apiKey ? '✓ Present' : '✗ Missing',
+      authDomain: firebaseConfig.authDomain,
+      projectId: firebaseConfig.projectId,
+      storageBucket: firebaseConfig.storageBucket,
+      messagingSenderId: firebaseConfig.messagingSenderId ? '✓ Present' : '✗ Missing',
+      appId: firebaseConfig.appId ? '✓ Present' : '✗ Missing',
+      measurementId: firebaseConfig.measurementId ? '✓ Present' : '✗ Missing'
+    });
+    
+    // Declare variables in outer scope
+    let app;
+    let auth;
+    let googleProvider;
+    let githubProvider;
+    
+    try {
+      app = initializeApp(firebaseConfig);
+      console.log('✅ Firebase App initialized:', app.name);
+      addDebugLog('Firebase App initialized successfully', 'success');
+      
+      auth = getAuth(app);
+      console.log('✅ Firebase Auth initialized');
+      console.log('🔐 Auth instance:', {
+        currentUser: auth.currentUser,
+        config: auth.config
+      });
+      addDebugLog('Firebase Auth initialized successfully', 'success');
+      
+      googleProvider = new GoogleAuthProvider();
+      githubProvider = new GithubAuthProvider();
+      console.log('✅ Auth providers initialized (Google, GitHub)');
+      addDebugLog('Auth providers (Google, GitHub) ready', 'success');
+      
+      // Check if user is already logged in
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          console.log('👤 User already logged in:', {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            emailVerified: user.emailVerified
+          });
+          addDebugLog(`User logged in: ${user.email}`, 'success');
+        } else {
+          console.log('👤 No user logged in');
+          addDebugLog('No user currently logged in');
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Firebase initialization error:', error);
+      addDebugLog(`Firebase init failed: ${error.message}`, 'error');
+      showError('Failed to initialize Firebase. Please refresh the page.');
+    }
+
+    // Test Connection Button
+    const testConnectionBtn = document.getElementById('test-connection');
+    testConnectionBtn?.addEventListener('click', async () => {
+      addDebugLog('Testing Firebase connection...');
+      try {
+        addDebugLog(`Project ID: ${firebaseConfig.projectId}`);
+        addDebugLog(`Auth Domain: ${firebaseConfig.authDomain}`);
+        addDebugLog(`Auth instance: ${auth ? 'OK' : 'FAILED'}`);
+        addDebugLog(`Current user: ${auth.currentUser ? auth.currentUser.email : 'None'}`);
+        
+        // Try to check if auth is working
+        const testEmail = 'test@example.com';
+        addDebugLog(`Testing with email: ${testEmail}`);
+        
+        showSuccess('Firebase connection test completed! Check debug log.');
+      } catch (error) {
+        addDebugLog(`Connection test failed: ${error.message}`, 'error');
+        showError('Connection test failed!');
+      }
+    });
 
     // Tab switching
     const signinTab = document.getElementById('signin-tab');
@@ -196,27 +340,38 @@ import Layout from '../layouts/Layout.astro';
     const signupForm = document.getElementById('signup-form');
 
     signinTab?.addEventListener('click', () => {
-      signinTab.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30');
-      signinTab.classList.remove('text-gray-400');
-      signupTab?.classList.remove('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30');
-      signupTab?.classList.add('text-gray-400');
+      signinTab.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'shadow-lg', 'shadow-purple-500/30');
+      signinTab.classList.remove('text-gray-400', 'hover:bg-gray-800/50');
+      signupTab?.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'shadow-lg', 'shadow-purple-500/30');
+      signupTab?.classList.add('text-gray-400', 'hover:bg-gray-800/50');
       signinForm?.classList.remove('hidden');
       signupForm?.classList.add('hidden');
     });
 
     signupTab?.addEventListener('click', () => {
-      signupTab.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30');
-      signupTab.classList.remove('text-gray-400');
-      signinTab?.classList.remove('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30');
-      signinTab?.classList.add('text-gray-400');
+      signupTab.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'shadow-lg', 'shadow-purple-500/30');
+      signupTab.classList.remove('text-gray-400', 'hover:bg-gray-800/50');
+      signinTab?.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'shadow-lg', 'shadow-purple-500/30');
+      signinTab?.classList.add('text-gray-400', 'hover:bg-gray-800/50');
       signupForm?.classList.remove('hidden');
       signinForm?.classList.add('hidden');
     });
 
+    // Debug output helper
+    function addDebugLog(message, type = 'info') {
+      const debugOutput = document.getElementById('debug-output');
+      const timestamp = new Date().toLocaleTimeString();
+      const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+      const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-[#00ffff]';
+      debugOutput.innerHTML += `<div class="${color}">[${timestamp}] ${icon} ${message}</div>`;
+      debugOutput.scrollTop = debugOutput.scrollHeight;
+    }
+
     // Helper function to show error
     function showError(message) {
+      addDebugLog(message, 'error');
       const errorDiv = document.createElement('div');
-      errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-down';
+      errorDiv.className = 'fixed top-4 right-4 bg-red-500/90 backdrop-blur-sm text-white px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(255,0,0,0.5)] z-50 animate-slide-down border-2 border-red-400';
       errorDiv.textContent = message;
       document.body.appendChild(errorDiv);
       setTimeout(() => errorDiv.remove(), 5000);
@@ -224,8 +379,9 @@ import Layout from '../layouts/Layout.astro';
 
     // Helper function to show success
     function showSuccess(message) {
+      addDebugLog(message, 'success');
       const successDiv = document.createElement('div');
-      successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-down';
+      successDiv.className = 'fixed top-4 right-4 bg-green-500/90 backdrop-blur-sm text-white px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(0,255,0,0.5)] z-50 animate-slide-down border-2 border-green-400';
       successDiv.textContent = message;
       document.body.appendChild(successDiv);
       setTimeout(() => successDiv.remove(), 3000);
@@ -237,13 +393,44 @@ import Layout from '../layouts/Layout.astro';
       const email = document.getElementById('signin-email').value;
       const password = document.getElementById('signin-password').value;
       
+      addDebugLog(`Attempting sign in with: ${email}`);
+      console.log('🔐 Attempting sign in with email:', email);
+      
       try {
+        addDebugLog('Calling signInWithEmailAndPassword...');
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        
+        addDebugLog(`Sign in successful! UID: ${userCredential.user.uid}`, 'success');
+        console.log('✅ Sign in successful:', userCredential.user);
+        
         showSuccess('Welcome back!');
-        setTimeout(() => window.location.href = '/desktop', 1000);
+        setTimeout(() => {
+          addDebugLog('Redirecting to /desktop...');
+          window.location.href = '/desktop';
+        }, 1000);
       } catch (error) {
-        console.error('Sign in error:', error);
-        showError(error.message || 'Failed to sign in. Please check your credentials.');
+        addDebugLog(`Sign in failed: ${error.code} - ${error.message}`, 'error');
+        console.error('❌ Sign in error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        let errorMsg = 'Failed to sign in.';
+        if (error.code === 'auth/user-not-found') {
+          errorMsg = 'No account found with this email. Please sign up first.';
+        } else if (error.code === 'auth/wrong-password') {
+          errorMsg = 'Incorrect password. Please try again.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMsg = 'Invalid email address.';
+        } else if (error.code === 'auth/too-many-requests') {
+          errorMsg = 'Too many failed attempts. Please try again later.';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          errorMsg = '⚠️ Authentication not enabled! Admin needs to enable Email/Password in Firebase Console.';
+          addDebugLog('Go to: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showError(errorMsg);
       }
     });
 
@@ -254,53 +441,242 @@ import Layout from '../layouts/Layout.astro';
       const password = document.getElementById('signup-password').value;
       const confirmPassword = document.getElementById('signup-confirm').value;
       
+      console.log('📝 Attempting sign up with email:', email);
+      
       if (password !== confirmPassword) {
+        console.warn('⚠️ Passwords do not match');
         showError('Passwords do not match!');
         return;
       }
 
       if (password.length < 6) {
+        console.warn('⚠️ Password too short');
         showError('Password must be at least 6 characters long!');
         return;
       }
       
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        console.log('✅ Sign up successful:', userCredential.user);
         showSuccess('Account created successfully!');
         setTimeout(() => window.location.href = '/desktop', 1000);
       } catch (error) {
-        console.error('Sign up error:', error);
-        showError(error.message || 'Failed to create account. Please try again.');
+        addDebugLog(`Sign up failed: ${error.code} - ${error.message}`, 'error');
+        console.error('❌ Sign up error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        let errorMsg = 'Failed to create account.';
+        if (error.code === 'auth/email-already-in-use') {
+          errorMsg = 'This email is already registered. Please sign in instead.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMsg = 'Invalid email address.';
+        } else if (error.code === 'auth/weak-password') {
+          errorMsg = 'Password is too weak. Use at least 6 characters.';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          errorMsg = '⚠️ Authentication not enabled! Admin needs to enable Email/Password in Firebase Console.';
+          addDebugLog('Go to: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showError(errorMsg);
       }
     });
 
     // Google Sign In
-    document.querySelectorAll('button').forEach(button => {
-      if (button.textContent.includes('Google')) {
-        button.addEventListener('click', async () => {
-          try {
-            const result = await signInWithPopup(auth, googleProvider);
-            showSuccess('Signed in with Google!');
-            setTimeout(() => window.location.href = '/desktop', 1000);
-          } catch (error) {
-            console.error('Google sign in error:', error);
-            showError(error.message || 'Failed to sign in with Google.');
-          }
-        });
+    const googleSigninBtn = document.getElementById('google-signin');
+    googleSigninBtn?.addEventListener('click', async () => {
+      console.log('🔵 Attempting Google sign in...');
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        console.log('✅ Google sign in successful:', result.user);
+        showSuccess('Welcome! Signed in with Google');
+        setTimeout(() => window.location.href = '/desktop', 1000);
+      } catch (error) {
+        addDebugLog(`Google sign in failed: ${error.code} - ${error.message}`, 'error');
+        console.error('❌ Google sign in error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        let errorMsg = 'Failed to sign in with Google.';
+        if (error.code === 'auth/operation-not-allowed') {
+          errorMsg = '⚠️ Google Sign-In not enabled! Admin needs to enable Google provider in Firebase Console.';
+          addDebugLog('Go to: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
+        } else if (error.code === 'auth/popup-closed-by-user') {
+          errorMsg = 'Sign-in popup was closed. Please try again.';
+        } else if (error.code === 'auth/cancelled-popup-request') {
+          errorMsg = 'Sign-in was cancelled.';
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showError(errorMsg);
       }
-      
-      if (button.textContent.includes('GitHub')) {
-        button.addEventListener('click', async () => {
-          try {
-            const result = await signInWithPopup(auth, githubProvider);
-            showSuccess('Signed in with GitHub!');
-            setTimeout(() => window.location.href = '/desktop', 1000);
-          } catch (error) {
-            console.error('GitHub sign in error:', error);
-            showError(error.message || 'Failed to sign in with GitHub.');
-          }
-        });
+    });
+    
+    // GitHub Sign In
+    const githubSigninBtn = document.getElementById('github-signin');
+    githubSigninBtn?.addEventListener('click', async () => {
+      console.log('⚫ Attempting GitHub sign in...');
+      try {
+        const result = await signInWithPopup(auth, githubProvider);
+        console.log('✅ GitHub sign in successful:', result.user);
+        showSuccess('Welcome! Signed in with GitHub');
+        setTimeout(() => window.location.href = '/desktop', 1000);
+      } catch (error) {
+        addDebugLog(`GitHub sign in failed: ${error.code} - ${error.message}`, 'error');
+        console.error('❌ GitHub sign in error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        let errorMsg = 'Failed to sign in with GitHub.';
+        if (error.code === 'auth/operation-not-allowed') {
+          errorMsg = '⚠️ GitHub Sign-In not enabled! Admin needs to enable GitHub provider in Firebase Console.';
+          addDebugLog('Go to: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
+        } else if (error.code === 'auth/popup-closed-by-user') {
+          errorMsg = 'Sign-in popup was closed. Please try again.';
+        } else if (error.code === 'auth/cancelled-popup-request') {
+          errorMsg = 'Sign-in was cancelled.';
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showError(errorMsg);
+      }
+    });
+    
+    // Guest Sign In (Anonymous)
+    const guestSigninBtn = document.getElementById('guest-signin');
+    guestSigninBtn?.addEventListener('click', async () => {
+      console.log('👤 Attempting anonymous guest sign in...');
+      addDebugLog('Starting anonymous authentication...', 'info');
+      try {
+        const userCredential = await signInAnonymously(auth);
+        console.log('✅ Anonymous guest signed in:', userCredential.user);
+        addDebugLog('Anonymous authentication successful', 'success');
+        
+        // Store guest status in localStorage
+        localStorage.setItem('isGuest', 'true');
+        localStorage.setItem('guestUid', userCredential.user.uid);
+        
+        showSuccess('Welcome, Guest! Exploring AuraOS...');
+        setTimeout(() => window.location.href = '/desktop', 1000);
+      } catch (error) {
+        addDebugLog(`Anonymous sign in failed: ${error.code} - ${error.message}`, 'error');
+        console.error('❌ Anonymous guest sign in error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        let errorMsg = 'Failed to create guest session.';
+        if (error.code === 'auth/operation-not-allowed') {
+          errorMsg = '⚠️ Guest Mode requires Email/Password authentication to be enabled in Firebase Console.';
+          addDebugLog('Go to: https://console.firebase.google.com/project/auraos-ac2e0/authentication/providers', 'error');
+        } else {
+          errorMsg = error.message;
+        }
+        
+        showError(errorMsg);
       }
     });
   </script>
+
+  <style>
+    /* Space Background Stars */
+    .stars, .stars2, .stars3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .stars {
+      background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><circle cx="1" cy="1" r="0.5" fill="%2300ffff" opacity="0.9"/></svg>') repeat;
+      animation: animateStars 100s linear infinite;
+      filter: drop-shadow(0 0 2px #00ffff);
+    }
+
+    .stars2 {
+      background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3" height="3"><circle cx="1.5" cy="1.5" r="0.8" fill="%23ff00ff" opacity="0.8"/></svg>') repeat;
+      animation: animateStars 150s linear infinite;
+      filter: drop-shadow(0 0 2px #ff00ff);
+    }
+
+    .stars3 {
+      background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="0.6" fill="%2300ff00" opacity="0.7"/></svg>') repeat;
+      animation: animateStars 200s linear infinite;
+      filter: drop-shadow(0 0 2px #00ff00);
+    }
+
+    @keyframes animateStars {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-2000px); }
+    }
+
+    @keyframes animate-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .animate-float {
+      animation: animate-float 6s ease-in-out infinite;
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-reverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    .animate-spin-slow {
+      animation: spin-slow 20s linear infinite;
+    }
+
+    .animate-spin-reverse {
+      animation: spin-reverse 15s linear infinite;
+    }
+
+    @keyframes gradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .animate-gradient {
+      background-size: 200% 200%;
+      animation: gradient 3s ease infinite;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out;
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-slide-up {
+      animation: slide-up 0.8s ease-out;
+    }
+
+    @keyframes slide-down {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-slide-down {
+      animation: slide-down 0.4s ease-out;
+    }
+  </style>
 </Layout>
