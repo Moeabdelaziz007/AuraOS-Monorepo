@@ -7,12 +7,18 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@auraos/firebase': path.resolve(__dirname, '../firebase/src'),
-      '@auraos/hooks': path.resolve(__dirname, '../hooks/src'),
+      '@auraos/core': path.resolve(__dirname, '../core/src'),
+      '@auraos/ai': path.resolve(__dirname, '../ai/src'),
+      '@auraos/common': path.resolve(__dirname, '../common/src'),
+      '@auraos/firebase': path.resolve(__dirname, '../firebase/src/index.ts'),
+      '@auraos/hooks': path.resolve(__dirname, '../hooks/src/index.ts'),
     },
   },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
   },
 });

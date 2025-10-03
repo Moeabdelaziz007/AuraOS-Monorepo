@@ -5,11 +5,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { firestoreService } from '@auraos/firebase/services/firestore.service';
-import { useAuth } from '@auraos/ui/contexts/AuthContext';
 import type { UserProfile, UserPreferences } from '@auraos/firebase/types/user';
 
-export function useUserProfile() {
-  const { user } = useAuth();
+export function useUserProfile(user: any = null) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

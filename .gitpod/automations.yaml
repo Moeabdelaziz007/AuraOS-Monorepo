@@ -1,0 +1,54 @@
+tasks:
+    build-ui:
+        name: Build UI
+        command: |
+            echo "Building AuraOS UI..."
+            cd packages/ui
+            rm -rf dist
+            npx vite build
+            echo "✅ UI build complete"
+        triggeredBy:
+        - manual
+
+    deploy-firebase:
+        name: Deploy to Firebase
+        command: |
+            echo "Deploying to Firebase Hosting..."
+            
+            # Check if FIREBASE_TOKEN is set
+            if [ -z "$FIREBASE_TOKEN" ]; then
+                echo "❌ Error: FIREBASE_TOKEN environment variable is not set"
+                echo "Please set it in Gitpod settings: https://gitpod.io/user/variables"
+                echo "Generate token with: firebase login:ci"
+                exit 1
+            fi
+            
+            # Build UI first
+            echo "Building UI..."
+            cd packages/ui
+            rm -rf dist
+            npx vite build
+            cd ../..
+            
+            # Deploy to Firebase
+            echo "Deploying to Firebase..."
+            firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+            
+            echo "✅ Deployment complete!"
+            echo "🌐 Your app is live at: https://selfos-62f70.web.app"
+        triggeredBy:
+        - manual
+
+services:
+    ui-dev:
+        name: UI Development Server
+        description: Vite development server for AuraOS UI
+        commands:
+            start: |
+                cd packages/ui
+                npm run dev -- --host 0.0.0.0 --port 3000
+            ready: |
+                curl -f http://localhost:3000 > /dev/null 2>&1
+        triggeredBy:
+            - manual
+

@@ -4,12 +4,10 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { learningLoopService } from '@auraos/core/learning/learning-loop.service';
-import { useAuth } from '@auraos/ui/contexts/AuthContext';
+// import { learningLoopService } from '@auraos/core/learning/learning-loop.service';
 import type { Insight, LearningPattern, LearningSession } from '@auraos/firebase/types/user';
 
-export function useLearningLoop() {
-  const { user } = useAuth();
+export function useLearningLoop(user: any = null) {
   const [insights, setInsights] = useState<Insight[]>([]);
   const [patterns, setPatterns] = useState<LearningPattern[]>([]);
   const [sessions, setSessions] = useState<LearningSession[]>([]);
