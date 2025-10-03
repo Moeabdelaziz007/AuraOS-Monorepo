@@ -7,23 +7,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@auraos/firebase': path.resolve(__dirname, '../firebase/src'),
+      '@auraos/hooks': path.resolve(__dirname, '../hooks/src'),
     },
   },
   build: {
-    lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'AuraOSUI',
-      formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-      },
-    },
+    outDir: 'dist',
+    emptyOutDir: true,
   },
 });
