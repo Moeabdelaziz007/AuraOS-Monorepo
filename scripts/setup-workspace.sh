@@ -77,21 +77,45 @@ else
     report_success ".env already exists"
 fi
 
-# 5. Setup Git hooks (optional)
+# 5. Setup Git hooks
 report_step "Setting up Git hooks..."
 if [ -d ".git" ]; then
     # Pre-commit hook
-    cat > .git/hooks/pre-commit << 'EOF'
+    if [ -f "scripts/pre-commit-hook.sh" ]; then
+        cp scripts/pre-commit-hook.sh .git/hooks/pre-commit
+        chmod +x .git/hooks/pre-commit
+        report_success "Git pre-commit hook installed"
+    else
+        # Fallback to simple hook
+        cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/bash
 echo "Running pre-commit checks..."
 npm run auto-check
 if [ $? -ne 0 ]; then
     echo "❌ Pre-commit checks failed. Fix errors before committing."
+    echo "Use 'git commit --no-verify' to skip (not recommended)"
     exit 1
 fi
 EOF
-    chmod +x .git/hooks/pre-commit
-    report_success "Git pre-commit hook installed"
+        chmod +x .git/hooks/pre-commit
+        report_success "Git pre-commit hook installed (basic)"
+    fi
+    
+    # Pre-push hook
+    cat > .git/hooks/pre-push << 'EOF'
+#!/bin/bash
+echo "Running pre-push security audit..."
+if [ -f "scripts/security-audit.sh" ]; then
+    ./scripts/security-audit.sh
+    if [ $? -ne 0 ]; then
+        echo "❌ Security audit failed. Fix issues before pushing."
+        echo "Use 'git push --no-verify' to skip (not recommended)"
+        exit 1
+    fi
+fi
+EOF
+    chmod +x .git/hooks/pre-push
+    report_success "Git pre-push hook installed"
 else
     report_warning "Not a Git repository, skipping hooks"
 fi

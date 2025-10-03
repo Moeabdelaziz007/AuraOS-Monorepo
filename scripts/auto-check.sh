@@ -161,11 +161,36 @@ fi
 # 9. Check for common issues
 echo -e "${BLUE}🔍 Checking for common issues...${NC}"
 
-# Check for hardcoded secrets
-if grep -r "sk-" packages/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null | grep -v "node_modules" | grep -v ".env"; then
-    report_error "Potential hardcoded API keys found"
+# Check for hardcoded secrets (comprehensive patterns)
+SECRET_PATTERNS=(
+    "sk-[a-zA-Z0-9]{32,}"           # OpenAI keys
+    "AIza[0-9A-Za-z\\-_]{35}"       # Google API keys
+    "ya29\\.[0-9A-Za-z\\-_]+"       # Google OAuth tokens
+    "[0-9]+-[0-9A-Za-z_]{32}\\.apps\\.googleusercontent\\.com"  # Google OAuth client
+    "AKIA[0-9A-Z]{16}"              # AWS access key
+    "[0-9a-zA-Z/+]{40}"             # AWS secret key pattern
+    "ghp_[0-9a-zA-Z]{36}"           # GitHub personal access token
+    "gho_[0-9a-zA-Z]{36}"           # GitHub OAuth token
+    "mongodb\\+srv://[^\"'\\s]+"    # MongoDB connection string
+    "postgres://[^\"'\\s]+"         # PostgreSQL connection string
+    "mysql://[^\"'\\s]+"            # MySQL connection string
+    "Bearer [a-zA-Z0-9\\-._~+/]+"   # Bearer tokens
+    "password[\"']?\\s*[:=]\\s*[\"'][^\"']{8,}[\"']"  # Hardcoded passwords
+)
+
+SECRETS_FOUND=0
+for pattern in "${SECRET_PATTERNS[@]}"; do
+    if grep -rE "$pattern" packages/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null | grep -v "node_modules" | grep -v ".env" | grep -v "test" | grep -v "mock" | head -1 > /dev/null; then
+        SECRETS_FOUND=1
+        break
+    fi
+done
+
+if [ $SECRETS_FOUND -eq 1 ]; then
+    report_error "Potential hardcoded secrets found"
+    echo -e "${YELLOW}  Run: grep -rE 'sk-|AIza|AKIA' packages/ --include='*.ts' --include='*.tsx'${NC}"
 else
-    report_success "No hardcoded API keys detected"
+    report_success "No hardcoded secrets detected"
 fi
 
 # Check for console.log in production code
@@ -174,6 +199,27 @@ if [ "$LOG_COUNT" -gt 10 ]; then
     report_warning "Found $LOG_COUNT console.log statements (consider removing for production)"
 else
     report_success "Console.log usage is acceptable"
+fi
+
+# Check for eval() usage (security risk)
+if grep -r "eval(" packages/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null | grep -v "node_modules" | head -1 > /dev/null; then
+    report_error "eval() usage found (security risk)"
+else
+    report_success "No eval() usage detected"
+fi
+
+# Check for dangerouslySetInnerHTML
+DANGEROUS_HTML=$(grep -r "dangerouslySetInnerHTML" packages/ui/src --include="*.tsx" 2>/dev/null | wc -l || echo "0")
+if [ "$DANGEROUS_HTML" -gt 0 ]; then
+    report_warning "Found $DANGEROUS_HTML uses of dangerouslySetInnerHTML (potential XSS risk)"
+else
+    report_success "No dangerouslySetInnerHTML usage"
+fi
+
+# Check for TODO/FIXME comments
+TODO_COUNT=$(grep -r "TODO\|FIXME" packages/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null | grep -v "node_modules" | wc -l || echo "0")
+if [ "$TODO_COUNT" -gt 0 ]; then
+    report_warning "Found $TODO_COUNT TODO/FIXME comments"
 fi
 
 # 10. Security checks
@@ -193,8 +239,43 @@ if [ -f ".gitignore" ]; then
     else
         report_warning ".env not found in .gitignore"
     fi
+    
+    # Check for other sensitive files in .gitignore
+    SENSITIVE_FILES=("*.key" "*.pem" "*.p12" "*.pfx" ".DS_Store" "*.log" "npm-debug.log*" "yarn-debug.log*" "yarn-error.log*")
+    for file in "${SENSITIVE_FILES[@]}"; do
+        if ! grep -q "$file" .gitignore; then
+            report_warning "$file not in .gitignore"
+        fi
+    done
 else
     report_error ".gitignore not found"
+fi
+
+# Check for exposed Firebase config
+if grep -r "apiKey.*AIza" packages/ui/src --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "import.meta.env" | head -1 > /dev/null; then
+    report_error "Firebase config may be hardcoded (should use environment variables)"
+else
+    report_success "Firebase config uses environment variables"
+fi
+
+# Check for weak dependencies (known vulnerabilities)
+if command -v npm &> /dev/null; then
+    echo -e "${BLUE}  Checking for vulnerable dependencies...${NC}"
+    if npm audit --audit-level=high 2>&1 | grep -q "found.*vulnerabilities"; then
+        report_warning "Vulnerable dependencies found (run: npm audit fix)"
+    else
+        report_success "No high-severity vulnerabilities"
+    fi
+fi
+
+# Check CORS configuration
+if grep -r "cors.*origin.*\*" packages/ --include="*.ts" --include="*.js" 2>/dev/null | grep -v "node_modules" | head -1 > /dev/null; then
+    report_warning "CORS configured to allow all origins (security risk in production)"
+fi
+
+# Check for HTTP URLs in production code
+if grep -r "http://" packages/ui/src --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "localhost" | grep -v "127.0.0.1" | head -1 > /dev/null; then
+    report_warning "HTTP URLs found (should use HTTPS in production)"
 fi
 
 # Summary

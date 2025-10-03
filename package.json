@@ -21,6 +21,8 @@
     "auto-deploy": "./scripts/auto-deploy.sh",
     "auto-check": "./scripts/auto-check.sh",
     "auto-debug": "./scripts/auto-debug.sh",
+    "security-audit": "./scripts/security-audit.sh",
+    "quantum-security": "./scripts/quantum-security.sh",
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
     "lint:fix": "pnpm -r lint:fix",
