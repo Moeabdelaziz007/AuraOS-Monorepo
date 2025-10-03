@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { DesktopOS } from './DesktopOS.tsx'
-import './index.css'
-import './DesktopOS.css'
+import App from './App.tsx'
+import './App.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <DesktopOS />
+    <App />
   </React.StrictMode>,
 )

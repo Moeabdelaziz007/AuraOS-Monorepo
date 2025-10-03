@@ -8,8 +8,8 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@auraos/core': path.resolve(__dirname, '../core/src'),
-      '@auraos/ai': path.resolve(__dirname, '../ai/src'),
-      '@auraos/common': path.resolve(__dirname, '../common/src'),
+      '@auraos/ai': path.resolve(__dirname, '../ai/src/index.ts'),
+      '@auraos/common': path.resolve(__dirname, '../common/src/index.ts'),
       '@auraos/firebase': path.resolve(__dirname, '../firebase/src/index.ts'),
       '@auraos/hooks': path.resolve(__dirname, '../hooks/src/index.ts'),
     },
