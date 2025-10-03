@@ -1,0 +1,24 @@
+{
+  "name": "@auraos/telegram",
+  "version": "1.0.0",
+  "description": "AuraOS Telegram Bot Service",
+  "main": "./src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "test": "echo \"No tests yet\"",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "eslint src --ext .js --fix"
+  },
+  "keywords": ["auraos", "telegram", "bot"],
+  "author": "Mohamed Abdelaziz",
+  "license": "MIT",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.66.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}

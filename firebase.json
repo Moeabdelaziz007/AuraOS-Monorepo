@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "packages/ui/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -19,6 +19,23 @@
           {
             "key": "Cache-Control",
             "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
           }
         ]
       }
