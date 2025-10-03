@@ -1,9 +1,15 @@
+// Import from @auraos/core when available
+// For now, use local implementation
+
 export type CommandResult = {
   type: 'success' | 'error' | 'info';
   message: string;
 };
 
-// Built-in commands
+// TODO: Replace with @auraos/core CommandParser
+// import { CommandParser } from '@auraos/core/command-parser';
+
+// Built-in commands (temporary until @auraos/core integration)
 const builtInCommands: Record<string, (args: string[]) => Promise<CommandResult> | CommandResult> = {
   help: () => ({
     type: 'info',
