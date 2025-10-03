@@ -9,6 +9,8 @@ export * from './autopilot.service';
 export * from './smart-analyzer';
 export * from './reward-system';
 export * from './storage';
+export * from './mcp-integration';
+export * from './mcp-servers';
 
 export { autopilotService } from './autopilot.service';
 export { smartAnalyzer } from './smart-analyzer';
