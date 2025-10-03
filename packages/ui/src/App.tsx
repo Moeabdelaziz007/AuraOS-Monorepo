@@ -4,6 +4,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import { AuthPage } from './pages/AuthPage';
 import { Dashboard } from './pages/Dashboard';
 import { DesktopOS } from './pages/DesktopOS';
+import { PricingPage } from './pages/PricingPage';
+import { ContentGeneratorPage } from './pages/ContentGeneratorPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import './App.css';
 
@@ -30,6 +32,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/content-generator"
+            element={
+              <ProtectedRoute>
+                <ContentGeneratorPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/pricing" element={<PricingPage />} />
           <Route path="/" element={<Navigate to="/desktop" replace />} />
         </Routes>
       </BrowserRouter>
