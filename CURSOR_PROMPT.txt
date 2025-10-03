@@ -1,0 +1,22 @@
+Deploy the Content Generator MVP to Firebase and give me the live URL.
+
+Repository: https://github.com/Moeabdelaziz007/AuraOS-Monorepo
+Firebase Project: selfos-62f70
+
+All code is complete and ready. Just run:
+
+1. git pull origin main
+2. npm install -g pnpm@8.15.0 firebase-tools
+3. pnpm install
+4. firebase login
+5. firebase deploy
+
+Expected live URL: https://selfos-62f70.web.app/content-generator
+
+The .env file with Gemini API key is already committed at: services/firebase/functions/.env
+
+If you encounter build errors, try:
+- cd packages/ui && npx vite build
+- Then: firebase deploy --only hosting
+
+Provide the live URL when done.
