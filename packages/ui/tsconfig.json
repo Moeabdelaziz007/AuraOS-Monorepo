@@ -13,6 +13,7 @@
       "@/": ["src/*"],
       "@auraos/core/*": ["../core/src/*"],
       "@auraos/ai": ["../ai/src/index.ts"],
+      "@auraos/common": ["../common/src/index.ts"],
       "@auraos/firebase": ["../firebase/src/index.ts"],
       "@auraos/hooks": ["../hooks/src/index.ts"]
     }

@@ -8,10 +8,6 @@ import { firestoreService } from '@auraos/firebase/services/firestore.service';
 import type { UserProfile, UserPreferences } from '@auraos/firebase/types/user';
 
 export function useUserProfile(user: any = null) {
-// Define a minimal user type for the hook's dependency
-type AuthUser = { uid: string } | null;
-
-export function useUserProfile(user: AuthUser) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
