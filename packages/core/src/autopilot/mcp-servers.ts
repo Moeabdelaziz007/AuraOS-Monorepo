@@ -119,12 +119,12 @@ export const MCP_SERVERS: MCPServerConfig[] = [
     ],
   },
 
-  // n8n Workflow Integration
+  // n8n Workflow Integration (Your Fork)
   {
     name: 'n8n',
-    description: 'Workflow automation with AI integration',
+    description: 'Workflow automation with AI integration (https://github.com/Moeabdelaziz007/n8n)',
     endpoint: 'http://localhost:5678/webhook',
-    enabled: false,
+    enabled: true,
     category: 'self-hosted',
     provider: 'n8n',
     tools: [
@@ -143,6 +143,25 @@ export const MCP_SERVERS: MCPServerConfig[] = [
         parameters: [
           { name: 'query', type: 'string', description: 'Search query', required: true },
           { name: 'summary_length', type: 'string', description: 'short, medium, long', required: false },
+        ],
+        category: 'ai',
+      },
+      {
+        name: 'n8n_content_generation',
+        description: 'Generate content using n8n workflow',
+        parameters: [
+          { name: 'topic', type: 'string', description: 'Content topic', required: true },
+          { name: 'type', type: 'string', description: 'blog, social, email', required: true },
+          { name: 'language', type: 'string', description: 'ar, en', required: false },
+        ],
+        category: 'ai',
+      },
+      {
+        name: 'n8n_telegram_bot',
+        description: 'Process Telegram messages with n8n',
+        parameters: [
+          { name: 'message', type: 'string', description: 'User message', required: true },
+          { name: 'chat_id', type: 'string', description: 'Telegram chat ID', required: true },
         ],
         category: 'ai',
       },
