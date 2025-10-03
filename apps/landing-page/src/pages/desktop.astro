@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="AuraOS Desktop">
+  <div class="min-h-screen bg-gradient-to-br from-dark via-dark-lighter to-dark-light">
+    <!-- Desktop Environment Placeholder -->
+    <div class="flex flex-col h-screen">
+      <!-- Top Bar -->
+      <div class="bg-dark-lighter/90 backdrop-blur-xl border-b border-gray-800 px-4 py-2 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <span class="text-white font-semibold">AuraOS</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-400">
+            <span id="current-time">--:--</span>
+            <span>|</span>
+            <span id="current-date">--- --, ----</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="p-2 hover:bg-dark rounded-lg transition-colors" title="Settings">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </button>
+          <button class="p-2 hover:bg-dark rounded-lg transition-colors" title="Notifications">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+            </svg>
+          </button>
+          <button id="logout-btn" class="p-2 hover:bg-dark rounded-lg transition-colors" title="Logout">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Desktop Area -->
+      <div class="flex-1 p-8 overflow-auto">
+        <div class="max-w-6xl mx-auto">
+          <!-- Welcome Message -->
+          <div class="bg-dark-lighter/80 backdrop-blur-xl rounded-2xl border border-gray-800 p-8 mb-6 animate-fade-in">
+            <h1 class="text-3xl font-bold text-white mb-2">Welcome to AuraOS Desktop</h1>
+            <p class="text-gray-400">Your intelligent workspace is ready. Start exploring the future of computing.</p>
+          </div>
+
+          <!-- App Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- File Manager -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in">
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-blue-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">Files</h3>
+              <p class="text-xs text-gray-400">Browse files</p>
+            </button>
+
+            <!-- Terminal -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.1s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-green-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">Terminal</h3>
+              <p class="text-xs text-gray-400">Command line</p>
+            </button>
+
+            <!-- Browser -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.2s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-purple-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">Browser</h3>
+              <p class="text-xs text-gray-400">Web browsing</p>
+            </button>
+
+            <!-- Settings -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.3s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-orange-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">Settings</h3>
+              <p class="text-xs text-gray-400">System config</p>
+            </button>
+
+            <!-- AI Assistant -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.4s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-primary/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">AI Assistant</h3>
+              <p class="text-xs text-gray-400">Smart help</p>
+            </button>
+
+            <!-- Code Editor -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.5s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-indigo-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">Code Editor</h3>
+              <p class="text-xs text-gray-400">Development</p>
+            </button>
+
+            <!-- App Store -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.6s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-teal-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">App Store</h3>
+              <p class="text-xs text-gray-400">Get apps</p>
+            </button>
+
+            <!-- System Monitor -->
+            <button class="group bg-dark-lighter/60 hover:bg-dark-lighter backdrop-blur-xl rounded-xl border border-gray-800 hover:border-primary/50 p-6 transition-all duration-200 hover:scale-105 animate-scale-in" style="animation-delay: 0.7s;">
+              <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-yellow-500/50 transition-shadow">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-white font-semibold mb-1">Monitor</h3>
+              <p class="text-xs text-gray-400">System stats</p>
+            </button>
+          </div>
+
+          <!-- Coming Soon Notice -->
+          <div class="mt-8 bg-primary/10 border border-primary/30 rounded-xl p-6 text-center animate-fade-in">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-primary/20 rounded-full mb-3">
+              <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-white font-semibold mb-2">Desktop Environment Coming Soon</h3>
+            <p class="text-gray-400 text-sm">The full AuraOS desktop experience is currently in development. Stay tuned for updates!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Update time and date
+    function updateDateTime() {
+      const now = new Date();
+      const timeEl = document.getElementById('current-time');
+      const dateEl = document.getElementById('current-date');
+      
+      if (timeEl) {
+        timeEl.textContent = now.toLocaleTimeString('en-US', { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+      }
+      
+      if (dateEl) {
+        dateEl.textContent = now.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        });
+      }
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // Logout functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to logout?')) {
+        window.location.href = '/';
+      }
+    });
+
+    // App click handlers (placeholder)
+    document.querySelectorAll('.group').forEach(button => {
+      button.addEventListener('click', function() {
+        const appName = this.querySelector('h3')?.textContent;
+        console.log(`Opening ${appName}...`);
+        // TODO: Implement actual app launching
+      });
+    });
+  </script>
+</Layout>
