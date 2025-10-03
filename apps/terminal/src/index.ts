@@ -1,21 +1,25 @@
 /**
  * AuraOS Terminal App
- * Terminal emulator with BASIC interpreter integration
+ * AI-powered terminal with MCP integration
  */
 
 export { TerminalApp } from './components/TerminalApp';
 export { TerminalEmulator } from './components/TerminalEmulator';
-export { CommandHistory } from './components/CommandHistory';
-export { AutoComplete } from './components/AutoComplete';
 
 export type {
   TerminalConfig,
   Command,
   CommandResult,
   TerminalTheme,
-  TerminalSettings
+  TerminalSettings,
+  EmulatorState,
+  BasicCommand
 } from './types';
 
 export { useTerminal } from './hooks/useTerminal';
 export { useCommandHistory } from './hooks/useCommandHistory';
 export { useAutoComplete } from './hooks/useAutoComplete';
+
+export { CommandParser } from './commands/CommandParser';
+export { ClientCommands } from './commands/ClientCommands';
+export { AICommandExecutor } from './commands/AICommandExecutor';
