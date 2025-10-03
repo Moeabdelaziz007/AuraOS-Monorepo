@@ -15,7 +15,7 @@ export function Dashboard() {
   const { loading: learningLoading } = useLearningLoop();
 
   const handleNavigate = (path: string) => {
-    console.log('Navigate to:', path);
+    logger.info('Navigate to:', path);
     // Implement navigation logic
   };
 
@@ -52,11 +52,11 @@ export function Dashboard() {
         
         {/* Data Table for Projects/Workflows */}
         <DataTable 
-          onEdit={(id) => console.log('Edit project:', id)}
-          onDelete={(id) => console.log('Delete project:', id)}
-          onDuplicate={(id) => console.log('Duplicate project:', id)}
-          onExport={(ids) => console.log('Export projects:', ids)}
-          onArchive={(ids) => console.log('Archive projects:', ids)}
+          onEdit={(id) => logger.info('Edit project:', id)}
+          onDelete={(id) => logger.info('Delete project:', id)}
+          onDuplicate={(id) => logger.info('Duplicate project:', id)}
+          onExport={(ids) => logger.info('Export projects:', ids)}
+          onArchive={(ids) => logger.info('Archive projects:', ids)}
         />
       </div>
     </Layout>

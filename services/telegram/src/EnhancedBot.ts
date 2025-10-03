@@ -45,41 +45,41 @@ export class EnhancedBot {
   private setupIntegrations(): void {
     // Setup AI integration
     this.ai.on('insight_generated', (data) => {
-      console.log(`💡 AI Insight generated for user ${data.userId}`);
+      logger.info(`💡 AI Insight generated for user ${data.userId}`);
     });
 
     // Setup MCP integration
     this.mcp.on('tool_executed', (data) => {
-      console.log(`🔧 MCP Tool executed: ${data.tool}`);
+      logger.info(`🔧 MCP Tool executed: ${data.tool}`);
     });
 
     // Setup Autopilot integration
     this.autopilot.on('task_executed', (data) => {
-      console.log(`🤖 Autopilot task executed: ${data.taskId}`);
+      logger.info(`🤖 Autopilot task executed: ${data.taskId}`);
     });
 
     // Setup Learning integration
     this.learning.on('insights_generated', (data) => {
-      console.log(`📚 Learning insights generated for user ${data.userId}`);
+      logger.info(`📚 Learning insights generated for user ${data.userId}`);
     });
 
     // Setup Security integration
     this.security.on('suspicious_activity', (data) => {
-      console.log(`🚨 Suspicious activity detected: ${data.activity}`);
+      logger.info(`🚨 Suspicious activity detected: ${data.activity}`);
     });
 
     // Setup Monitoring integration
     this.monitoring.on('system_metrics_updated', (data) => {
-      console.log(`📊 System metrics updated`);
+      logger.info(`📊 System metrics updated`);
     });
 
     // Setup Core integration
     this.core.on('user_joined', (user) => {
-      console.log(`👤 User joined: ${user.username || user.firstName}`);
+      logger.info(`👤 User joined: ${user.username || user.firstName}`);
     });
 
     this.core.on('command_executed', (data) => {
-      console.log(`⚡ Command executed: ${data.command}`);
+      logger.info(`⚡ Command executed: ${data.command}`);
     });
   }
 
@@ -88,7 +88,7 @@ export class EnhancedBot {
    */
   async initialize(): Promise<void> {
     try {
-      console.log('🚀 Initializing Enhanced AuraOS Telegram Bot...');
+      logger.info('🚀 Initializing Enhanced AuraOS Telegram Bot...');
       
       // Register command handlers
       this.registerCommandHandlers();
@@ -97,10 +97,10 @@ export class EnhancedBot {
       await this.core.start();
       
       this.isInitialized = true;
-      console.log('✅ Enhanced AuraOS Telegram Bot initialized successfully!');
+      logger.info('✅ Enhanced AuraOS Telegram Bot initialized successfully!');
       
     } catch (error) {
-      console.error('❌ Enhanced bot initialization failed:', error);
+      logger.error('❌ Enhanced bot initialization failed:', error);
       throw error;
     }
   }
@@ -174,7 +174,7 @@ export class EnhancedBot {
       handler: CommandHandlers.handleLearning
     });
 
-    console.log('📝 Command handlers registered');
+    logger.info('📝 Command handlers registered');
   }
 
   /**
@@ -218,7 +218,7 @@ export class EnhancedBot {
       return aiResponse;
 
     } catch (error) {
-      console.error('❌ Message processing error:', error);
+      logger.error('❌ Message processing error:', error);
       return {
         success: false,
         error: 'Message processing failed',
@@ -250,7 +250,7 @@ export class EnhancedBot {
       return result;
 
     } catch (error) {
-      console.error('❌ MCP tool execution error:', error);
+      logger.error('❌ MCP tool execution error:', error);
       return {
         success: false,
         error: 'MCP tool execution failed',
@@ -282,7 +282,7 @@ export class EnhancedBot {
       return result;
 
     } catch (error) {
-      console.error('❌ Autopilot task execution error:', error);
+      logger.error('❌ Autopilot task execution error:', error);
       return {
         success: false,
         error: 'Autopilot task execution failed',
@@ -343,15 +343,15 @@ export class EnhancedBot {
    */
   async stop(): Promise<void> {
     try {
-      console.log('🛑 Stopping Enhanced AuraOS Telegram Bot...');
+      logger.info('🛑 Stopping Enhanced AuraOS Telegram Bot...');
       
       await this.core.stop();
       
       this.isInitialized = false;
-      console.log('✅ Enhanced AuraOS Telegram Bot stopped successfully!');
+      logger.info('✅ Enhanced AuraOS Telegram Bot stopped successfully!');
       
     } catch (error) {
-      console.error('❌ Enhanced bot stop failed:', error);
+      logger.error('❌ Enhanced bot stop failed:', error);
       throw error;
     }
   }

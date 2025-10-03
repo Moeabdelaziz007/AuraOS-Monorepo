@@ -192,7 +192,7 @@ export class ZAIService extends BaseAIService {
               onChunk({ content, done: false });
             }
           } catch (e) {
-            console.error('Error parsing SSE data:', e);
+            logger.error('Error parsing SSE data:', e);
           }
         }
       }

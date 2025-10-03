@@ -36,7 +36,7 @@ export const createLazyComponent = <T extends ComponentType<any>>(
     <ErrorBoundary
       FallbackComponent={fallback || ErrorFallback}
       onError={(error, errorInfo) => {
-        console.error('Lazy component error:', error, errorInfo);
+        logger.error('Lazy component error:', error, errorInfo);
       }}
     >
       <React.Suspense fallback={<LoadingSpinner />}>
@@ -153,7 +153,7 @@ export const performanceMonitor = {
   },
   
   trackComponentLoad: (componentName: string, loadTime: number) => {
-    console.log(`Component ${componentName} loaded in ${loadTime}ms`);
+    logger.info(`Component ${componentName} loaded in ${loadTime}ms`);
   },
   
   trackMemoryUsage: () => {

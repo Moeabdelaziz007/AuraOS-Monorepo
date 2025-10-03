@@ -60,7 +60,7 @@ const LiveChat = () => {
       const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
       
       newSocket.on('connect', () => {
-        console.log('Connected to AIOS Live Chat');
+        logger.info('Connected to AIOS Live Chat');
         setIsConnected(true);
         
         // Join user room with profile data
@@ -89,7 +89,7 @@ const LiveChat = () => {
       });
 
       newSocket.on('disconnect', () => {
-        console.log('Disconnected from AIOS Live Chat');
+        logger.info('Disconnected from AIOS Live Chat');
         setIsConnected(false);
       });
 
@@ -266,7 +266,7 @@ const LiveChat = () => {
           setShowCreateRoom(false);
         }
       } catch (error) {
-        console.error('Error creating room:', error);
+        logger.error('Error creating room:', error);
       }
     }
   };

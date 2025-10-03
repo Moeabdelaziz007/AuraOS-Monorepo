@@ -29,7 +29,7 @@ export class ContentGeneratorAutopilot {
     // Start continuous analysis
     this.analyzer.startAnalysis(60000);
     
-    console.log('[Content Generator Autopilot] Initialized');
+    logger.info('[Content Generator Autopilot] Initialized');
   }
 
   /**
@@ -95,9 +95,9 @@ export class ContentGeneratorAutopilot {
     const rewardResult = this.rewards.evaluateRewards(result, context);
 
     if (rewardResult.achievements.length > 0) {
-      console.log(`[Content Generator Autopilot] 🏆 User ${userId} unlocked achievements:`);
+      logger.info(`[Content Generator Autopilot] 🏆 User ${userId} unlocked achievements:`);
       rewardResult.achievements.forEach(a => {
-        console.log(`  ${a.icon} ${a.name}`);
+        logger.info(`  ${a.icon} ${a.name}`);
       });
     }
   }
@@ -125,7 +125,7 @@ export class ContentGeneratorAutopilot {
     }
 
     if (favoriteType && maxCount >= 5) {
-      console.log(`[Content Generator Autopilot] User ${userId} frequently generates: ${favoriteType}`);
+      logger.info(`[Content Generator Autopilot] User ${userId} frequently generates: ${favoriteType}`);
       pattern.favoriteType = favoriteType;
     }
 
@@ -256,7 +256,7 @@ export class ContentGeneratorAutopilot {
     const context = this.getContext(userId);
     this.autopilot.learnFromUserActions(actions, context);
 
-    console.log(`[Content Generator Autopilot] Created workflow: ${name}`);
+    logger.info(`[Content Generator Autopilot] Created workflow: ${name}`);
     
     return `workflow_${Date.now()}`;
   }
@@ -286,7 +286,7 @@ export class ContentGeneratorAutopilot {
     
     if (rewardResult.levelUp) {
       const stats = this.rewards.getStats();
-      console.log(`[Content Generator Autopilot] 🎉 User ${userId} reached level ${stats.level}!`);
+      logger.info(`[Content Generator Autopilot] 🎉 User ${userId} reached level ${stats.level}!`);
     }
 
     return result;
@@ -413,7 +413,7 @@ export class ContentGeneratorAutopilot {
    */
   async importData(jsonData: string): Promise<void> {
     await this.autopilot.importData(jsonData);
-    console.log('[Content Generator Autopilot] Data imported successfully');
+    logger.info('[Content Generator Autopilot] Data imported successfully');
   }
 }
 

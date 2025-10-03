@@ -59,7 +59,7 @@ export function useUserProfile(user: any = null) {
     try {
       await firestoreService.user.trackAppUsage(user.uid, appId);
     } catch (err) {
-      console.error('Failed to track app usage:', err);
+      logger.error('Failed to track app usage:', err);
     }
   }, [user]);
 

@@ -40,12 +40,12 @@ const config: BotConfig = {
 
 // Validate configuration
 if (!config.token) {
-  console.error('❌ TELEGRAM_BOT_TOKEN is not set in .env file');
+  logger.error('❌ TELEGRAM_BOT_TOKEN is not set in .env file');
   process.exit(1);
 }
 
 if (!config.adminChatId) {
-  console.error('❌ TELEGRAM_CHAT_ID is not set in .env file');
+  logger.error('❌ TELEGRAM_CHAT_ID is not set in .env file');
   process.exit(1);
 }
 
@@ -55,60 +55,60 @@ const bot = new EnhancedBot(config);
 // Initialize and start the bot
 async function startBot() {
   try {
-    console.log('🚀 Starting Enhanced AuraOS Telegram Bot...');
-    console.log('📱 Bot Token:', config.token.substring(0, 10) + '...');
-    console.log('👤 Admin Chat ID:', config.adminChatId);
-    console.log('🔧 Features:', Object.keys(config.features).filter(key => config.features[key as keyof typeof config.features]));
+    logger.info('🚀 Starting Enhanced AuraOS Telegram Bot...');
+    logger.info('📱 Bot Token:', config.token.substring(0, 10) + '...');
+    logger.info('👤 Admin Chat ID:', config.adminChatId);
+    logger.info('🔧 Features:', Object.keys(config.features).filter(key => config.features[key as keyof typeof config.features]));
     
     await bot.initialize();
     
-    console.log('✅ Enhanced AuraOS Telegram Bot is running!');
-    console.log('🎯 Listening for messages...');
-    console.log('📊 Monitoring active');
-    console.log('🔒 Security enabled');
-    console.log('🧠 AI ready');
-    console.log('🤖 Autopilot active');
-    console.log('📚 Learning enabled');
+    logger.info('✅ Enhanced AuraOS Telegram Bot is running!');
+    logger.info('🎯 Listening for messages...');
+    logger.info('📊 Monitoring active');
+    logger.info('🔒 Security enabled');
+    logger.info('🧠 AI ready');
+    logger.info('🤖 Autopilot active');
+    logger.info('📚 Learning enabled');
     
   } catch (error) {
-    console.error('❌ Failed to start bot:', error);
+    logger.error('❌ Failed to start bot:', error);
     process.exit(1);
   }
 }
 
 // Handle graceful shutdown
 process.on('SIGINT', async () => {
-  console.log('\n🛑 Received SIGINT, shutting down gracefully...');
+  logger.info('\n🛑 Received SIGINT, shutting down gracefully...');
   try {
     await bot.stop();
-    console.log('✅ Bot stopped successfully');
+    logger.info('✅ Bot stopped successfully');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error during shutdown:', error);
+    logger.error('❌ Error during shutdown:', error);
     process.exit(1);
   }
 });
 
 process.on('SIGTERM', async () => {
-  console.log('\n🛑 Received SIGTERM, shutting down gracefully...');
+  logger.info('\n🛑 Received SIGTERM, shutting down gracefully...');
   try {
     await bot.stop();
-    console.log('✅ Bot stopped successfully');
+    logger.info('✅ Bot stopped successfully');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error during shutdown:', error);
+    logger.error('❌ Error during shutdown:', error);
     process.exit(1);
   }
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
-  console.error('❌ Uncaught Exception:', error);
+  logger.error('❌ Uncaught Exception:', error);
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+  logger.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
   process.exit(1);
 });
 

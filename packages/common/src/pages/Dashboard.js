@@ -68,7 +68,7 @@ const Dashboard = () => {
     } catch (err) {
       const errorInfo = handleAPIError(err);
       setError(errorInfo.message);
-      console.error('Dashboard data fetch error:', errorInfo);
+      logger.error('Dashboard data fetch error:', errorInfo);
     } finally {
       setLoading(false);
     }
@@ -80,7 +80,7 @@ const Dashboard = () => {
       const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
       
       newSocket.on('connect', () => {
-        console.log('Connected to AIOS Live Dashboard');
+        logger.info('Connected to AIOS Live Dashboard');
         setIsConnected(true);
         
         // Join user room
@@ -97,7 +97,7 @@ const Dashboard = () => {
       });
 
       newSocket.on('disconnect', () => {
-        console.log('Disconnected from AIOS Live Dashboard');
+        logger.info('Disconnected from AIOS Live Dashboard');
         setIsConnected(false);
       });
 

@@ -274,7 +274,7 @@ export class MCPServerManager {
       });
     });
 
-    console.log(`[MCP Servers] Initialized ${this.servers.size} servers with ${this.toolCache.size} tools`);
+    logger.info(`[MCP Servers] Initialized ${this.servers.size} servers with ${this.toolCache.size} tools`);
   }
 
   /**
@@ -342,7 +342,7 @@ export class MCPServerManager {
     const server = this.servers.get(serverName);
     if (server) {
       server.enabled = enabled;
-      console.log(`[MCP Servers] ${serverName} ${enabled ? 'enabled' : 'disabled'}`);
+      logger.info(`[MCP Servers] ${serverName} ${enabled ? 'enabled' : 'disabled'}`);
     }
   }
 

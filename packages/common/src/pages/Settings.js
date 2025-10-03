@@ -55,7 +55,7 @@ const Settings = () => {
     } catch (err) {
       const errorInfo = handleAPIError(err);
       setError(errorInfo.message);
-      console.error('Settings data fetch error:', errorInfo);
+      logger.error('Settings data fetch error:', errorInfo);
     } finally {
       setLoading(false);
     }

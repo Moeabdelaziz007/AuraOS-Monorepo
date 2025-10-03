@@ -40,8 +40,8 @@ interface TestResult {
  * Run comprehensive quantum autopilot tests
  */
 async function runQuantumTests() {
-  console.log('🌀 Quantum Autopilot - Comprehensive Test Suite');
-  console.log('================================================\n');
+  logger.info('🌀 Quantum Autopilot - Comprehensive Test Suite');
+  logger.info('================================================\n');
 
   const quantum = QuantumAutopilot.getInstance();
 
@@ -90,10 +90,10 @@ async function runQuantumTests() {
   // Run tests
   for (let i = 0; i < testCases.length; i++) {
     const testCase = testCases[i];
-    console.log(`\n${'='.repeat(60)}`);
-    console.log(`Test ${i + 1}/${testCases.length}: ${testCase.name}`);
-    console.log(`Category: ${testCase.category}`);
-    console.log(`${'='.repeat(60)}`);
+    logger.info(`\n${'='.repeat(60)}`);
+    logger.info(`Test ${i + 1}/${testCases.length}: ${testCase.name}`);
+    logger.info(`Category: ${testCase.category}`);
+    logger.info(`${'='.repeat(60)}`);
 
     const comparison = await quantum.compareApproaches(testCase.task);
 
@@ -126,17 +126,17 @@ async function runQuantumTests() {
   }
 
   // Generate comprehensive report
-  console.log('\n\n');
-  console.log('━'.repeat(80));
-  console.log('📊 COMPREHENSIVE TEST RESULTS');
-  console.log('━'.repeat(80));
-  console.log('\n');
+  logger.info('\n\n');
+  logger.info('━'.repeat(80));
+  logger.info('📊 COMPREHENSIVE TEST RESULTS');
+  logger.info('━'.repeat(80));
+  logger.info('\n');
 
   // Summary table
-  console.log('📋 Test Summary:');
-  console.log('─'.repeat(80));
-  console.log('Test Name                          | Winner    | Best Quality | Avg Time');
-  console.log('─'.repeat(80));
+  logger.info('📋 Test Summary:');
+  logger.info('─'.repeat(80));
+  logger.info('Test Name                          | Winner    | Best Quality | Avg Time');
+  logger.info('─'.repeat(80));
   
   results.forEach(result => {
     const bestQuality = Math.max(
@@ -148,25 +148,25 @@ async function runQuantumTests() {
       (result.speed.duration + result.quality.duration + result.balanced.duration) / 3
     );
     
-    console.log(
+    logger.info(
       `${result.testCase.name.padEnd(35)} | ${result.winner.padEnd(9)} | ${(bestQuality * 100).toFixed(1)}%      | ${avgTime}ms`
     );
   });
-  console.log('─'.repeat(80));
-  console.log('\n');
+  logger.info('─'.repeat(80));
+  logger.info('\n');
 
   // Approach comparison
-  console.log('🔬 Approach Comparison:');
-  console.log('─'.repeat(80));
+  logger.info('🔬 Approach Comparison:');
+  logger.info('─'.repeat(80));
   
   const speedWins = results.filter(r => r.winner === 'speed').length;
   const qualityWins = results.filter(r => r.winner === 'quality').length;
   const balancedWins = results.filter(r => r.winner === 'balanced').length;
 
-  console.log(`⚡ Speed Approach:    ${speedWins} wins (${((speedWins / results.length) * 100).toFixed(0)}%)`);
-  console.log(`💎 Quality Approach:  ${qualityWins} wins (${((qualityWins / results.length) * 100).toFixed(0)}%)`);
-  console.log(`⚖️  Balanced Approach: ${balancedWins} wins (${((balancedWins / results.length) * 100).toFixed(0)}%)`);
-  console.log('\n');
+  logger.info(`⚡ Speed Approach:    ${speedWins} wins (${((speedWins / results.length) * 100).toFixed(0)}%)`);
+  logger.info(`💎 Quality Approach:  ${qualityWins} wins (${((qualityWins / results.length) * 100).toFixed(0)}%)`);
+  logger.info(`⚖️  Balanced Approach: ${balancedWins} wins (${((balancedWins / results.length) * 100).toFixed(0)}%)`);
+  logger.info('\n');
 
   // Average metrics by approach
   const avgSpeedQuality = results.reduce((sum, r) => sum + r.speed.quality, 0) / results.length;
@@ -178,19 +178,19 @@ async function runQuantumTests() {
   const avgBalancedQuality = results.reduce((sum, r) => sum + r.balanced.quality, 0) / results.length;
   const avgBalancedTime = results.reduce((sum, r) => sum + r.balanced.duration, 0) / results.length;
 
-  console.log('📈 Average Metrics:');
-  console.log('─'.repeat(80));
-  console.log(`Approach  | Avg Quality | Avg Time | Quality/Time Ratio`);
-  console.log('─'.repeat(80));
-  console.log(`Speed     | ${(avgSpeedQuality * 100).toFixed(1)}%      | ${Math.round(avgSpeedTime)}ms   | ${(avgSpeedQuality / (avgSpeedTime / 1000)).toFixed(2)}`);
-  console.log(`Quality   | ${(avgQualityQuality * 100).toFixed(1)}%      | ${Math.round(avgQualityTime)}ms   | ${(avgQualityQuality / (avgQualityTime / 1000)).toFixed(2)}`);
-  console.log(`Balanced  | ${(avgBalancedQuality * 100).toFixed(1)}%      | ${Math.round(avgBalancedTime)}ms   | ${(avgBalancedQuality / (avgBalancedTime / 1000)).toFixed(2)}`);
-  console.log('─'.repeat(80));
-  console.log('\n');
+  logger.info('📈 Average Metrics:');
+  logger.info('─'.repeat(80));
+  logger.info(`Approach  | Avg Quality | Avg Time | Quality/Time Ratio`);
+  logger.info('─'.repeat(80));
+  logger.info(`Speed     | ${(avgSpeedQuality * 100).toFixed(1)}%      | ${Math.round(avgSpeedTime)}ms   | ${(avgSpeedQuality / (avgSpeedTime / 1000)).toFixed(2)}`);
+  logger.info(`Quality   | ${(avgQualityQuality * 100).toFixed(1)}%      | ${Math.round(avgQualityTime)}ms   | ${(avgQualityQuality / (avgQualityTime / 1000)).toFixed(2)}`);
+  logger.info(`Balanced  | ${(avgBalancedQuality * 100).toFixed(1)}%      | ${Math.round(avgBalancedTime)}ms   | ${(avgBalancedQuality / (avgBalancedTime / 1000)).toFixed(2)}`);
+  logger.info('─'.repeat(80));
+  logger.info('\n');
 
   // Path usage analysis
-  console.log('🛤️  Path Usage Analysis:');
-  console.log('─'.repeat(80));
+  logger.info('🛤️  Path Usage Analysis:');
+  logger.info('─'.repeat(80));
   
   const pathUsage = new Map<string, number>();
   results.forEach(r => {
@@ -202,14 +202,14 @@ async function runQuantumTests() {
   const sortedPaths = Array.from(pathUsage.entries()).sort((a, b) => b[1] - a[1]);
   sortedPaths.forEach(([path, count]) => {
     const percentage = (count / (results.length * 3)) * 100;
-    console.log(`${path.padEnd(35)} | ${count} uses (${percentage.toFixed(1)}%)`);
+    logger.info(`${path.padEnd(35)} | ${count} uses (${percentage.toFixed(1)}%)`);
   });
-  console.log('─'.repeat(80));
-  console.log('\n');
+  logger.info('─'.repeat(80));
+  logger.info('\n');
 
   // Category performance
-  console.log('📂 Performance by Category:');
-  console.log('─'.repeat(80));
+  logger.info('📂 Performance by Category:');
+  logger.info('─'.repeat(80));
   
   const categories = new Set(testCases.map(tc => tc.category));
   categories.forEach(category => {
@@ -218,84 +218,84 @@ async function runQuantumTests() {
       return sum + Math.max(r.speed.quality, r.quality.quality, r.balanced.quality);
     }, 0) / categoryResults.length;
     
-    console.log(`${category.padEnd(20)} | Avg Quality: ${(avgQuality * 100).toFixed(1)}%`);
+    logger.info(`${category.padEnd(20)} | Avg Quality: ${(avgQuality * 100).toFixed(1)}%`);
   });
-  console.log('─'.repeat(80));
-  console.log('\n');
+  logger.info('─'.repeat(80));
+  logger.info('\n');
 
   // Recommendations
-  console.log('💡 Recommendations:');
-  console.log('─'.repeat(80));
+  logger.info('💡 Recommendations:');
+  logger.info('─'.repeat(80));
   
   if (balancedWins > speedWins && balancedWins > qualityWins) {
-    console.log('✅ BALANCED approach is most effective overall');
-    console.log('   Use this as default for general tasks');
+    logger.info('✅ BALANCED approach is most effective overall');
+    logger.info('   Use this as default for general tasks');
   } else if (qualityWins > speedWins) {
-    console.log('✅ QUALITY approach wins most often');
-    console.log('   Prioritize quality over speed for best results');
+    logger.info('✅ QUALITY approach wins most often');
+    logger.info('   Prioritize quality over speed for best results');
   } else {
-    console.log('✅ SPEED approach is surprisingly effective');
-    console.log('   Fast execution without sacrificing too much quality');
+    logger.info('✅ SPEED approach is surprisingly effective');
+    logger.info('   Fast execution without sacrificing too much quality');
   }
-  console.log('');
+  logger.info('');
 
   if (avgBalancedQuality / (avgBalancedTime / 1000) > avgQualityQuality / (avgQualityTime / 1000)) {
-    console.log('✅ BALANCED has best quality/time ratio');
-    console.log('   Most efficient use of resources');
+    logger.info('✅ BALANCED has best quality/time ratio');
+    logger.info('   Most efficient use of resources');
   }
-  console.log('');
+  logger.info('');
 
   const mostUsedPath = sortedPaths[0][0];
-  console.log(`✅ Most successful path: ${mostUsedPath}`);
-  console.log('   Consider optimizing this path further');
-  console.log('─'.repeat(80));
-  console.log('\n');
+  logger.info(`✅ Most successful path: ${mostUsedPath}`);
+  logger.info('   Consider optimizing this path further');
+  logger.info('─'.repeat(80));
+  logger.info('\n');
 
   // Overall statistics
   const stats = quantum.getStats();
-  console.log('📊 Overall Quantum Autopilot Statistics:');
-  console.log('─'.repeat(80));
-  console.log(`Total Executions:     ${stats.totalExecutions}`);
-  console.log(`Average Quality:      ${(stats.averageQuality * 100).toFixed(1)}%`);
-  console.log(`Average Duration:     ${Math.round(stats.averageDuration)}ms`);
-  console.log(`Average Iterations:   ${stats.averageIterations.toFixed(2)}`);
-  console.log(`Most Used Path:       ${stats.mostUsedPath}`);
-  console.log('─'.repeat(80));
-  console.log('\n');
+  logger.info('📊 Overall Quantum Autopilot Statistics:');
+  logger.info('─'.repeat(80));
+  logger.info(`Total Executions:     ${stats.totalExecutions}`);
+  logger.info(`Average Quality:      ${(stats.averageQuality * 100).toFixed(1)}%`);
+  logger.info(`Average Duration:     ${Math.round(stats.averageDuration)}ms`);
+  logger.info(`Average Iterations:   ${stats.averageIterations.toFixed(2)}`);
+  logger.info(`Most Used Path:       ${stats.mostUsedPath}`);
+  logger.info('─'.repeat(80));
+  logger.info('\n');
 
   // Final verdict
-  console.log('━'.repeat(80));
-  console.log('🎯 FINAL VERDICT');
-  console.log('━'.repeat(80));
-  console.log('');
+  logger.info('━'.repeat(80));
+  logger.info('🎯 FINAL VERDICT');
+  logger.info('━'.repeat(80));
+  logger.info('');
   
   const overallQuality = (avgSpeedQuality + avgQualityQuality + avgBalancedQuality) / 3;
   const overallTime = (avgSpeedTime + avgQualityTime + avgBalancedTime) / 3;
   
-  console.log(`Overall System Quality:  ${(overallQuality * 100).toFixed(1)}%`);
-  console.log(`Overall Avg Time:        ${Math.round(overallTime)}ms`);
-  console.log(`Success Rate:            ${((results.filter(r => Math.max(r.speed.quality, r.quality.quality, r.balanced.quality) >= 0.7).length / results.length) * 100).toFixed(0)}%`);
-  console.log('');
+  logger.info(`Overall System Quality:  ${(overallQuality * 100).toFixed(1)}%`);
+  logger.info(`Overall Avg Time:        ${Math.round(overallTime)}ms`);
+  logger.info(`Success Rate:            ${((results.filter(r => Math.max(r.speed.quality, r.quality.quality, r.balanced.quality) >= 0.7).length / results.length) * 100).toFixed(0)}%`);
+  logger.info('');
 
   if (overallQuality >= 0.85) {
-    console.log('✅ EXCELLENT: Quantum approach significantly improves task execution');
-    console.log('   - High quality results across all test cases');
-    console.log('   - Intelligent path selection working effectively');
-    console.log('   - Ready for production use');
+    logger.info('✅ EXCELLENT: Quantum approach significantly improves task execution');
+    logger.info('   - High quality results across all test cases');
+    logger.info('   - Intelligent path selection working effectively');
+    logger.info('   - Ready for production use');
   } else if (overallQuality >= 0.75) {
-    console.log('✅ GOOD: Quantum approach shows clear improvements');
-    console.log('   - Solid quality results');
-    console.log('   - Some room for optimization');
-    console.log('   - Recommended for most use cases');
+    logger.info('✅ GOOD: Quantum approach shows clear improvements');
+    logger.info('   - Solid quality results');
+    logger.info('   - Some room for optimization');
+    logger.info('   - Recommended for most use cases');
   } else {
-    console.log('⚠️  NEEDS IMPROVEMENT: Results below expectations');
-    console.log('   - Consider tuning path generation');
-    console.log('   - Review collapse algorithm');
-    console.log('   - More testing needed');
+    logger.info('⚠️  NEEDS IMPROVEMENT: Results below expectations');
+    logger.info('   - Consider tuning path generation');
+    logger.info('   - Review collapse algorithm');
+    logger.info('   - More testing needed');
   }
-  console.log('');
-  console.log('━'.repeat(80));
-  console.log('\n');
+  logger.info('');
+  logger.info('━'.repeat(80));
+  logger.info('\n');
 
   return results;
 }
@@ -304,60 +304,60 @@ async function runQuantumTests() {
  * Test specific scenario in detail
  */
 async function testScenarioDetailed(taskDescription: string) {
-  console.log('\n🔬 Detailed Scenario Test');
-  console.log('━'.repeat(80));
-  console.log(`Task: ${taskDescription}`);
-  console.log('━'.repeat(80));
-  console.log('');
+  logger.info('\n🔬 Detailed Scenario Test');
+  logger.info('━'.repeat(80));
+  logger.info(`Task: ${taskDescription}`);
+  logger.info('━'.repeat(80));
+  logger.info('');
 
   const quantum = QuantumAutopilot.getInstance();
 
   // Test with different constraints
-  console.log('Testing with different constraints...\n');
+  logger.info('Testing with different constraints...\n');
 
   // Test 1: Speed priority
-  console.log('1️⃣  Speed Priority (maxTime: 2000ms)');
+  logger.info('1️⃣  Speed Priority (maxTime: 2000ms)');
   const speedResult = await quantum.executeTask(taskDescription, {
     maxTime: 2000,
     preferredApproach: 'speed',
   });
-  console.log(`   Quality: ${(speedResult.quality * 100).toFixed(1)}%`);
-  console.log(`   Time: ${speedResult.duration}ms`);
-  console.log(`   Path: ${speedResult.pathUsed.name}`);
-  console.log('');
+  logger.info(`   Quality: ${(speedResult.quality * 100).toFixed(1)}%`);
+  logger.info(`   Time: ${speedResult.duration}ms`);
+  logger.info(`   Path: ${speedResult.pathUsed.name}`);
+  logger.info('');
 
   // Test 2: Quality priority
-  console.log('2️⃣  Quality Priority (minQuality: 90%)');
+  logger.info('2️⃣  Quality Priority (minQuality: 90%)');
   const qualityResult = await quantum.executeTask(taskDescription, {
     minQuality: 0.9,
     preferredApproach: 'quality',
   });
-  console.log(`   Quality: ${(qualityResult.quality * 100).toFixed(1)}%`);
-  console.log(`   Time: ${qualityResult.duration}ms`);
-  console.log(`   Path: ${qualityResult.pathUsed.name}`);
-  console.log('');
+  logger.info(`   Quality: ${(qualityResult.quality * 100).toFixed(1)}%`);
+  logger.info(`   Time: ${qualityResult.duration}ms`);
+  logger.info(`   Path: ${qualityResult.pathUsed.name}`);
+  logger.info('');
 
   // Test 3: Balanced
-  console.log('3️⃣  Balanced Approach');
+  logger.info('3️⃣  Balanced Approach');
   const balancedResult = await quantum.executeTask(taskDescription, {
     preferredApproach: 'balanced',
   });
-  console.log(`   Quality: ${(balancedResult.quality * 100).toFixed(1)}%`);
-  console.log(`   Time: ${balancedResult.duration}ms`);
-  console.log(`   Path: ${balancedResult.pathUsed.name}`);
-  console.log('');
+  logger.info(`   Quality: ${(balancedResult.quality * 100).toFixed(1)}%`);
+  logger.info(`   Time: ${balancedResult.duration}ms`);
+  logger.info(`   Path: ${balancedResult.pathUsed.name}`);
+  logger.info('');
 
-  console.log('━'.repeat(80));
-  console.log('📊 Comparison:');
-  console.log('━'.repeat(80));
-  console.log('');
-  console.log('Approach  | Quality | Time   | Iterations | Path');
-  console.log('─'.repeat(80));
-  console.log(`Speed     | ${(speedResult.quality * 100).toFixed(1)}%   | ${speedResult.duration}ms | ${speedResult.iterationCount}          | ${speedResult.pathUsed.name}`);
-  console.log(`Quality   | ${(qualityResult.quality * 100).toFixed(1)}%   | ${qualityResult.duration}ms | ${qualityResult.iterationCount}          | ${qualityResult.pathUsed.name}`);
-  console.log(`Balanced  | ${(balancedResult.quality * 100).toFixed(1)}%   | ${balancedResult.duration}ms | ${balancedResult.iterationCount}          | ${balancedResult.pathUsed.name}`);
-  console.log('─'.repeat(80));
-  console.log('');
+  logger.info('━'.repeat(80));
+  logger.info('📊 Comparison:');
+  logger.info('━'.repeat(80));
+  logger.info('');
+  logger.info('Approach  | Quality | Time   | Iterations | Path');
+  logger.info('─'.repeat(80));
+  logger.info(`Speed     | ${(speedResult.quality * 100).toFixed(1)}%   | ${speedResult.duration}ms | ${speedResult.iterationCount}          | ${speedResult.pathUsed.name}`);
+  logger.info(`Quality   | ${(qualityResult.quality * 100).toFixed(1)}%   | ${qualityResult.duration}ms | ${qualityResult.iterationCount}          | ${qualityResult.pathUsed.name}`);
+  logger.info(`Balanced  | ${(balancedResult.quality * 100).toFixed(1)}%   | ${balancedResult.duration}ms | ${balancedResult.iterationCount}          | ${balancedResult.pathUsed.name}`);
+  logger.info('─'.repeat(80));
+  logger.info('');
 }
 
 // Export test functions
@@ -367,11 +367,11 @@ export { runQuantumTests, testScenarioDetailed };
 if (require.main === module) {
   runQuantumTests()
     .then(() => {
-      console.log('\n✅ All tests completed successfully!\n');
+      logger.info('\n✅ All tests completed successfully!\n');
       process.exit(0);
     })
     .catch(error => {
-      console.error('\n❌ Test failed:', error);
+      logger.error('\n❌ Test failed:', error);
       process.exit(1);
     });
 }

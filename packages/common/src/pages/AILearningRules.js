@@ -250,7 +250,7 @@ function AILearningRules() {
         }
       }));
     } catch (error) {
-      console.error('Failed to initialize learning system:', error);
+      logger.error('Failed to initialize learning system:', error);
     }
   };
 
@@ -307,7 +307,7 @@ function AILearningRules() {
       }));
 
     } catch (error) {
-      console.error('Meta-learning cycle error:', error);
+      logger.error('Meta-learning cycle error:', error);
     }
   };
 

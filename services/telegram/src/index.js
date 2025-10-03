@@ -14,11 +14,11 @@ const ADMIN_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const ADMIN_USER_IDS = process.env.ADMIN_USER_IDS?.split(',').map(id => parseInt(id.trim())) || [];
 
 if (!BOT_TOKEN) {
-  console.error('❌ TELEGRAM_BOT_TOKEN is not set in .env file');
+  logger.error('❌ TELEGRAM_BOT_TOKEN is not set in .env file');
   process.exit(1);
 }
 
-console.log('🤖 Starting AuraOS Telegram Bot...');
+logger.info('🤖 Starting AuraOS Telegram Bot...');
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
@@ -517,7 +517,7 @@ bot.onText(/\/broadcast (.+)/, (msg, match) => {
   for (const [userChatId] of userSessions.entries()) {
     bot.sendMessage(userChatId, `📢 *Broadcast Message*\n\n${message}`, { parse_mode: 'Markdown' })
       .then(() => sentCount++)
-      .catch(err => console.error(`Failed to send to ${userChatId}:`, err.message));
+      .catch(err => logger.error(`Failed to send to ${userChatId}:`, err.message));
   }
   
   setTimeout(() => {
@@ -1246,11 +1246,11 @@ bot.on('message', (msg) => {
 
 // Error handling
 bot.on('polling_error', (error) => {
-  console.error('❌ Polling error:', error.message);
+  logger.error('❌ Polling error:', error.message);
 });
 
 bot.on('error', (error) => {
-  console.error('❌ Bot error:', error.message);
+  logger.error('❌ Bot error:', error.message);
 });
 
 // Set bot commands menu
@@ -1273,9 +1273,9 @@ bot.setMyCommands([
   { command: 'tree', description: 'Project structure (admin)' },
   { command: 'ai', description: 'AI command (admin)' }
 ]).then(() => {
-  console.log('✅ Bot commands menu set successfully');
+  logger.info('✅ Bot commands menu set successfully');
 }).catch(err => {
-  console.error('❌ Failed to set commands menu:', err.message);
+  logger.error('❌ Failed to set commands menu:', err.message);
 });
 
 // Startup notification
@@ -1299,14 +1299,14 @@ Type /help to see available commands or /menu for quick access.
     parse_mode: 'Markdown',
     reply_markup: createMainKeyboard()
   }).catch(err => {
-    console.error('Failed to send startup notification:', err.message);
+    logger.error('Failed to send startup notification:', err.message);
   });
 }
 
-console.log('✅ AuraOS Telegram Bot is running!');
-console.log(`📱 Bot Token: ${BOT_TOKEN.substring(0, 10)}...`);
-console.log(`👤 Admin Chat ID: ${ADMIN_CHAT_ID}`);
-console.log('🎯 Listening for messages...');
-console.log('🎛️ Interactive keyboards enabled');
-console.log('⚡ Rate limiting active');
-console.log('📈 Analytics tracking enabled\n');
+logger.info('✅ AuraOS Telegram Bot is running!');
+logger.info(`📱 Bot Token: ${BOT_TOKEN.substring(0, 10)}...`);
+logger.info(`👤 Admin Chat ID: ${ADMIN_CHAT_ID}`);
+logger.info('🎯 Listening for messages...');
+logger.info('🎛️ Interactive keyboards enabled');
+logger.info('⚡ Rate limiting active');
+logger.info('📈 Analytics tracking enabled\n');

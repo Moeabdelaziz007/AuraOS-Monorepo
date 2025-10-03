@@ -28,13 +28,13 @@ export class LearningIntegration extends EventEmitter {
    */
   private async initializeLearning(): Promise<void> {
     try {
-      console.log('🧠 Initializing Learning Integration...');
+      logger.info('🧠 Initializing Learning Integration...');
       
       this.isLearning = true;
-      console.log('✅ Learning Integration initialized');
+      logger.info('✅ Learning Integration initialized');
       
     } catch (error) {
-      console.error('❌ Learning initialization failed:', error);
+      logger.error('❌ Learning initialization failed:', error);
       this.isLearning = false;
     }
   }
@@ -67,7 +67,7 @@ export class LearningIntegration extends EventEmitter {
       this.emit('learning_updated', { userId, learningData });
 
     } catch (error) {
-      console.error('❌ Learning error:', error);
+      logger.error('❌ Learning error:', error);
     }
   }
 
@@ -273,7 +273,7 @@ export class LearningIntegration extends EventEmitter {
       this.emit('feedback_added', { userId, feedback });
 
     } catch (error) {
-      console.error('❌ Feedback error:', error);
+      logger.error('❌ Feedback error:', error);
     }
   }
 

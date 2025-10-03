@@ -17,38 +17,38 @@ class BundleOptimizer {
   }
 
   async optimize() {
-    console.log('🔧 Starting bundle optimization...\n');
+    logger.info('🔧 Starting bundle optimization...\n');
     
     await this.analyzeCurrentBundle();
     await this.applyOptimizations();
     await this.measureResults();
     await this.generateOptimizationReport();
     
-    console.log('✅ Bundle optimization complete!');
+    logger.info('✅ Bundle optimization complete!');
   }
 
   async analyzeCurrentBundle() {
-    console.log('📊 Analyzing current bundle...');
+    logger.info('📊 Analyzing current bundle...');
     
     try {
       // Check if dist directory exists
       const distPath = path.join(__dirname, '../dist');
       if (!fs.existsSync(distPath)) {
-        console.log('⚠️  Dist directory not found. Building first...');
+        logger.info('⚠️  Dist directory not found. Building first...');
         execSync('pnpm build', { stdio: 'inherit' });
       }
 
       // Calculate current bundle size
       this.beforeSize = this.calculateBundleSize(distPath);
-      console.log(`   📦 Current bundle size: ${this.formatBytes(this.beforeSize)}`);
+      logger.info(`   📦 Current bundle size: ${this.formatBytes(this.beforeSize)}`);
       
     } catch (error) {
-      console.error('❌ Error analyzing bundle:', error.message);
+      logger.error('❌ Error analyzing bundle:', error.message);
     }
   }
 
   async applyOptimizations() {
-    console.log('⚡ Applying optimizations...');
+    logger.info('⚡ Applying optimizations...');
     
     // 1. Enable production mode
     this.optimizations.push({
@@ -56,7 +56,7 @@ class BundleOptimizer {
       description: 'Enable production optimizations',
       action: () => {
         process.env.NODE_ENV = 'production';
-        console.log('   ✅ Production mode enabled');
+        logger.info('   ✅ Production mode enabled');
       }
     });
     
@@ -65,7 +65,7 @@ class BundleOptimizer {
       name: 'tree-shaking',
       description: 'Enable tree shaking for unused code elimination',
       action: () => {
-        console.log('   ✅ Tree shaking enabled');
+        logger.info('   ✅ Tree shaking enabled');
       }
     });
     
@@ -74,7 +74,7 @@ class BundleOptimizer {
       name: 'code-splitting',
       description: 'Enable automatic code splitting',
       action: () => {
-        console.log('   ✅ Code splitting enabled');
+        logger.info('   ✅ Code splitting enabled');
       }
     });
     
@@ -83,7 +83,7 @@ class BundleOptimizer {
       name: 'compression',
       description: 'Enable gzip and brotli compression',
       action: () => {
-        console.log('   ✅ Compression enabled');
+        logger.info('   ✅ Compression enabled');
       }
     });
     
@@ -92,7 +92,7 @@ class BundleOptimizer {
       name: 'image-optimization',
       description: 'Optimize images and assets',
       action: () => {
-        console.log('   ✅ Image optimization enabled');
+        logger.info('   ✅ Image optimization enabled');
       }
     });
     
@@ -101,17 +101,17 @@ class BundleOptimizer {
       try {
         opt.action();
       } catch (error) {
-        console.error(`❌ Error applying ${opt.name}:`, error.message);
+        logger.error(`❌ Error applying ${opt.name}:`, error.message);
       }
     });
     
     // Rebuild with optimizations
-    console.log('   🔨 Rebuilding with optimizations...');
+    logger.info('   🔨 Rebuilding with optimizations...');
     execSync('pnpm build:production', { stdio: 'inherit' });
   }
 
   async measureResults() {
-    console.log('📏 Measuring optimization results...');
+    logger.info('📏 Measuring optimization results...');
     
     try {
       const distPath = path.join(__dirname, '../dist');
@@ -120,22 +120,22 @@ class BundleOptimizer {
       const savings = this.beforeSize - this.afterSize;
       const savingsPercent = (savings / this.beforeSize) * 100;
       
-      console.log(`   📦 Optimized bundle size: ${this.formatBytes(this.afterSize)}`);
-      console.log(`   💾 Size reduction: ${this.formatBytes(savings)} (${savingsPercent.toFixed(2)}%)`);
+      logger.info(`   📦 Optimized bundle size: ${this.formatBytes(this.afterSize)}`);
+      logger.info(`   💾 Size reduction: ${this.formatBytes(savings)} (${savingsPercent.toFixed(2)}%)`);
       
       if (savings > 0) {
-        console.log('   ✅ Bundle size reduced successfully!');
+        logger.info('   ✅ Bundle size reduced successfully!');
       } else {
-        console.log('   ⚠️  No size reduction achieved');
+        logger.info('   ⚠️  No size reduction achieved');
       }
       
     } catch (error) {
-      console.error('❌ Error measuring results:', error.message);
+      logger.error('❌ Error measuring results:', error.message);
     }
   }
 
   async generateOptimizationReport() {
-    console.log('📋 Generating optimization report...');
+    logger.info('📋 Generating optimization report...');
     
     const report = {
       timestamp: new Date().toISOString(),
@@ -154,7 +154,7 @@ class BundleOptimizer {
     const reportPath = path.join(__dirname, '../optimization-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     
-    console.log(`   📄 Optimization report saved to: ${reportPath}`);
+    logger.info(`   📄 Optimization report saved to: ${reportPath}`);
   }
 
   calculateBundleSize(dirPath) {
@@ -217,4 +217,4 @@ class BundleOptimizer {
 
 // Run bundle optimization
 const optimizer = new BundleOptimizer();
-optimizer.optimize().catch(console.error);
+optimizer.optimize().catch(logger.error);

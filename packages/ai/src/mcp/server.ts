@@ -22,10 +22,10 @@ export abstract class BaseMCPServer implements IMCPServer {
       return;
     }
 
-    console.log(`[MCP] Initializing server: ${this.name} v${this.version}`);
+    logger.info(`[MCP] Initializing server: ${this.name} v${this.version}`);
     await this.onInitialize();
     this.initialized = true;
-    console.log(`[MCP] Server ${this.name} initialized successfully`);
+    logger.info(`[MCP] Server ${this.name} initialized successfully`);
   }
 
   /**
@@ -88,7 +88,7 @@ export abstract class BaseMCPServer implements IMCPServer {
    * Shutdown the server
    */
   async shutdown(): Promise<void> {
-    console.log(`[MCP] Shutting down server: ${this.name}`);
+    logger.info(`[MCP] Shutting down server: ${this.name}`);
     await this.onShutdown();
     this.initialized = false;
   }

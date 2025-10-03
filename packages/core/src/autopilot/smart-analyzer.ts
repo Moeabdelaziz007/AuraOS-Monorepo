@@ -97,7 +97,7 @@ export class SmartAnalyzer {
       this.performAnalysis();
     }, intervalMs);
 
-    console.log('[Smart Analyzer] Started continuous analysis');
+    logger.info('[Smart Analyzer] Started continuous analysis');
   }
 
   /**
@@ -108,14 +108,14 @@ export class SmartAnalyzer {
       clearInterval(this.analysisInterval);
       this.analysisInterval = null;
     }
-    console.log('[Smart Analyzer] Stopped analysis');
+    logger.info('[Smart Analyzer] Stopped analysis');
   }
 
   /**
    * Perform comprehensive analysis
    */
   private performAnalysis(): void {
-    console.log('[Smart Analyzer] Performing analysis...');
+    logger.info('[Smart Analyzer] Performing analysis...');
     // This will be called periodically to analyze patterns
   }
 
@@ -680,7 +680,7 @@ export class SmartAnalyzer {
       s => s.timestamp.getTime() > cutoff
     );
 
-    console.log('[Smart Analyzer] Cleared old data');
+    logger.info('[Smart Analyzer] Cleared old data');
   }
 }
 

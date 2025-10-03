@@ -16,7 +16,7 @@ class MemoryProfiler {
   }
 
   async startProfiling() {
-    console.log('🧠 Starting memory profiling...\n');
+    logger.info('🧠 Starting memory profiling...\n');
     
     // Start memory monitoring
     this.startMemoryMonitoring();
@@ -30,11 +30,11 @@ class MemoryProfiler {
     // Generate memory report
     await this.generateMemoryReport();
     
-    console.log('✅ Memory profiling complete!');
+    logger.info('✅ Memory profiling complete!');
   }
 
   startMemoryMonitoring() {
-    console.log('📊 Starting memory monitoring...');
+    logger.info('📊 Starting memory monitoring...');
     
     const interval = setInterval(() => {
       const memoryUsage = process.memoryUsage();
@@ -51,19 +51,19 @@ class MemoryProfiler {
       
       // Log memory usage every 5 seconds
       if (this.memorySnapshots.length % 5 === 0) {
-        console.log(`   📈 Memory: ${this.formatBytes(memoryUsage.heapUsed)} / ${this.formatBytes(memoryUsage.heapTotal)}`);
+        logger.info(`   📈 Memory: ${this.formatBytes(memoryUsage.heapUsed)} / ${this.formatBytes(memoryUsage.heapTotal)}`);
       }
     }, 1000);
     
     // Stop monitoring after 60 seconds
     setTimeout(() => {
       clearInterval(interval);
-      console.log('   ⏹️  Memory monitoring stopped');
+      logger.info('   ⏹️  Memory monitoring stopped');
     }, 60000);
   }
 
   async runApplication() {
-    console.log('🚀 Starting application...');
+    logger.info('🚀 Starting application...');
     
     try {
       // Start development server
@@ -72,18 +72,18 @@ class MemoryProfiler {
         timeout: 30000 
       });
       
-      console.log('   ✅ Application started successfully');
+      logger.info('   ✅ Application started successfully');
       
     } catch (error) {
-      console.error('❌ Error starting application:', error.message);
+      logger.error('❌ Error starting application:', error.message);
     }
   }
 
   async analyzeMemoryPatterns() {
-    console.log('🔍 Analyzing memory patterns...');
+    logger.info('🔍 Analyzing memory patterns...');
     
     if (this.memorySnapshots.length < 2) {
-      console.log('   ⚠️  Not enough memory snapshots for analysis');
+      logger.info('   ⚠️  Not enough memory snapshots for analysis');
       return;
     }
     
@@ -91,23 +91,23 @@ class MemoryProfiler {
     const leaks = this.leakDetector.detectLeaks(this.memorySnapshots);
     
     if (leaks.length > 0) {
-      console.log('   🚨 Potential memory leaks detected:');
+      logger.info('   🚨 Potential memory leaks detected:');
       leaks.forEach(leak => {
-        console.log(`      - ${leak.type}: ${leak.description}`);
+        logger.info(`      - ${leak.type}: ${leak.description}`);
       });
     } else {
-      console.log('   ✅ No memory leaks detected');
+      logger.info('   ✅ No memory leaks detected');
     }
     
     // Analyze memory growth
     const growth = this.analyzeMemoryGrowth();
     if (growth > 0.1) { // 10% growth threshold
-      console.log(`   ⚠️  Memory growth detected: ${(growth * 100).toFixed(2)}%`);
+      logger.info(`   ⚠️  Memory growth detected: ${(growth * 100).toFixed(2)}%`);
     }
   }
 
   async generateMemoryReport() {
-    console.log('📋 Generating memory report...');
+    logger.info('📋 Generating memory report...');
     
     const report = {
       timestamp: new Date().toISOString(),
@@ -125,7 +125,7 @@ class MemoryProfiler {
     const reportPath = path.join(__dirname, '../memory-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     
-    console.log(`   📄 Memory report saved to: ${reportPath}`);
+    logger.info(`   📄 Memory report saved to: ${reportPath}`);
   }
 
   analyzeMemoryGrowth() {
@@ -236,4 +236,4 @@ class LeakDetector {
 
 // Run memory profiling
 const profiler = new MemoryProfiler();
-profiler.startProfiling().catch(console.error);
+profiler.startProfiling().catch(logger.error);

@@ -128,22 +128,22 @@ export class KanIntegration {
    */
   async initialize(): Promise<void> {
     try {
-      console.log('[Kan Integration] Connecting to Kan instance...');
-      console.log(`[Kan Integration] Base URL: ${this.baseUrl}`);
+      logger.info('[Kan Integration] Connecting to Kan instance...');
+      logger.info(`[Kan Integration] Base URL: ${this.baseUrl}`);
       
       // Test connection
       const isHealthy = await this.checkHealth();
       
       if (isHealthy) {
-        console.log('[Kan Integration] ✅ Connected successfully');
+        logger.info('[Kan Integration] ✅ Connected successfully');
         
         // Load boards
         await this.loadBoards();
       } else {
-        console.log('[Kan Integration] ⚠️  Kan instance not accessible');
+        logger.info('[Kan Integration] ⚠️  Kan instance not accessible');
       }
     } catch (error) {
-      console.error('[Kan Integration] ❌ Failed to initialize:', error);
+      logger.error('[Kan Integration] ❌ Failed to initialize:', error);
     }
   }
 
@@ -152,7 +152,7 @@ export class KanIntegration {
    */
   async checkHealth(): Promise<boolean> {
     try {
-      console.log('[Kan Integration] Checking health...');
+      logger.info('[Kan Integration] Checking health...');
       return true;
     } catch (error) {
       return false;
@@ -164,7 +164,7 @@ export class KanIntegration {
    */
   async loadBoards(): Promise<void> {
     try {
-      console.log('[Kan Integration] Loading boards...');
+      logger.info('[Kan Integration] Loading boards...');
       
       // Create example boards for demonstration
       const exampleBoards = this.createExampleBoards();
@@ -173,9 +173,9 @@ export class KanIntegration {
         this.boards.set(board.id, board);
       });
       
-      console.log(`[Kan Integration] Loaded ${this.boards.size} boards`);
+      logger.info(`[Kan Integration] Loaded ${this.boards.size} boards`);
     } catch (error) {
-      console.error('[Kan Integration] Failed to load boards:', error);
+      logger.error('[Kan Integration] Failed to load boards:', error);
     }
   }
 
@@ -406,7 +406,7 @@ export class KanIntegration {
     };
     
     this.boards.set(boardId, board);
-    console.log(`[Kan Integration] ✅ Board created: ${name}`);
+    logger.info(`[Kan Integration] ✅ Board created: ${name}`);
     
     return board;
   }
@@ -457,7 +457,7 @@ export class KanIntegration {
       timestamp: new Date(),
     });
     
-    console.log(`[Kan Integration] ✅ Card created: ${title}`);
+    logger.info(`[Kan Integration] ✅ Card created: ${title}`);
     
     return card;
   }
@@ -506,7 +506,7 @@ export class KanIntegration {
       timestamp: new Date(),
     });
     
-    console.log(`[Kan Integration] ✅ Card moved: ${card.title}`);
+    logger.info(`[Kan Integration] ✅ Card moved: ${card.title}`);
   }
 
   /**
@@ -550,7 +550,7 @@ export class KanIntegration {
       timestamp: new Date(),
     });
     
-    console.log(`[Kan Integration] ✅ Comment added to card`);
+    logger.info(`[Kan Integration] ✅ Comment added to card`);
     
     return comment;
   }
@@ -621,7 +621,7 @@ export class KanIntegration {
     actions: TaskAction[],
     context: LearningContext
   ): Promise<KanBoard> {
-    console.log(`[Kan Integration] Creating board from task: ${taskName}`);
+    logger.info(`[Kan Integration] Creating board from task: ${taskName}`);
     
     const board = await this.createBoard(
       taskName,
@@ -640,7 +640,7 @@ export class KanIntegration {
       );
     }
     
-    console.log(`[Kan Integration] ✅ Board created with ${actions.length} cards`);
+    logger.info(`[Kan Integration] ✅ Board created with ${actions.length} cards`);
     
     return board;
   }

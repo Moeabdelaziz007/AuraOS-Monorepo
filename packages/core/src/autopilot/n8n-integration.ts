@@ -77,22 +77,22 @@ export class N8nIntegration {
    */
   async initialize(): Promise<void> {
     try {
-      console.log('[n8n Integration] Connecting to n8n instance...');
-      console.log(`[n8n Integration] Base URL: ${this.baseUrl}`);
+      logger.info('[n8n Integration] Connecting to n8n instance...');
+      logger.info(`[n8n Integration] Base URL: ${this.baseUrl}`);
       
       // Test connection
       const isHealthy = await this.checkHealth();
       
       if (isHealthy) {
-        console.log('[n8n Integration] ✅ Connected successfully');
+        logger.info('[n8n Integration] ✅ Connected successfully');
         
         // Load workflows
         await this.loadWorkflows();
       } else {
-        console.log('[n8n Integration] ⚠️  n8n instance not accessible');
+        logger.info('[n8n Integration] ⚠️  n8n instance not accessible');
       }
     } catch (error) {
-      console.error('[n8n Integration] ❌ Failed to initialize:', error);
+      logger.error('[n8n Integration] ❌ Failed to initialize:', error);
     }
   }
 
@@ -103,7 +103,7 @@ export class N8nIntegration {
     try {
       // In production, this would make an actual HTTP request
       // For now, we'll simulate it
-      console.log('[n8n Integration] Checking health...');
+      logger.info('[n8n Integration] Checking health...');
       return true;
     } catch (error) {
       return false;
@@ -115,7 +115,7 @@ export class N8nIntegration {
    */
   async loadWorkflows(): Promise<void> {
     try {
-      console.log('[n8n Integration] Loading workflows...');
+      logger.info('[n8n Integration] Loading workflows...');
       
       // In production, this would fetch from n8n API
       // For now, we'll create example workflows
@@ -125,9 +125,9 @@ export class N8nIntegration {
         this.workflows.set(workflow.id, workflow);
       });
       
-      console.log(`[n8n Integration] Loaded ${this.workflows.size} workflows`);
+      logger.info(`[n8n Integration] Loaded ${this.workflows.size} workflows`);
     } catch (error) {
-      console.error('[n8n Integration] Failed to load workflows:', error);
+      logger.error('[n8n Integration] Failed to load workflows:', error);
     }
   }
 
@@ -294,7 +294,7 @@ export class N8nIntegration {
     const startTime = Date.now();
     
     try {
-      console.log(`[n8n Integration] Executing workflow: ${workflowId}`);
+      logger.info(`[n8n Integration] Executing workflow: ${workflowId}`);
       
       const workflow = this.workflows.get(workflowId);
       if (!workflow) {
@@ -320,10 +320,10 @@ export class N8nIntegration {
         },
       };
 
-      console.log(`[n8n Integration] ✅ Workflow executed successfully`);
+      logger.info(`[n8n Integration] ✅ Workflow executed successfully`);
       return result;
     } catch (error) {
-      console.error(`[n8n Integration] ❌ Workflow execution failed:`, error);
+      logger.error(`[n8n Integration] ❌ Workflow execution failed:`, error);
       throw error;
     }
   }
@@ -337,11 +337,11 @@ export class N8nIntegration {
     method: 'GET' | 'POST' = 'POST'
   ): Promise<any> {
     try {
-      console.log(`[n8n Integration] Triggering webhook: ${path}`);
+      logger.info(`[n8n Integration] Triggering webhook: ${path}`);
       
       // In production, this would make HTTP request to n8n webhook
       const url = `${this.baseUrl}/webhook/${path}`;
-      console.log(`[n8n Integration] URL: ${url}`);
+      logger.info(`[n8n Integration] URL: ${url}`);
       
       // Simulate webhook response
       return {
@@ -350,7 +350,7 @@ export class N8nIntegration {
         timestamp: new Date(),
       };
     } catch (error) {
-      console.error('[n8n Integration] Webhook trigger failed:', error);
+      logger.error('[n8n Integration] Webhook trigger failed:', error);
       throw error;
     }
   }
@@ -395,7 +395,7 @@ export class N8nIntegration {
     actions: TaskAction[],
     context: LearningContext
   ): Promise<N8nWorkflow> {
-    console.log(`[n8n Integration] Creating workflow from task: ${taskName}`);
+    logger.info(`[n8n Integration] Creating workflow from task: ${taskName}`);
 
     const workflowId = `workflow_${Date.now()}`;
     const nodes: N8nNode[] = [];
@@ -463,7 +463,7 @@ export class N8nIntegration {
     };
 
     this.workflows.set(workflowId, workflow);
-    console.log(`[n8n Integration] ✅ Workflow created: ${workflowId}`);
+    logger.info(`[n8n Integration] ✅ Workflow created: ${workflowId}`);
 
     return workflow;
   }

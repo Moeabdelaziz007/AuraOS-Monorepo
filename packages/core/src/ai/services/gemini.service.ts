@@ -241,7 +241,7 @@ export class GeminiService extends BaseAIService {
               onChunk({ content, done: false });
             }
           } catch (e) {
-            console.error('Error parsing SSE data:', e);
+            logger.error('Error parsing SSE data:', e);
           }
         }
       }

@@ -320,9 +320,9 @@ export class FileSystemMCPServer extends BaseMCPServer {
     // Ensure root directory exists
     try {
       await fs.mkdir(this.rootPath, { recursive: true });
-      console.log(`[FileSystem] Root path initialized: ${this.rootPath}`);
+      logger.info(`[FileSystem] Root path initialized: ${this.rootPath}`);
     } catch (error) {
-      console.error(`[FileSystem] Failed to initialize root path:`, error);
+      logger.error(`[FileSystem] Failed to initialize root path:`, error);
       throw error;
     }
   }

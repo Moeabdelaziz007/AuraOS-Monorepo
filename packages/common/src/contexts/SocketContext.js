@@ -33,7 +33,7 @@ export const SocketProvider = ({ children }) => {
 
       // Connection events
       newSocket.on('connect', () => {
-        console.log('Socket connected:', newSocket.id);
+        logger.info('Socket connected:', newSocket.id);
         setIsConnected(true);
         
         // Join user-specific room
@@ -44,18 +44,18 @@ export const SocketProvider = ({ children }) => {
       });
 
       newSocket.on('disconnect', () => {
-        console.log('Socket disconnected');
+        logger.info('Socket disconnected');
         setIsConnected(false);
       });
 
       newSocket.on('connect_error', (error) => {
-        console.error('Socket connection error:', error);
+        logger.error('Socket connection error:', error);
         setIsConnected(false);
       });
 
       // Real-time notifications
       newSocket.on('notification', (notification) => {
-        console.log('New notification:', notification);
+        logger.info('New notification:', notification);
         setNotifications(prev => [notification, ...prev.slice(0, 49)]); // Keep last 50
       });
 
@@ -65,37 +65,37 @@ export const SocketProvider = ({ children }) => {
       });
 
       newSocket.on('user_joined', (userData) => {
-        console.log('User joined:', userData);
+        logger.info('User joined:', userData);
         setOnlineUsers(prev => [...prev.filter(u => u.id !== userData.id), userData]);
       });
 
       newSocket.on('user_left', (userId) => {
-        console.log('User left:', userId);
+        logger.info('User left:', userId);
         setOnlineUsers(prev => prev.filter(u => u.id !== userId));
       });
 
       // System alerts
       newSocket.on('system_alert', (alert) => {
-        console.log('System alert:', alert);
+        logger.info('System alert:', alert);
         setSystemAlerts(prev => [alert, ...prev.slice(0, 19)]); // Keep last 20
       });
 
       // Real-time app updates
       newSocket.on('app_updated', (appData) => {
-        console.log('App updated:', appData);
+        logger.info('App updated:', appData);
         // Emit custom event for components to listen to
         window.dispatchEvent(new CustomEvent('appUpdate', { detail: appData }));
       });
 
       // Real-time system status updates
       newSocket.on('system_status_update', (status) => {
-        console.log('System status update:', status);
+        logger.info('System status update:', status);
         window.dispatchEvent(new CustomEvent('systemStatusUpdate', { detail: status }));
       });
 
       // Data Agent updates
       newSocket.on('data_agent_update', (data) => {
-        console.log('Data Agent update:', data);
+        logger.info('Data Agent update:', data);
         window.dispatchEvent(new CustomEvent('dataAgentUpdate', { detail: data }));
       });
 
@@ -119,7 +119,7 @@ export const SocketProvider = ({ children }) => {
     if (socket && isConnected) {
       socket.emit(event, data);
     } else {
-      console.warn('Socket not connected, cannot emit event:', event);
+      logger.warn('Socket not connected, cannot emit event:', event);
     }
   };
 

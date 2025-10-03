@@ -168,7 +168,7 @@ export const createResilientLazyComponent = <T extends ComponentType<any>>(
     const [hasError, setHasError] = React.useState(false);
     
     const handleError = (error: Error) => {
-      console.error('Lazy component error:', error);
+      logger.error('Lazy component error:', error);
       setHasError(true);
     };
     

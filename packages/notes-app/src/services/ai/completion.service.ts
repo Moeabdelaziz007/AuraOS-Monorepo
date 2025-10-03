@@ -90,7 +90,7 @@ async function getVLLMCompletion(
       model: 'vllm-local',
     };
   } catch (error) {
-    console.warn('vLLM unavailable, will try fallback');
+    logger.warn('vLLM unavailable, will try fallback');
     return null;
   }
 }
@@ -105,7 +105,7 @@ async function getOpenAICompletion(
   const apiKey = process.env.VITE_OPENAI_API_KEY;
   
   if (!apiKey) {
-    console.warn('OpenAI API key not configured');
+    logger.warn('OpenAI API key not configured');
     return null;
   }
 
@@ -136,7 +136,7 @@ async function getOpenAICompletion(
       model: 'openai-gpt3.5',
     };
   } catch (error) {
-    console.error('OpenAI completion error:', error);
+    logger.error('OpenAI completion error:', error);
     return null;
   }
 }

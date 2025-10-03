@@ -77,7 +77,7 @@ const DataAgentDashboard = () => {
       }
     } catch (err) {
       setError(err.message);
-      console.error('Data Agent info fetch error:', err);
+      logger.error('Data Agent info fetch error:', err);
     } finally {
       setLoading(false);
     }

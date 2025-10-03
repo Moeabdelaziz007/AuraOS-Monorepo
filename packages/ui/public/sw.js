@@ -30,27 +30,27 @@ const API_CACHE_PATTERNS = [
 
 // Install event - cache static files
 self.addEventListener('install', (event) => {
-  console.log('SelfOS Service Worker: Installing...');
+  logger.info('SelfOS Service Worker: Installing...');
 
   event.waitUntil(
     caches.open(STATIC_CACHE_NAME)
       .then((cache) => {
-        console.log('SelfOS Service Worker: Caching static files');
+        logger.info('SelfOS Service Worker: Caching static files');
         return cache.addAll(STATIC_FILES);
       })
       .then(() => {
-        console.log('SelfOS Service Worker: Installation complete');
+        logger.info('SelfOS Service Worker: Installation complete');
         return self.skipWaiting();
       })
       .catch((error) => {
-        console.error('SelfOS Service Worker: Installation failed', error);
+        logger.error('SelfOS Service Worker: Installation failed', error);
       })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('SelfOS Service Worker: Activating...');
+  logger.info('SelfOS Service Worker: Activating...');
 
   event.waitUntil(
     caches.keys()
@@ -59,14 +59,14 @@ self.addEventListener('activate', (event) => {
           cacheNames.map((cacheName) => {
             if (cacheName !== STATIC_CACHE_NAME &&
                 cacheName !== DYNAMIC_CACHE_NAME) {
-              console.log('SelfOS Service Worker: Deleting old cache', cacheName);
+              logger.info('SelfOS Service Worker: Deleting old cache', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       })
       .then(() => {
-        console.log('SelfOS Service Worker: Activation complete');
+        logger.info('SelfOS Service Worker: Activation complete');
         return self.clients.claim();
       })
   );
@@ -131,7 +131,7 @@ async function handleStaticFile(request) {
 
     return networkResponse;
   } catch (error) {
-    console.error('SelfOS Service Worker: Static file fetch failed', error);
+    logger.error('SelfOS Service Worker: Static file fetch failed', error);
 
     // Return offline page for HTML requests
     if (request.headers.get('accept').includes('text/html')) {
@@ -156,7 +156,7 @@ async function handleAPIRequest(request) {
 
     return networkResponse;
   } catch (error) {
-    console.error('SelfOS Service Worker: API request failed', error);
+    logger.error('SelfOS Service Worker: API request failed', error);
 
     // Try cache for offline API requests
     const cachedResponse = await caches.match(request);
@@ -196,7 +196,7 @@ async function handleDynamicRequest(request) {
 
     return networkResponse;
   } catch (error) {
-    console.error('SelfOS Service Worker: Dynamic request failed', error);
+    logger.error('SelfOS Service Worker: Dynamic request failed', error);
 
     // Try cache
     const cachedResponse = await caches.match(request);
@@ -211,7 +211,7 @@ async function handleDynamicRequest(request) {
 
 // Background sync for offline actions
 self.addEventListener('sync', (event) => {
-  console.log('SelfOS Service Worker: Background sync triggered', event.tag);
+  logger.info('SelfOS Service Worker: Background sync triggered', event.tag);
 
   if (event.tag === 'selfos-sync') {
     event.waitUntil(performBackgroundSync());
@@ -221,7 +221,7 @@ self.addEventListener('sync', (event) => {
 // Perform background synchronization
 async function performBackgroundSync() {
   try {
-    console.log('SelfOS Service Worker: Performing background sync');
+    logger.info('SelfOS Service Worker: Performing background sync');
 
     // Sync offline actions when back online
     const offlineActions = await getOfflineActions();
@@ -231,13 +231,13 @@ async function performBackgroundSync() {
         await syncOfflineAction(action);
         await removeOfflineAction(action.id);
       } catch (error) {
-        console.error('SelfOS Service Worker: Failed to sync action', action.id, error);
+        logger.error('SelfOS Service Worker: Failed to sync action', action.id, error);
       }
     }
 
-    console.log('SelfOS Service Worker: Background sync complete');
+    logger.info('SelfOS Service Worker: Background sync complete');
   } catch (error) {
-    console.error('SelfOS Service Worker: Background sync failed', error);
+    logger.error('SelfOS Service Worker: Background sync failed', error);
   }
 }
 
@@ -266,12 +266,12 @@ async function syncOfflineAction(action) {
 // Remove synced offline action
 async function removeOfflineAction(actionId) {
   // Remove from IndexedDB
-  console.log('SelfOS Service Worker: Removed offline action', actionId);
+  logger.info('SelfOS Service Worker: Removed offline action', actionId);
 }
 
 // Push notification handling
 self.addEventListener('push', (event) => {
-  console.log('SelfOS Service Worker: Push notification received');
+  logger.info('SelfOS Service Worker: Push notification received');
 
   const options = {
     body: 'SelfOS has new updates available!',
@@ -303,7 +303,7 @@ self.addEventListener('push', (event) => {
 
 // Notification click handling
 self.addEventListener('notificationclick', (event) => {
-  console.log('SelfOS Service Worker: Notification clicked', event.action);
+  logger.info('SelfOS Service Worker: Notification clicked', event.action);
 
   event.notification.close();
 
@@ -316,7 +316,7 @@ self.addEventListener('notificationclick', (event) => {
 
 // Message handling from main thread
 self.addEventListener('message', (event) => {
-  console.log('SelfOS Service Worker: Message received', event.data);
+  logger.info('SelfOS Service Worker: Message received', event.data);
 
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
@@ -332,4 +332,4 @@ self.addEventListener('message', (event) => {
   }
 });
 
-console.log('SelfOS Service Worker: Loaded successfully');
+logger.info('SelfOS Service Worker: Loaded successfully');

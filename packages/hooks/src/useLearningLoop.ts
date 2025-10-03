@@ -128,7 +128,7 @@ export function useLearningLoop(): LearningLoopHook {
   }, []);
 
   const trackAppLaunch = useCallback((appId: string, appName: string) => {
-    console.log('App launched:', appId, appName);
+    logger.info('App launched:', appId, appName);
     // Implement tracking logic
   }, []);
 
@@ -138,7 +138,7 @@ export function useLearningLoop(): LearningLoopHook {
       id: Date.now().toString(),
       timestamp: new Date()
     };
-    console.log('Activity tracked:', newActivity);
+    logger.info('Activity tracked:', newActivity);
     // Implement tracking logic
   }, []);
 

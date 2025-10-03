@@ -162,7 +162,7 @@ class DataAgent {
       this.updateLearningMetrics();
       
     } catch (error) {
-      console.error('Meta-learning cycle error:', error);
+      logger.error('Meta-learning cycle error:', error);
       this.analytics.errors++;
     }
   }
@@ -274,7 +274,7 @@ class DataAgent {
         }
       });
     } catch (error) {
-      console.error('Error generating new rules:', error);
+      logger.error('Error generating new rules:', error);
     }
   }
 
@@ -458,7 +458,7 @@ class DataAgent {
 
       return data;
     } catch (error) {
-      console.error(`Error fetching data from ${collectionName}:`, error);
+      logger.error(`Error fetching data from ${collectionName}:`, error);
       throw error;
     }
   }
@@ -476,7 +476,7 @@ class DataAgent {
       try {
         // Validate data
         if (!processor.validate(item)) {
-          console.warn(`Invalid data for ${collectionName}:`, item);
+          logger.warn(`Invalid data for ${collectionName}:`, item);
           continue;
         }
 
@@ -488,7 +488,7 @@ class DataAgent {
         
         processedData.push(transformedItem);
       } catch (error) {
-        console.error(`Error processing item in ${collectionName}:`, error);
+        logger.error(`Error processing item in ${collectionName}:`, error);
         processedData.push(item); // Return original if processing fails
       }
     }
@@ -789,7 +789,7 @@ class DataAgent {
           const docRef = await addDoc(collection(this.db, collectionName), item);
           results.push({ id: docRef.id, ...item });
         } catch (error) {
-          console.error(`Error creating item in batch:`, error);
+          logger.error(`Error creating item in batch:`, error);
           results.push({ error: error.message, item });
         }
       }
@@ -807,7 +807,7 @@ class DataAgent {
         await updateDoc(docRef, update.data);
         results.push({ id: update.id, success: true });
       } catch (error) {
-        console.error(`Error updating item ${update.id}:`, error);
+        logger.error(`Error updating item ${update.id}:`, error);
         results.push({ id: update.id, error: error.message });
       }
     }

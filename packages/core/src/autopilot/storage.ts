@@ -48,9 +48,9 @@ export class LocalAutopilotStorage implements IAutopilotStorage {
       const serialized = JSON.stringify(data, this.replacer);
       localStorage.setItem(this.STORAGE_KEY, serialized);
       
-      console.log('[Autopilot Storage] Data saved successfully');
+      logger.info('[Autopilot Storage] Data saved successfully');
     } catch (error) {
-      console.error('[Autopilot Storage] Failed to save data:', error);
+      logger.error('[Autopilot Storage] Failed to save data:', error);
       throw new Error('Failed to save autopilot data');
     }
   }
@@ -60,27 +60,27 @@ export class LocalAutopilotStorage implements IAutopilotStorage {
       const serialized = localStorage.getItem(this.STORAGE_KEY);
       
       if (!serialized) {
-        console.log('[Autopilot Storage] No saved data found');
+        logger.info('[Autopilot Storage] No saved data found');
         return null;
       }
 
       const data = JSON.parse(serialized, this.reviver);
-      console.log('[Autopilot Storage] Data loaded successfully');
+      logger.info('[Autopilot Storage] Data loaded successfully');
       
       return data;
     } catch (error) {
-      console.error('[Autopilot Storage] Failed to load data:', error);
+      logger.error('[Autopilot Storage] Failed to load data:', error);
       
       // Try to restore from backup
       try {
         const backup = localStorage.getItem(this.BACKUP_KEY);
         if (backup) {
-          console.log('[Autopilot Storage] Restoring from backup');
+          logger.info('[Autopilot Storage] Restoring from backup');
           const data = JSON.parse(backup, this.reviver);
           return data;
         }
       } catch (backupError) {
-        console.error('[Autopilot Storage] Backup restoration failed:', backupError);
+        logger.error('[Autopilot Storage] Backup restoration failed:', backupError);
       }
       
       return null;
@@ -91,9 +91,9 @@ export class LocalAutopilotStorage implements IAutopilotStorage {
     try {
       localStorage.removeItem(this.STORAGE_KEY);
       localStorage.removeItem(this.BACKUP_KEY);
-      console.log('[Autopilot Storage] Data cleared');
+      logger.info('[Autopilot Storage] Data cleared');
     } catch (error) {
-      console.error('[Autopilot Storage] Failed to clear data:', error);
+      logger.error('[Autopilot Storage] Failed to clear data:', error);
       throw new Error('Failed to clear autopilot data');
     }
   }
@@ -110,7 +110,7 @@ export class LocalAutopilotStorage implements IAutopilotStorage {
       const data = JSON.parse(serialized);
       return JSON.stringify(data, null, 2);
     } catch (error) {
-      console.error('[Autopilot Storage] Failed to export data:', error);
+      logger.error('[Autopilot Storage] Failed to export data:', error);
       throw new Error('Failed to export autopilot data');
     }
   }
@@ -127,9 +127,9 @@ export class LocalAutopilotStorage implements IAutopilotStorage {
 
       // Save imported data
       await this.save(data);
-      console.log('[Autopilot Storage] Data imported successfully');
+      logger.info('[Autopilot Storage] Data imported successfully');
     } catch (error) {
-      console.error('[Autopilot Storage] Failed to import data:', error);
+      logger.error('[Autopilot Storage] Failed to import data:', error);
       throw new Error('Failed to import autopilot data');
     }
   }
@@ -220,7 +220,7 @@ export class IndexedDBAutopilotStorage implements IAutopilotStorage {
       const request = store.put({ id: 'main', ...data });
 
       request.onsuccess = () => {
-        console.log('[Autopilot Storage] Data saved to IndexedDB');
+        logger.info('[Autopilot Storage] Data saved to IndexedDB');
         resolve();
       };
 
@@ -265,7 +265,7 @@ export class IndexedDBAutopilotStorage implements IAutopilotStorage {
       const request = store.clear();
 
       request.onsuccess = () => {
-        console.log('[Autopilot Storage] IndexedDB cleared');
+        logger.info('[Autopilot Storage] IndexedDB cleared');
         resolve();
       };
 
@@ -297,12 +297,12 @@ export class MemoryAutopilotStorage implements IAutopilotStorage {
 
   async save(data: AutopilotData): Promise<void> {
     this.data = JSON.parse(JSON.stringify(data)); // Deep clone
-    console.log('[Autopilot Storage] Data saved to memory');
+    logger.info('[Autopilot Storage] Data saved to memory');
   }
 
   async load(): Promise<AutopilotData | null> {
     if (this.data) {
-      console.log('[Autopilot Storage] Data loaded from memory');
+      logger.info('[Autopilot Storage] Data loaded from memory');
       return JSON.parse(JSON.stringify(this.data)); // Deep clone
     }
     return null;
@@ -310,7 +310,7 @@ export class MemoryAutopilotStorage implements IAutopilotStorage {
 
   async clear(): Promise<void> {
     this.data = null;
-    console.log('[Autopilot Storage] Memory cleared');
+    logger.info('[Autopilot Storage] Memory cleared');
   }
 
   async exportData(): Promise<string> {

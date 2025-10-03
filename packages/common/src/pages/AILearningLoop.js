@@ -73,7 +73,7 @@ function AILearningLoop() {
       // Initialize AI tools
       await initializeAITools();
     } catch (error) {
-      console.error('Failed to initialize AI system:', error);
+      logger.error('Failed to initialize AI system:', error);
     }
   };
 
@@ -124,7 +124,7 @@ function AILearningLoop() {
 
       setAiState(prev => ({ ...prev, currentPhase: 'learning' }));
     } catch (error) {
-      console.error('Failed to start learning loop:', error);
+      logger.error('Failed to start learning loop:', error);
       setAiState(prev => ({ 
         ...prev, 
         isRunning: false, 
@@ -171,7 +171,7 @@ function AILearningLoop() {
       }));
 
     } catch (error) {
-      console.error('Learning cycle error:', error);
+      logger.error('Learning cycle error:', error);
       setAiState(prev => ({
         ...prev,
         errors: [...prev.errors, { message: error.message, timestamp: new Date() }].slice(-5)
@@ -191,7 +191,7 @@ function AILearningLoop() {
         
         data.push(...osData, ...reviewsData, ...featuresData);
       } catch (error) {
-        console.error('Data collection error:', error);
+        logger.error('Data collection error:', error);
       }
     }
     
@@ -213,7 +213,7 @@ function AILearningLoop() {
         analysis.patterns.push(...geminiAnalysis.patterns);
         analysis.trends.push(...geminiAnalysis.trends);
       } catch (error) {
-        console.error('Gemini analysis error:', error);
+        logger.error('Gemini analysis error:', error);
       }
     }
 
@@ -223,7 +223,7 @@ function AILearningLoop() {
         analysis.anomalies.push(...openaiAnalysis.anomalies);
         analysis.correlations.push(...openaiAnalysis.correlations);
       } catch (error) {
-        console.error('OpenAI analysis error:', error);
+        logger.error('OpenAI analysis error:', error);
       }
     }
 

@@ -21,7 +21,7 @@ class TestRunner {
   }
 
   async runAllTests() {
-    console.log('🧪 Starting comprehensive test suite...\n');
+    logger.info('🧪 Starting comprehensive test suite...\n');
     
     try {
       await this.runUnitTests();
@@ -30,15 +30,15 @@ class TestRunner {
       await this.runPerformanceTests();
       await this.generateTestReport();
       
-      console.log('✅ All tests completed successfully!');
+      logger.info('✅ All tests completed successfully!');
     } catch (error) {
-      console.error('❌ Test suite failed:', error.message);
+      logger.error('❌ Test suite failed:', error.message);
       process.exit(1);
     }
   }
 
   async runUnitTests() {
-    console.log('🔬 Running unit tests...');
+    logger.info('🔬 Running unit tests...');
     
     try {
       const startTime = Date.now();
@@ -48,16 +48,16 @@ class TestRunner {
       this.results.unit.passed++;
       this.results.unit.total++;
       
-      console.log(`   ✅ Unit tests completed in ${endTime - startTime}ms\n`);
+      logger.info(`   ✅ Unit tests completed in ${endTime - startTime}ms\n`);
     } catch (error) {
       this.results.unit.failed++;
       this.results.unit.total++;
-      console.error('   ❌ Unit tests failed:', error.message);
+      logger.error('   ❌ Unit tests failed:', error.message);
     }
   }
 
   async runIntegrationTests() {
-    console.log('🔗 Running integration tests...');
+    logger.info('🔗 Running integration tests...');
     
     try {
       const startTime = Date.now();
@@ -67,16 +67,16 @@ class TestRunner {
       this.results.integration.passed++;
       this.results.integration.total++;
       
-      console.log(`   ✅ Integration tests completed in ${endTime - startTime}ms\n`);
+      logger.info(`   ✅ Integration tests completed in ${endTime - startTime}ms\n`);
     } catch (error) {
       this.results.integration.failed++;
       this.results.integration.total++;
-      console.error('   ❌ Integration tests failed:', error.message);
+      logger.error('   ❌ Integration tests failed:', error.message);
     }
   }
 
   async runE2ETests() {
-    console.log('🌐 Running E2E tests...');
+    logger.info('🌐 Running E2E tests...');
     
     try {
       const startTime = Date.now();
@@ -86,16 +86,16 @@ class TestRunner {
       this.results.e2e.passed++;
       this.results.e2e.total++;
       
-      console.log(`   ✅ E2E tests completed in ${endTime - startTime}ms\n`);
+      logger.info(`   ✅ E2E tests completed in ${endTime - startTime}ms\n`);
     } catch (error) {
       this.results.e2e.failed++;
       this.results.e2e.total++;
-      console.error('   ❌ E2E tests failed:', error.message);
+      logger.error('   ❌ E2E tests failed:', error.message);
     }
   }
 
   async runPerformanceTests() {
-    console.log('⚡ Running performance tests...');
+    logger.info('⚡ Running performance tests...');
     
     try {
       const startTime = Date.now();
@@ -105,16 +105,16 @@ class TestRunner {
       this.results.performance.passed++;
       this.results.performance.total++;
       
-      console.log(`   ✅ Performance tests completed in ${endTime - startTime}ms\n`);
+      logger.info(`   ✅ Performance tests completed in ${endTime - startTime}ms\n`);
     } catch (error) {
       this.results.performance.failed++;
       this.results.performance.total++;
-      console.error('   ❌ Performance tests failed:', error.message);
+      logger.error('   ❌ Performance tests failed:', error.message);
     }
   }
 
   async generateTestReport() {
-    console.log('📊 Generating test report...');
+    logger.info('📊 Generating test report...');
     
     const totalTime = Date.now() - this.startTime;
     const totalPassed = Object.values(this.results).reduce((sum, result) => sum + result.passed, 0);
@@ -137,9 +137,9 @@ class TestRunner {
     const reportPath = path.join(__dirname, '../test-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     
-    console.log(`   📄 Test report saved to: ${reportPath}`);
-    console.log(`   📊 Success rate: ${report.summary.successRate}`);
-    console.log(`   ⏱️  Total time: ${report.summary.totalTime}`);
+    logger.info(`   📄 Test report saved to: ${reportPath}`);
+    logger.info(`   📊 Success rate: ${report.summary.successRate}`);
+    logger.info(`   ⏱️  Total time: ${report.summary.totalTime}`);
   }
 
   generateRecommendations() {
@@ -191,4 +191,4 @@ class TestRunner {
 
 // Run tests
 const testRunner = new TestRunner();
-testRunner.runAllTests().catch(console.error);
+testRunner.runAllTests().catch(logger.error);

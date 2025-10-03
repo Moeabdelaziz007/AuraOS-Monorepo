@@ -29,7 +29,7 @@ export class TelegramAutopilot {
     // Start continuous analysis
     this.analyzer.startAnalysis(60000);
     
-    console.log('[Telegram Autopilot] Initialized');
+    logger.info('[Telegram Autopilot] Initialized');
   }
 
   /**
@@ -77,14 +77,14 @@ export class TelegramAutopilot {
     // Find frequently used commands
     for (const [command, count] of commandCounts.entries()) {
       if (count >= 3) {
-        console.log(`[Telegram Autopilot] Detected frequent command: /${command} (${count} times)`);
+        logger.info(`[Telegram Autopilot] Detected frequent command: /${command} (${count} times)`);
         
         // Create suggestion
         const suggestions = this.autopilot.getSuggestions();
         const existing = suggestions.find(s => s.taskName.includes(command));
         
         if (!existing) {
-          console.log(`[Telegram Autopilot] Suggesting automation for /${command}`);
+          logger.info(`[Telegram Autopilot] Suggesting automation for /${command}`);
         }
       }
     }
@@ -107,15 +107,15 @@ export class TelegramAutopilot {
     
     // Notify user of achievements
     if (rewardResult.achievements.length > 0) {
-      console.log(`[Telegram Autopilot] 🏆 Achievements unlocked for user ${userId}:`);
+      logger.info(`[Telegram Autopilot] 🏆 Achievements unlocked for user ${userId}:`);
       rewardResult.achievements.forEach(a => {
-        console.log(`  ${a.icon} ${a.name}: ${a.description}`);
+        logger.info(`  ${a.icon} ${a.name}: ${a.description}`);
       });
     }
 
     if (rewardResult.levelUp) {
       const stats = this.rewards.getStats();
-      console.log(`[Telegram Autopilot] 🎉 User ${userId} leveled up to ${stats.level} (${stats.levelTitle})`);
+      logger.info(`[Telegram Autopilot] 🎉 User ${userId} leveled up to ${stats.level} (${stats.levelTitle})`);
     }
 
     return result;
@@ -226,7 +226,7 @@ export class TelegramAutopilot {
    */
   acceptSuggestion(suggestionId: string): void {
     this.autopilot.acceptSuggestion(suggestionId);
-    console.log(`[Telegram Autopilot] Suggestion ${suggestionId} accepted`);
+    logger.info(`[Telegram Autopilot] Suggestion ${suggestionId} accepted`);
   }
 
   /**
@@ -234,7 +234,7 @@ export class TelegramAutopilot {
    */
   rejectSuggestion(suggestionId: string): void {
     this.autopilot.rejectSuggestion(suggestionId);
-    console.log(`[Telegram Autopilot] Suggestion ${suggestionId} rejected`);
+    logger.info(`[Telegram Autopilot] Suggestion ${suggestionId} rejected`);
   }
 
   /**
@@ -249,7 +249,7 @@ export class TelegramAutopilot {
    */
   async importData(jsonData: string): Promise<void> {
     await this.autopilot.importData(jsonData);
-    console.log('[Telegram Autopilot] Data imported successfully');
+    logger.info('[Telegram Autopilot] Data imported successfully');
   }
 }
 

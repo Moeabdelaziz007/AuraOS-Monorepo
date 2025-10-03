@@ -48,7 +48,7 @@ const chatRooms = new Map();
 const userProfiles = new Map();
 
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  logger.info('User connected:', socket.id);
 
   // Handle user authentication and room joining
   socket.on('join_user_room', (userData) => {
@@ -88,17 +88,17 @@ io.on('connection', (socket) => {
   socket.on('join_system_room', (roomName) => {
     socket.join(roomName);
     systemRooms.add(roomName);
-    console.log(`User ${socket.id} joined system room: ${roomName}`);
+    logger.info(`User ${socket.id} joined system room: ${roomName}`);
   });
 
   socket.on('join_room', (roomName) => {
     socket.join(roomName);
-    console.log(`User ${socket.id} joined room: ${roomName}`);
+    logger.info(`User ${socket.id} joined room: ${roomName}`);
   });
 
   socket.on('leave_room', (roomName) => {
     socket.leave(roomName);
-    console.log(`User ${socket.id} left room: ${roomName}`);
+    logger.info(`User ${socket.id} left room: ${roomName}`);
   });
 
   // Chat system handlers
@@ -211,7 +211,7 @@ io.on('connection', (socket) => {
   // Handle system alerts
   socket.on('broadcast_system_alert', (alert) => {
     io.emit('system_alert', alert);
-    console.log('System alert broadcasted:', alert);
+    logger.info('System alert broadcasted:', alert);
   });
 
   // Handle app status updates
@@ -229,9 +229,9 @@ io.on('connection', (socket) => {
       // Broadcast update to all connected clients
       io.emit('app_updated', { appId, status, updatedAt: new Date().toISOString() });
       
-      console.log(`App ${appId} status updated to ${status}`);
+      logger.info(`App ${appId} status updated to ${status}`);
     } catch (error) {
-      console.error('Error updating app status:', error);
+      logger.error('Error updating app status:', error);
       socket.emit('error', { message: 'Failed to update app status' });
     }
   });
@@ -253,7 +253,7 @@ io.on('connection', (socket) => {
       
       socket.emit('system_status_update', systemStatus);
     } catch (error) {
-      console.error('Error fetching system status:', error);
+      logger.error('Error fetching system status:', error);
       socket.emit('error', { message: 'Failed to fetch system status' });
     }
   });
@@ -268,7 +268,7 @@ io.on('connection', (socket) => {
 
   // Handle disconnection
   socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    logger.info('User disconnected:', socket.id);
     
     const user = connectedUsers.get(socket.id);
     if (user) {
@@ -318,7 +318,7 @@ setInterval(async () => {
     
     io.emit('system_status_update', systemStatus);
   } catch (error) {
-    console.error('Error in periodic system status update:', error);
+    logger.error('Error in periodic system status update:', error);
   }
 }, 30000); // Update every 30 seconds
 
@@ -387,7 +387,7 @@ app.get('/api/apps', async (req, res) => {
     });
     res.json({ apps });
   } catch (error) {
-    console.error('Error fetching apps:', error);
+    logger.error('Error fetching apps:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -405,7 +405,7 @@ app.get('/api/apps/:id', async (req, res) => {
     
     res.json({ id: appSnap.id, ...appSnap.data() });
   } catch (error) {
-    console.error('Error fetching app:', error);
+    logger.error('Error fetching app:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -432,7 +432,7 @@ app.post('/api/apps', async (req, res) => {
     const docRef = await addDoc(collection(db, 'apps'), appData);
     res.status(201).json({ id: docRef.id, ...appData });
   } catch (error) {
-    console.error('Error creating app:', error);
+    logger.error('Error creating app:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -451,7 +451,7 @@ app.put('/api/apps/:id', async (req, res) => {
     
     res.json({ id, ...updateData });
   } catch (error) {
-    console.error('Error updating app:', error);
+    logger.error('Error updating app:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -463,7 +463,7 @@ app.delete('/api/apps/:id', async (req, res) => {
     await deleteDoc(doc(db, 'apps', id));
     res.json({ message: 'App deleted successfully' });
   } catch (error) {
-    console.error('Error deleting app:', error);
+    logger.error('Error deleting app:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -485,7 +485,7 @@ app.get('/api/system/status', async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error fetching system status:', error);
+    logger.error('Error fetching system status:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -502,7 +502,7 @@ app.get('/api/system/logs', async (req, res) => {
     });
     res.json({ logs });
   } catch (error) {
-    console.error('Error fetching logs:', error);
+    logger.error('Error fetching logs:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -526,7 +526,7 @@ app.post('/api/system/logs', async (req, res) => {
     const docRef = await addDoc(collection(db, 'system_logs'), logData);
     res.status(201).json({ id: docRef.id, ...logData });
   } catch (error) {
-    console.error('Error creating log:', error);
+    logger.error('Error creating log:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -546,7 +546,7 @@ app.get('/api/chat/rooms', (req, res) => {
     
     res.json({ rooms });
   } catch (error) {
-    console.error('Error fetching chat rooms:', error);
+    logger.error('Error fetching chat rooms:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -563,7 +563,7 @@ app.get('/api/chat/rooms/:roomName/history', (req, res) => {
     const room = chatRooms.get(roomName);
     res.json({ messages: room.messages });
   } catch (error) {
-    console.error('Error fetching chat history:', error);
+    logger.error('Error fetching chat history:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -599,7 +599,7 @@ app.post('/api/chat/rooms', (req, res) => {
       createdAt: newRoom.createdAt
     });
   } catch (error) {
-    console.error('Error creating chat room:', error);
+    logger.error('Error creating chat room:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -620,7 +620,7 @@ app.get('/api/users/online', (req, res) => {
     
     res.json({ users: onlineUsers });
   } catch (error) {
-    console.error('Error fetching online users:', error);
+    logger.error('Error fetching online users:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -636,7 +636,7 @@ app.get('/api/users/:userId/profile', (req, res) => {
     
     res.json({ profile: userProfiles.get(userId) });
   } catch (error) {
-    console.error('Error fetching user profile:', error);
+    logger.error('Error fetching user profile:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -666,7 +666,7 @@ app.put('/api/users/:userId/profile', (req, res) => {
     
     res.json({ profile: updatedProfile });
   } catch (error) {
-    console.error('Error updating user profile:', error);
+    logger.error('Error updating user profile:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -678,7 +678,7 @@ app.get('*', (req, res) => {
 
 // Start server
 server.listen(PORT, () => {
-  console.log(`🚀 AIOS Server running on port ${PORT}`);
-  console.log(`📡 Socket.io server ready for connections`);
-  console.log(`🔥 Firebase connected: ${process.env.FIREBASE_PROJECT_ID}`);
+  logger.info(`🚀 AIOS Server running on port ${PORT}`);
+  logger.info(`📡 Socket.io server ready for connections`);
+  logger.info(`🔥 Firebase connected: ${process.env.FIREBASE_PROJECT_ID}`);
 });

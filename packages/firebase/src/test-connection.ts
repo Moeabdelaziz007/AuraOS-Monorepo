@@ -12,7 +12,7 @@ export async function testFirebaseConnection(): Promise<{
   details?: any;
 }> {
   try {
-    console.log('[Firebase Test] جاري اختبار الاتصال...');
+    logger.info('[Firebase Test] جاري اختبار الاتصال...');
 
     // اختبار Firebase App
     if (!app) {
@@ -21,7 +21,7 @@ export async function testFirebaseConnection(): Promise<{
         message: 'فشل تهيئة Firebase App',
       };
     }
-    console.log('[Firebase Test] ✅ Firebase App جاهز');
+    logger.info('[Firebase Test] ✅ Firebase App جاهز');
 
     // اختبار Firestore
     if (!db) {
@@ -30,15 +30,15 @@ export async function testFirebaseConnection(): Promise<{
         message: 'فشل تهيئة Firestore',
       };
     }
-    console.log('[Firebase Test] ✅ Firestore جاهز');
+    logger.info('[Firebase Test] ✅ Firestore جاهز');
 
     // محاولة قراءة collection (حتى لو فارغ)
     try {
       const testCollection = collection(db, 'test');
       await getDocs(testCollection);
-      console.log('[Firebase Test] ✅ Firestore متصل بنجاح');
+      logger.info('[Firebase Test] ✅ Firestore متصل بنجاح');
     } catch (firestoreError) {
-      console.warn('[Firebase Test] ⚠️ تحذير Firestore:', firestoreError);
+      logger.warn('[Firebase Test] ⚠️ تحذير Firestore:', firestoreError);
     }
 
     // اختبار Auth
@@ -48,7 +48,7 @@ export async function testFirebaseConnection(): Promise<{
         message: 'فشل تهيئة Firebase Auth',
       };
     }
-    console.log('[Firebase Test] ✅ Firebase Auth جاهز');
+    logger.info('[Firebase Test] ✅ Firebase Auth جاهز');
 
     return {
       success: true,
@@ -60,7 +60,7 @@ export async function testFirebaseConnection(): Promise<{
       },
     };
   } catch (error) {
-    console.error('[Firebase Test] ❌ خطأ:', error);
+    logger.error('[Firebase Test] ❌ خطأ:', error);
     return {
       success: false,
       message: error instanceof Error ? error.message : 'خطأ غير معروف',
@@ -72,11 +72,11 @@ export async function testFirebaseConnection(): Promise<{
 // تشغيل الاختبار إذا تم استدعاء الملف مباشرة
 if (require.main === module) {
   testFirebaseConnection().then((result) => {
-    console.log('\n=== نتيجة الاختبار ===');
-    console.log('النجاح:', result.success ? '✅' : '❌');
-    console.log('الرسالة:', result.message);
+    logger.info('\n=== نتيجة الاختبار ===');
+    logger.info('النجاح:', result.success ? '✅' : '❌');
+    logger.info('الرسالة:', result.message);
     if (result.details) {
-      console.log('التفاصيل:', JSON.stringify(result.details, null, 2));
+      logger.info('التفاصيل:', JSON.stringify(result.details, null, 2));
     }
     process.exit(result.success ? 0 : 1);
   });

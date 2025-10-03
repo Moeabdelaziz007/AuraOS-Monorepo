@@ -64,7 +64,7 @@ const Apps = () => {
     } catch (err) {
       const errorInfo = handleAPIError(err);
       setError(errorInfo.message);
-      console.error('Apps fetch error:', errorInfo);
+      logger.error('Apps fetch error:', errorInfo);
     } finally {
       setLoading(false);
     }
@@ -118,7 +118,7 @@ const Apps = () => {
     } catch (err) {
       const errorInfo = handleAPIError(err);
       setError(errorInfo.message);
-      console.error('App save error:', errorInfo);
+      logger.error('App save error:', errorInfo);
     }
   };
 
@@ -130,7 +130,7 @@ const Apps = () => {
       } catch (err) {
         const errorInfo = handleAPIError(err);
         setError(errorInfo.message);
-        console.error('App delete error:', errorInfo);
+        logger.error('App delete error:', errorInfo);
       }
     }
   };
@@ -143,7 +143,7 @@ const Apps = () => {
     } catch (err) {
       const errorInfo = handleAPIError(err);
       setError(errorInfo.message);
-      console.error('App status toggle error:', errorInfo);
+      logger.error('App status toggle error:', errorInfo);
     }
   };
 

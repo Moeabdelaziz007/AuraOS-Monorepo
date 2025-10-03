@@ -649,7 +649,7 @@ export class IntelligentToolSelector {
     if (tools.length < 2) return;
 
     const combination = tools.sort().join('->');
-    console.log(`[MCP Integration] ${success ? '✅' : '❌'} Tool combination: ${combination}`);
+    logger.info(`[MCP Integration] ${success ? '✅' : '❌'} Tool combination: ${combination}`);
   }
 }
 
@@ -720,19 +720,19 @@ export class MCPAutopilotActions {
     let error: string | undefined;
 
     try {
-      console.log(`[MCP Autopilot] Executing tool: ${tool.name}`);
-      console.log(`[MCP Autopilot] Parameters:`, parameters);
+      logger.info(`[MCP Autopilot] Executing tool: ${tool.name}`);
+      logger.info(`[MCP Autopilot] Parameters:`, parameters);
 
       // Simulate tool execution
       // In real implementation, this would call actual MCP tools
       await new Promise(resolve => setTimeout(resolve, 500));
       
       success = true;
-      console.log(`[MCP Autopilot] ✅ Tool executed successfully`);
+      logger.info(`[MCP Autopilot] ✅ Tool executed successfully`);
     } catch (err) {
       success = false;
       error = err instanceof Error ? err.message : 'Unknown error';
-      console.error(`[MCP Autopilot] ❌ Tool execution failed:`, error);
+      logger.error(`[MCP Autopilot] ❌ Tool execution failed:`, error);
     }
 
     const duration = Date.now() - startTime;

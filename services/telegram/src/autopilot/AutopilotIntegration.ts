@@ -28,16 +28,16 @@ export class AutopilotIntegration extends EventEmitter {
    */
   private async initializeAutopilot(): Promise<void> {
     try {
-      console.log('🤖 Initializing Autopilot Integration...');
+      logger.info('🤖 Initializing Autopilot Integration...');
       
       // Register default tasks
       await this.registerDefaultTasks();
       
       this.isActive = true;
-      console.log('✅ Autopilot Integration initialized');
+      logger.info('✅ Autopilot Integration initialized');
       
     } catch (error) {
-      console.error('❌ Autopilot initialization failed:', error);
+      logger.error('❌ Autopilot initialization failed:', error);
       this.isActive = false;
     }
   }
@@ -118,7 +118,7 @@ export class AutopilotIntegration extends EventEmitter {
    */
   registerTask(task: AutopilotTask): void {
     this.tasks.set(task.id, task);
-    console.log(`🤖 Registered autopilot task: ${task.name}`);
+    logger.info(`🤖 Registered autopilot task: ${task.name}`);
     this.emit('task_registered', task);
   }
 
@@ -172,7 +172,7 @@ export class AutopilotIntegration extends EventEmitter {
       };
 
     } catch (error) {
-      console.error(`❌ Autopilot task execution error (${taskId}):`, error);
+      logger.error(`❌ Autopilot task execution error (${taskId}):`, error);
       return {
         success: false,
         error: 'Task execution failed',
@@ -343,7 +343,7 @@ export class AutopilotIntegration extends EventEmitter {
       };
 
     } catch (error) {
-      console.error('❌ User task creation error:', error);
+      logger.error('❌ User task creation error:', error);
       return {
         success: false,
         error: 'Task creation failed',

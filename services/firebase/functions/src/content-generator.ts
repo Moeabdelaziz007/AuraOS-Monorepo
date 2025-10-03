@@ -297,7 +297,7 @@ export const generateContent = functions.https.onCall(async (data: ContentGenera
 
     return result;
   } catch (error: any) {
-    console.error('Error generating content:', error);
+    logger.error('Error generating content:', error);
     throw new functions.https.HttpsError('internal', error.message || 'Failed to generate content');
   }
 });

@@ -72,7 +72,7 @@ export class AISummarizationService {
         temperature: 0.5,
       });
     } catch (error) {
-      console.error('Summarization error:', error);
+      logger.error('Summarization error:', error);
       // Fallback: simple extraction
       return this.extractiveSummary(content, maxLength);
     }
@@ -100,7 +100,7 @@ export class AISummarizationService {
       // Fallback: extract sentences
       return this.extractTopSentences(content, 5);
     } catch (error) {
-      console.error('Key points extraction error:', error);
+      logger.error('Key points extraction error:', error);
       return this.extractTopSentences(content, 5);
     }
   }
@@ -126,7 +126,7 @@ export class AISummarizationService {
       // Fallback: simple regex extraction
       return this.simpleEntityExtraction(content);
     } catch (error) {
-      console.error('Entity extraction error:', error);
+      logger.error('Entity extraction error:', error);
       return this.simpleEntityExtraction(content);
     }
   }
@@ -152,7 +152,7 @@ export class AISummarizationService {
       // Fallback: simple keyword analysis
       return this.simpleSentimentAnalysis(content);
     } catch (error) {
-      console.error('Sentiment analysis error:', error);
+      logger.error('Sentiment analysis error:', error);
       return this.simpleSentimentAnalysis(content);
     }
   }
@@ -217,7 +217,7 @@ export class AISummarizationService {
         targetLanguage,
       };
     } catch (error) {
-      console.error('Translation error:', error);
+      logger.error('Translation error:', error);
       throw new Error('Translation failed');
     }
   }
@@ -243,7 +243,7 @@ export class AISummarizationService {
       // Fallback: extract common words
       return this.extractCommonWords(content, 5);
     } catch (error) {
-      console.error('Tag generation error:', error);
+      logger.error('Tag generation error:', error);
       return this.extractCommonWords(content, 5);
     }
   }

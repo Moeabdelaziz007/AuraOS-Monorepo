@@ -105,7 +105,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         editor.commands.insertContent(completion);
       }
     } catch (error) {
-      console.error('AI completion error:', error);
+      logger.error('AI completion error:', error);
     }
   };
 
@@ -125,7 +125,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           setAiSuggestion(suggestion);
         }
       } catch (error) {
-        console.error('AI suggestion error:', error);
+        logger.error('AI suggestion error:', error);
       }
     }, 1000),
     []

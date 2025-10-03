@@ -252,7 +252,7 @@ export class SmartTaskScheduler {
       learningValue: 50,
     });
 
-    console.log(`[Smart Scheduler] Initialized ${this.availableTasks.size} learning tasks`);
+    logger.info(`[Smart Scheduler] Initialized ${this.availableTasks.size} learning tasks`);
   }
 
   /**
@@ -357,9 +357,9 @@ export class SmartTaskScheduler {
    * Execute a learning task
    */
   async executeTask(task: LearningTask): Promise<LearningSession> {
-    console.log(`\n📚 Learning Task: ${task.name}`);
-    console.log(`   Tier: ${task.tier} | Complexity: ${task.complexity}/10`);
-    console.log(`   Category: ${task.category}`);
+    logger.info(`\n📚 Learning Task: ${task.name}`);
+    logger.info(`   Tier: ${task.tier} | Complexity: ${task.complexity}/10`);
+    logger.info(`   Category: ${task.category}`);
 
     const startTime = Date.now();
 
@@ -396,7 +396,7 @@ export class SmartTaskScheduler {
       );
     }
 
-    console.log(`   ${session.success ? '✅' : '❌'} Quality: ${(session.quality * 100).toFixed(1)}% | Time: ${duration}ms`);
+    logger.info(`   ${session.success ? '✅' : '❌'} Quality: ${(session.quality * 100).toFixed(1)}% | Time: ${duration}ms`);
 
     return session;
   }
@@ -419,8 +419,8 @@ export class SmartTaskScheduler {
    * Run learning session (execute multiple tasks)
    */
   async runLearningSession(taskCount: number = 5): Promise<LearningSession[]> {
-    console.log(`\n🎓 Starting Learning Session (${taskCount} tasks)`);
-    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+    logger.info(`\n🎓 Starting Learning Session (${taskCount} tasks)`);
+    logger.info(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
     const sessions: LearningSession[] = [];
 
@@ -428,7 +428,7 @@ export class SmartTaskScheduler {
       const task = this.getNextTask();
       
       if (!task) {
-        console.log(`\n⚠️  No more available tasks`);
+        logger.info(`\n⚠️  No more available tasks`);
         break;
       }
 
@@ -449,31 +449,31 @@ export class SmartTaskScheduler {
    * Print session summary
    */
   private printSessionSummary(sessions: LearningSession[]): void {
-    console.log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-    console.log(`📊 Session Summary`);
-    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+    logger.info(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    logger.info(`📊 Session Summary`);
+    logger.info(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
     const successful = sessions.filter(s => s.success).length;
     const avgQuality = sessions.reduce((sum, s) => sum + s.quality, 0) / sessions.length;
     const avgDuration = sessions.reduce((sum, s) => sum + s.duration, 0) / sessions.length;
 
-    console.log(`Tasks Completed:  ${sessions.length}`);
-    console.log(`Successful:       ${successful} (${((successful / sessions.length) * 100).toFixed(0)}%)`);
-    console.log(`Avg Quality:      ${(avgQuality * 100).toFixed(1)}%`);
-    console.log(`Avg Duration:     ${Math.round(avgDuration)}ms`);
-    console.log('');
+    logger.info(`Tasks Completed:  ${sessions.length}`);
+    logger.info(`Successful:       ${successful} (${((successful / sessions.length) * 100).toFixed(0)}%)`);
+    logger.info(`Avg Quality:      ${(avgQuality * 100).toFixed(1)}%`);
+    logger.info(`Avg Duration:     ${Math.round(avgDuration)}ms`);
+    logger.info('');
 
     // Progress update
     const progress = this.getProgress();
-    console.log(`Current Progress:`);
-    console.log(`  Total Tasks:    ${progress.totalTasks}`);
-    console.log(`  Success Rate:   ${(progress.successRate * 100).toFixed(1)}%`);
-    console.log(`  Current Tier:   ${progress.currentTier}`);
-    console.log(`  Learning Rate:  ${progress.learningRate.toFixed(2)}`);
-    console.log(`  Streak:         ${progress.streak} 🔥`);
+    logger.info(`Current Progress:`);
+    logger.info(`  Total Tasks:    ${progress.totalTasks}`);
+    logger.info(`  Success Rate:   ${(progress.successRate * 100).toFixed(1)}%`);
+    logger.info(`  Current Tier:   ${progress.currentTier}`);
+    logger.info(`  Learning Rate:  ${progress.learningRate.toFixed(2)}`);
+    logger.info(`  Streak:         ${progress.streak} 🔥`);
     
     if (progress.readyForNextTier) {
-      console.log(`\n🎉 Ready to advance to next tier!`);
+      logger.info(`\n🎉 Ready to advance to next tier!`);
     }
   }
 
@@ -565,13 +565,13 @@ export class SmartTaskScheduler {
    */
   advanceWeek(): void {
     this.currentWeek++;
-    console.log(`\n📅 Advanced to Week ${this.currentWeek}`);
+    logger.info(`\n📅 Advanced to Week ${this.currentWeek}`);
     
     const distribution = this.getTaskDistribution();
-    console.log(`   Task Distribution:`);
-    console.log(`   - Foundation:   ${distribution.foundation}%`);
-    console.log(`   - Intermediate: ${distribution.intermediate}%`);
-    console.log(`   - Advanced:     ${distribution.advanced}%`);
+    logger.info(`   Task Distribution:`);
+    logger.info(`   - Foundation:   ${distribution.foundation}%`);
+    logger.info(`   - Intermediate: ${distribution.intermediate}%`);
+    logger.info(`   - Advanced:     ${distribution.advanced}%`);
   }
 
   /**

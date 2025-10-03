@@ -8,7 +8,7 @@ admin.initializeApp();
 try {
   validateConfig();
 } catch (error) {
-  console.error('Configuration validation failed:', error);
+  logger.error('Configuration validation failed:', error);
 }
 
 // Export Cloud Functions

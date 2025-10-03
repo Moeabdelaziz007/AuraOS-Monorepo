@@ -27,7 +27,7 @@ export class MonitoringManager extends EventEmitter {
    */
   private initializeMonitoring(): void {
     try {
-      console.log('📊 Initializing Monitoring Manager...');
+      logger.info('📊 Initializing Monitoring Manager...');
       
       this.analytics = this.initializeAnalytics();
       this.systemMetrics = this.getSystemMetrics();
@@ -37,10 +37,10 @@ export class MonitoringManager extends EventEmitter {
       this.startPerformanceMonitoring();
       
       this.isMonitoring = true;
-      console.log('✅ Monitoring Manager initialized');
+      logger.info('✅ Monitoring Manager initialized');
       
     } catch (error) {
-      console.error('❌ Monitoring initialization failed:', error);
+      logger.error('❌ Monitoring initialization failed:', error);
       this.isMonitoring = false;
     }
   }
@@ -168,7 +168,7 @@ export class MonitoringManager extends EventEmitter {
       this.emit('user_activity_tracked', { userId, activity, metadata });
       
     } catch (error) {
-      console.error('❌ User activity tracking error:', error);
+      logger.error('❌ User activity tracking error:', error);
     }
   }
 
@@ -317,7 +317,7 @@ Generated: ${new Date().toLocaleString()}`;
     this.userActivity.clear();
     this.performanceMetrics = [];
     this.emit('monitoring_data_cleared');
-    console.log('🧹 Monitoring data cleared');
+    logger.info('🧹 Monitoring data cleared');
   }
 
   /**

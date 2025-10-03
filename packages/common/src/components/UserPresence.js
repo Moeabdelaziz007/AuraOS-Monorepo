@@ -64,13 +64,13 @@ const UserPresence = ({ onlineUsers = [], socket = null }) => {
 
   const handleViewProfile = () => {
     // TODO: Implement profile viewing
-    console.log('View profile:', selectedUser);
+    logger.info('View profile:', selectedUser);
     handleMenuClose();
   };
 
   const handleReportUser = () => {
     // TODO: Implement user reporting
-    console.log('Report user:', selectedUser);
+    logger.info('Report user:', selectedUser);
     handleMenuClose();
   };
 

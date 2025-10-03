@@ -19,24 +19,24 @@ class PerformanceAnalyzer {
   }
 
   async analyze() {
-    console.log('🔍 Starting performance analysis...\n');
+    logger.info('🔍 Starting performance analysis...\n');
     
     await this.analyzeBundleSize();
     await this.analyzePerformance();
     await this.generateRecommendations();
     await this.generateReport();
     
-    console.log('✅ Performance analysis complete!');
+    logger.info('✅ Performance analysis complete!');
   }
 
   async analyzeBundleSize() {
-    console.log('📦 Analyzing bundle size...');
+    logger.info('📦 Analyzing bundle size...');
     
     try {
       // Check if dist directory exists
       const distPath = path.join(__dirname, '../dist');
       if (!fs.existsSync(distPath)) {
-        console.log('⚠️  Dist directory not found. Run build first.');
+        logger.info('⚠️  Dist directory not found. Run build first.');
         return;
       }
 
@@ -68,17 +68,17 @@ class PerformanceAnalyzer {
         cssFiles: cssFiles.length
       };
 
-      console.log(`   📊 Total JS size: ${this.results.bundleSize.totalJsSize}`);
-      console.log(`   📊 Total CSS size: ${this.results.bundleSize.totalCssSize}`);
-      console.log(`   📊 Total size: ${this.results.bundleSize.totalSize}`);
+      logger.info(`   📊 Total JS size: ${this.results.bundleSize.totalJsSize}`);
+      logger.info(`   📊 Total CSS size: ${this.results.bundleSize.totalCssSize}`);
+      logger.info(`   📊 Total size: ${this.results.bundleSize.totalSize}`);
       
     } catch (error) {
-      console.error('❌ Error analyzing bundle size:', error.message);
+      logger.error('❌ Error analyzing bundle size:', error.message);
     }
   }
 
   async analyzePerformance() {
-    console.log('⚡ Analyzing performance metrics...');
+    logger.info('⚡ Analyzing performance metrics...');
     
     try {
       // Check for performance metrics
@@ -93,18 +93,18 @@ class PerformanceAnalyzer {
           buildTime: stats.time || 0
         };
         
-        console.log(`   📊 Total modules: ${this.results.performance.totalModules}`);
-        console.log(`   📊 Total chunks: ${this.results.performance.totalChunks}`);
-        console.log(`   📊 Build time: ${this.results.performance.buildTime}ms`);
+        logger.info(`   📊 Total modules: ${this.results.performance.totalModules}`);
+        logger.info(`   📊 Total chunks: ${this.results.performance.totalChunks}`);
+        logger.info(`   📊 Build time: ${this.results.performance.buildTime}ms`);
       }
       
     } catch (error) {
-      console.error('❌ Error analyzing performance:', error.message);
+      logger.error('❌ Error analyzing performance:', error.message);
     }
   }
 
   async generateRecommendations() {
-    console.log('💡 Generating optimization recommendations...');
+    logger.info('💡 Generating optimization recommendations...');
     
     const recommendations = [];
     
@@ -145,12 +145,12 @@ class PerformanceAnalyzer {
     
     recommendations.forEach(rec => {
       const priority = rec.priority === 'high' ? '🔴' : rec.priority === 'medium' ? '🟡' : '🟢';
-      console.log(`   ${priority} ${rec.message}`);
+      logger.info(`   ${priority} ${rec.message}`);
     });
   }
 
   async generateReport() {
-    console.log('📋 Generating performance report...');
+    logger.info('📋 Generating performance report...');
     
     const report = {
       timestamp: new Date().toISOString(),
@@ -168,7 +168,7 @@ class PerformanceAnalyzer {
     const reportPath = path.join(__dirname, '../performance-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     
-    console.log(`   📄 Report saved to: ${reportPath}`);
+    logger.info(`   📄 Report saved to: ${reportPath}`);
   }
 
   formatBytes(bytes) {
@@ -197,4 +197,4 @@ class PerformanceAnalyzer {
 
 // Run analysis
 const analyzer = new PerformanceAnalyzer();
-analyzer.analyze().catch(console.error);
+analyzer.analyze().catch(logger.error);

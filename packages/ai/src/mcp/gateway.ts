@@ -28,7 +28,7 @@ export class MCPGateway {
       ...config,
     };
 
-    console.log('[MCP Gateway] Initialized with config:', this.config);
+    logger.info('[MCP Gateway] Initialized with config:', this.config);
   }
 
   /**
@@ -48,8 +48,8 @@ export class MCPGateway {
       callCount: 0,
     });
 
-    console.log(`[MCP Gateway] Registered server: ${server.name} v${server.version}`);
-    console.log(`[MCP Gateway] Available tools: ${server.tools.map((t) => t.name).join(', ')}`);
+    logger.info(`[MCP Gateway] Registered server: ${server.name} v${server.version}`);
+    logger.info(`[MCP Gateway] Available tools: ${server.tools.map((t) => t.name).join(', ')}`);
   }
 
   /**
@@ -64,7 +64,7 @@ export class MCPGateway {
     await entry.server.shutdown();
     this.servers.delete(serverName);
 
-    console.log(`[MCP Gateway] Unregistered server: ${serverName}`);
+    logger.info(`[MCP Gateway] Unregistered server: ${serverName}`);
   }
 
   /**
@@ -200,15 +200,15 @@ export class MCPGateway {
    * Shutdown all servers
    */
   async shutdown(): Promise<void> {
-    console.log('[MCP Gateway] Shutting down all servers...');
+    logger.info('[MCP Gateway] Shutting down all servers...');
 
     for (const [name, entry] of this.servers.entries()) {
       await entry.server.shutdown();
-      console.log(`[MCP Gateway] Shut down server: ${name}`);
+      logger.info(`[MCP Gateway] Shut down server: ${name}`);
     }
 
     this.servers.clear();
-    console.log('[MCP Gateway] All servers shut down');
+    logger.info('[MCP Gateway] All servers shut down');
   }
 
   // Private methods

@@ -25,7 +25,7 @@ export class AIIntegration extends EventEmitter {
    * Initialize AI services
    */
   private initializeAI(): void {
-    console.log('🧠 Initializing AI Integration...');
+    logger.info('🧠 Initializing AI Integration...');
     // Initialize AI models, services, etc.
   }
 
@@ -61,7 +61,7 @@ export class AIIntegration extends EventEmitter {
       };
 
     } catch (error) {
-      console.error('❌ AI processing error:', error);
+      logger.error('❌ AI processing error:', error);
       return {
         success: false,
         error: 'AI processing failed',
@@ -211,7 +211,7 @@ export class AIIntegration extends EventEmitter {
       await this.generateInsights(userSession.userId, message, response);
 
     } catch (error) {
-      console.error('❌ Learning error:', error);
+      logger.error('❌ Learning error:', error);
     }
   }
 

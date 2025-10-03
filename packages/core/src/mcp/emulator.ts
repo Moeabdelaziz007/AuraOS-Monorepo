@@ -461,7 +461,7 @@ export class EmulatorControlMCPServer extends BaseMCPServer {
   ];
 
   protected async onInitialize(): Promise<void> {
-    console.log('[Emulator] Emulator control server initialized');
+    logger.info('[Emulator] Emulator control server initialized');
   }
 
   protected async handleToolExecution(toolName: string, input: Record<string, any>): Promise<any> {

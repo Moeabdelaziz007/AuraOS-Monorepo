@@ -580,12 +580,12 @@ export class WorkflowMCP {
   async start(): Promise<void> {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('WorkflowMCP server started');
+    logger.error('WorkflowMCP server started');
   }
 }
 
 // Start server if run directly
 if (require.main === module) {
   const server = new WorkflowMCP();
-  server.start().catch(console.error);
+  server.start().catch(logger.error);
 }

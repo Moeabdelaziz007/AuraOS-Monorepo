@@ -37,7 +37,7 @@ export class CustomAIAgentPlugin implements Plugin {
   }
 
   async initialize(): Promise<void> {
-    console.log(`Custom AI Agent "${this.config.name}" initialized`);
+    logger.info(`Custom AI Agent "${this.config.name}" initialized`);
 
     // Register AI agent
     this.api.registerAIAgent({
@@ -192,7 +192,7 @@ export class CustomAIAgentPlugin implements Plugin {
   async destroy(): Promise<void> {
     // Save all data
     await this.saveAllData();
-    console.log('Custom AI Agent destroyed');
+    logger.info('Custom AI Agent destroyed');
   }
 
   private async processQuery(query: string, context?: any): Promise<string> {
@@ -343,7 +343,7 @@ export class CustomAIAgentPlugin implements Plugin {
         this.learningData = new Map(savedLearning);
       }
     } catch (error) {
-      console.warn('Failed to load saved data:', error);
+      logger.warn('Failed to load saved data:', error);
     }
   }
 
@@ -354,7 +354,7 @@ export class CustomAIAgentPlugin implements Plugin {
       await this.api.storage.set('custom-ai-learning', Array.from(this.learningData.entries()));
       await this.saveConfig();
     } catch (error) {
-      console.warn('Failed to save data:', error);
+      logger.warn('Failed to save data:', error);
     }
   }
 

@@ -66,7 +66,7 @@ function AppContent() {
       await logout();
       handleUserMenuClose();
     } catch (error) {
-      console.error('Logout error:', error);
+      logger.error('Logout error:', error);
     }
   };
 

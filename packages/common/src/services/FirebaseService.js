@@ -40,10 +40,10 @@ export const FirebaseProvider = ({ children }) => {
         const agent = initializeDataAgent(db, auth);
         setDataAgent(agent);
 
-        console.log('Firebase and Data Agent initialized successfully');
+        logger.info('Firebase and Data Agent initialized successfully');
         setLoading(false);
       } catch (error) {
-        console.error('Firebase initialization error:', error);
+        logger.error('Firebase initialization error:', error);
         setLoading(false);
       }
     };

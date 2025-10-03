@@ -349,7 +349,7 @@ export class RewardSystem {
       this.achievements.set(achievement.id, achievement);
     });
 
-    console.log(`[Reward System] Initialized ${this.achievements.size} achievements`);
+    logger.info(`[Reward System] Initialized ${this.achievements.size} achievements`);
   }
 
   /**
@@ -440,7 +440,7 @@ export class RewardSystem {
         achievement.unlockedAt = new Date();
         achievement.progress = 100;
         this.totalPoints += achievement.points;
-        console.log(`[Reward System] 🏆 Achievement unlocked: ${achievement.name}`);
+        logger.info(`[Reward System] 🏆 Achievement unlocked: ${achievement.name}`);
         return achievement;
       }
     }
@@ -497,7 +497,7 @@ export class RewardSystem {
     // Check for level up
     this.checkLevelUp();
 
-    console.log(`[Reward System] 🎁 Awarded ${points} points: ${reason}`);
+    logger.info(`[Reward System] 🎁 Awarded ${points} points: ${reason}`);
     
     return reward;
   }
@@ -526,7 +526,7 @@ export class RewardSystem {
       
       this.rewards.push(reward);
       
-      console.log(`[Reward System] 🎊 LEVEL UP! Now level ${this.level}: ${levelInfo.title}`);
+      logger.info(`[Reward System] 🎊 LEVEL UP! Now level ${this.level}: ${levelInfo.title}`);
       
       // Check milestone achievements
       this.checkMilestoneAchievements();
@@ -844,7 +844,7 @@ export class RewardSystem {
     this.totalPoints += achievement.points;
     this.experience += achievement.points;
     
-    console.log(`[Reward System] 🏆 ACHIEVEMENT UNLOCKED: ${achievement.name} (+${achievement.points} points)`);
+    logger.info(`[Reward System] 🏆 ACHIEVEMENT UNLOCKED: ${achievement.name} (+${achievement.points} points)`);
     
     // Check for level up after achievement
     this.checkLevelUp();

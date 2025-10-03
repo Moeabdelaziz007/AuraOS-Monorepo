@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
           const userProfile = await getUserProfile(user.uid);
           setUserProfile(userProfile);
         } catch (error) {
-          console.error('Error loading user profile:', error);
+          logger.error('Error loading user profile:', error);
           setUserProfile({
             uid: user.uid,
             email: user.email,
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
       await signOut(auth);
       setUserProfile(null);
     } catch (error) {
-      console.error('Error signing out:', error);
+      logger.error('Error signing out:', error);
       throw error;
     }
   };
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
       // This would typically update Firestore
       setUserProfile(prev => ({ ...prev, ...updates }));
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      logger.error('Error updating user profile:', error);
       throw error;
     }
   };

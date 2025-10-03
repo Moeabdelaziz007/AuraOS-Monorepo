@@ -52,10 +52,6 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "functions": {
-    "source": "services/firebase/functions",
-    "runtime": "nodejs18"
-  },
   "emulators": {
     "auth": {
       "port": 9099

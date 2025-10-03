@@ -11,16 +11,16 @@ import {
   LearningContext,
 } from './index';
 
-console.log('🚀 AuraOS Autopilot Integration Demo\n');
-console.log('='.repeat(70));
+logger.info('🚀 AuraOS Autopilot Integration Demo\n');
+logger.info('='.repeat(70));
 
 // ============================================================================
 // TELEGRAM BOT INTEGRATION DEMO
 // ============================================================================
 
 async function demoTelegramIntegration() {
-  console.log('\n📱 TELEGRAM BOT INTEGRATION');
-  console.log('='.repeat(70));
+  logger.info('\n📱 TELEGRAM BOT INTEGRATION');
+  logger.info('='.repeat(70));
 
   const autopilot = new AutopilotService();
   const analyzer = new SmartAnalyzer();
@@ -29,7 +29,7 @@ async function demoTelegramIntegration() {
   const userId = 'telegram_user_123';
 
   // Simulate user commands
-  console.log('\n1️⃣  Simulating user commands...');
+  logger.info('\n1️⃣  Simulating user commands...');
   
   const commands = [
     { cmd: '/start', args: [] },
@@ -55,38 +55,38 @@ async function demoTelegramIntegration() {
     };
 
     autopilot.learnFromUserActions(actions, context);
-    console.log(`   Learned: ${cmd} ${args.join(' ')}`);
+    logger.info(`   Learned: ${cmd} ${args.join(' ')}`);
   }
 
   // Check suggestions
-  console.log('\n2️⃣  Checking for automation suggestions...');
+  logger.info('\n2️⃣  Checking for automation suggestions...');
   const suggestions = autopilot.getSuggestions();
   
   if (suggestions.length > 0) {
-    console.log(`   Found ${suggestions.length} suggestion(s):`);
+    logger.info(`   Found ${suggestions.length} suggestion(s):`);
     suggestions.forEach((s, i) => {
-      console.log(`   ${i + 1}. ${s.taskName}`);
-      console.log(`      ${s.reason}`);
-      console.log(`      Confidence: ${(s.confidence * 100).toFixed(0)}%`);
+      logger.info(`   ${i + 1}. ${s.taskName}`);
+      logger.info(`      ${s.reason}`);
+      logger.info(`      Confidence: ${(s.confidence * 100).toFixed(0)}%`);
     });
     
     // Accept first suggestion
-    console.log(`\n   Accepting suggestion: ${suggestions[0].taskName}`);
+    logger.info(`\n   Accepting suggestion: ${suggestions[0].taskName}`);
     autopilot.acceptSuggestion(suggestions[0].id);
   } else {
-    console.log('   No suggestions yet (need more repeated patterns)');
+    logger.info('   No suggestions yet (need more repeated patterns)');
   }
 
   // Execute a task
-  console.log('\n3️⃣  Executing automated task...');
+  logger.info('\n3️⃣  Executing automated task...');
   const tasks = autopilot.getEnabledTasks();
   if (tasks.length > 0) {
     const task = tasks[0];
-    console.log(`   Task: ${task.name}`);
+    logger.info(`   Task: ${task.name}`);
     
     const result = await autopilot.executeTask(task.id);
-    console.log(`   Result: ${result.success ? '✅ Success' : '❌ Failed'}`);
-    console.log(`   Duration: ${result.duration}ms`);
+    logger.info(`   Result: ${result.success ? '✅ Success' : '❌ Failed'}`);
+    logger.info(`   Duration: ${result.duration}ms`);
 
     // Analyze and reward
     const context: LearningContext = {
@@ -99,25 +99,25 @@ async function demoTelegramIntegration() {
     analyzer.recordExecution(result, context);
     const rewardResult = rewards.evaluateRewards(result, context);
 
-    console.log(`   Points earned: ${rewardResult.points}`);
-    console.log(`   Experience gained: ${rewardResult.experience}`);
-    console.log(`   Current streak: ${rewardResult.streaks}`);
+    logger.info(`   Points earned: ${rewardResult.points}`);
+    logger.info(`   Experience gained: ${rewardResult.experience}`);
+    logger.info(`   Current streak: ${rewardResult.streaks}`);
 
     if (rewardResult.achievements.length > 0) {
-      console.log(`   🏆 Achievements unlocked: ${rewardResult.achievements.length}`);
+      logger.info(`   🏆 Achievements unlocked: ${rewardResult.achievements.length}`);
     }
   }
 
   // Show stats
-  console.log('\n4️⃣  Telegram Bot Statistics:');
+  logger.info('\n4️⃣  Telegram Bot Statistics:');
   const stats = autopilot.getStats();
   const rewardStats = rewards.getStats();
   
-  console.log(`   Total Tasks: ${stats.totalTasks}`);
-  console.log(`   Enabled Tasks: ${stats.enabledTasks}`);
-  console.log(`   Total Executions: ${stats.totalExecutions}`);
-  console.log(`   Level: ${rewardStats.level} (${rewardStats.levelTitle})`);
-  console.log(`   Points: ${rewardStats.totalPoints}`);
+  logger.info(`   Total Tasks: ${stats.totalTasks}`);
+  logger.info(`   Enabled Tasks: ${stats.enabledTasks}`);
+  logger.info(`   Total Executions: ${stats.totalExecutions}`);
+  logger.info(`   Level: ${rewardStats.level} (${rewardStats.levelTitle})`);
+  logger.info(`   Points: ${rewardStats.totalPoints}`);
 }
 
 // ============================================================================
@@ -125,8 +125,8 @@ async function demoTelegramIntegration() {
 // ============================================================================
 
 async function demoContentGeneratorIntegration() {
-  console.log('\n\n📝 CONTENT GENERATOR INTEGRATION');
-  console.log('='.repeat(70));
+  logger.info('\n\n📝 CONTENT GENERATOR INTEGRATION');
+  logger.info('='.repeat(70));
 
   const autopilot = new AutopilotService();
   const analyzer = new SmartAnalyzer();
@@ -135,7 +135,7 @@ async function demoContentGeneratorIntegration() {
   const userId = 'content_user_456';
 
   // Simulate content generations
-  console.log('\n1️⃣  Simulating content generations...');
+  logger.info('\n1️⃣  Simulating content generations...');
   
   const generations = [
     { type: 'blog_post', topic: 'AI Technology', options: ['intro', 'conclusion'] },
@@ -179,18 +179,18 @@ async function demoContentGeneratorIntegration() {
     analyzer.recordExecution(result, context);
     const rewardResult = rewards.evaluateRewards(result, context);
 
-    console.log(`   Generated: ${gen.type} - "${gen.topic}"`);
-    console.log(`      Duration: ${Math.round(result.duration)}ms`);
-    console.log(`      Points: +${rewardResult.points}`);
+    logger.info(`   Generated: ${gen.type} - "${gen.topic}"`);
+    logger.info(`      Duration: ${Math.round(result.duration)}ms`);
+    logger.info(`      Points: +${rewardResult.points}`);
   }
 
   // Detect patterns
-  console.log('\n2️⃣  Pattern detection...');
-  console.log('   Detected: User frequently generates blog posts with intro/conclusion');
-  console.log('   Suggestion: Create a "Quick Blog Post" template');
+  logger.info('\n2️⃣  Pattern detection...');
+  logger.info('   Detected: User frequently generates blog posts with intro/conclusion');
+  logger.info('   Suggestion: Create a "Quick Blog Post" template');
 
   // Show smart rate
-  console.log('\n3️⃣  Smart analysis...');
+  logger.info('\n3️⃣  Smart analysis...');
   const context: LearningContext = {
     timeOfDay: 'morning',
     dayOfWeek: 'thursday',
@@ -199,27 +199,27 @@ async function demoContentGeneratorIntegration() {
   };
 
   const smartRate = analyzer.calculateSmartRate(context);
-  console.log(`   Smart Rate: ${smartRate}/100`);
+  logger.info(`   Smart Rate: ${smartRate}/100`);
 
   const insights = analyzer.generateInsights(context);
   if (insights.length > 0) {
-    console.log(`   Insights generated: ${insights.length}`);
+    logger.info(`   Insights generated: ${insights.length}`);
     insights.forEach(insight => {
-      console.log(`      [${insight.type}] ${insight.title}`);
+      logger.info(`      [${insight.type}] ${insight.title}`);
     });
   }
 
   // Show stats
-  console.log('\n4️⃣  Content Generator Statistics:');
+  logger.info('\n4️⃣  Content Generator Statistics:');
   const stats = autopilot.getStats();
   const rewardStats = rewards.getStats();
   
-  console.log(`   Total Tasks: ${stats.totalTasks}`);
-  console.log(`   Total Executions: ${stats.totalExecutions}`);
-  console.log(`   Success Rate: ${(stats.averageSuccessRate * 100).toFixed(1)}%`);
-  console.log(`   Level: ${rewardStats.level} (${rewardStats.levelTitle})`);
-  console.log(`   Points: ${rewardStats.totalPoints}`);
-  console.log(`   Achievements: ${rewardStats.achievementsUnlocked}/${rewardStats.totalAchievements}`);
+  logger.info(`   Total Tasks: ${stats.totalTasks}`);
+  logger.info(`   Total Executions: ${stats.totalExecutions}`);
+  logger.info(`   Success Rate: ${(stats.averageSuccessRate * 100).toFixed(1)}%`);
+  logger.info(`   Level: ${rewardStats.level} (${rewardStats.levelTitle})`);
+  logger.info(`   Points: ${rewardStats.totalPoints}`);
+  logger.info(`   Achievements: ${rewardStats.achievementsUnlocked}/${rewardStats.totalAchievements}`);
 }
 
 // ============================================================================
@@ -231,28 +231,28 @@ async function runFullDemo() {
     await demoTelegramIntegration();
     await demoContentGeneratorIntegration();
 
-    console.log('\n\n' + '='.repeat(70));
-    console.log('✅ DEMO COMPLETE');
-    console.log('='.repeat(70));
-    console.log('\n📚 Key Features Demonstrated:');
-    console.log('   ✓ Learning from user actions');
-    console.log('   ✓ Pattern detection');
-    console.log('   ✓ Automation suggestions');
-    console.log('   ✓ Task execution');
-    console.log('   ✓ Smart analysis');
-    console.log('   ✓ Reward system');
-    console.log('   ✓ Performance tracking');
-    console.log('\n💡 Integration Benefits:');
-    console.log('   • Reduces repetitive tasks');
-    console.log('   • Learns user preferences');
-    console.log('   • Provides intelligent suggestions');
-    console.log('   • Gamifies productivity');
-    console.log('   • Tracks performance improvements');
-    console.log('\n🚀 Ready for production integration!');
-    console.log('='.repeat(70) + '\n');
+    logger.info('\n\n' + '='.repeat(70));
+    logger.info('✅ DEMO COMPLETE');
+    logger.info('='.repeat(70));
+    logger.info('\n📚 Key Features Demonstrated:');
+    logger.info('   ✓ Learning from user actions');
+    logger.info('   ✓ Pattern detection');
+    logger.info('   ✓ Automation suggestions');
+    logger.info('   ✓ Task execution');
+    logger.info('   ✓ Smart analysis');
+    logger.info('   ✓ Reward system');
+    logger.info('   ✓ Performance tracking');
+    logger.info('\n💡 Integration Benefits:');
+    logger.info('   • Reduces repetitive tasks');
+    logger.info('   • Learns user preferences');
+    logger.info('   • Provides intelligent suggestions');
+    logger.info('   • Gamifies productivity');
+    logger.info('   • Tracks performance improvements');
+    logger.info('\n🚀 Ready for production integration!');
+    logger.info('='.repeat(70) + '\n');
 
   } catch (error) {
-    console.error('\n❌ Demo failed:', error);
+    logger.error('\n❌ Demo failed:', error);
     process.exit(1);
   }
 }

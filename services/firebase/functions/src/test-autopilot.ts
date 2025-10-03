@@ -5,14 +5,14 @@
 import { contentGeneratorAutopilot } from './autopilot-integration';
 
 async function testContentGeneratorAutopilot() {
-  console.log('🚀 Testing Content Generator Autopilot Integration\n');
-  console.log('='.repeat(60));
+  logger.info('🚀 Testing Content Generator Autopilot Integration\n');
+  logger.info('='.repeat(60));
 
   const testUserId = 'test_user_456';
 
   // Test 1: Learn from content generations
-  console.log('\n📝 Test 1: Learning from content generations');
-  console.log('-'.repeat(60));
+  logger.info('\n📝 Test 1: Learning from content generations');
+  logger.info('-'.repeat(60));
   
   await contentGeneratorAutopilot.learnFromGeneration(
     testUserId,
@@ -41,11 +41,11 @@ async function testContentGeneratorAutopilot() {
     true
   );
 
-  console.log('✅ Learned from 3 content generations');
+  logger.info('✅ Learned from 3 content generations');
 
   // Test 2: Simulate repeated pattern
-  console.log('\n🔄 Test 2: Simulating repeated generation pattern');
-  console.log('-'.repeat(60));
+  logger.info('\n🔄 Test 2: Simulating repeated generation pattern');
+  logger.info('-'.repeat(60));
   
   for (let i = 0; i < 5; i++) {
     await contentGeneratorAutopilot.learnFromGeneration(
@@ -58,62 +58,62 @@ async function testContentGeneratorAutopilot() {
     );
   }
   
-  console.log('✅ Generated 5 blog posts with similar options');
-  console.log('   Autopilot should detect this pattern');
+  logger.info('✅ Generated 5 blog posts with similar options');
+  logger.info('   Autopilot should detect this pattern');
 
   // Test 3: Get optimization suggestions
-  console.log('\n💡 Test 3: Getting optimization suggestions');
-  console.log('-'.repeat(60));
+  logger.info('\n💡 Test 3: Getting optimization suggestions');
+  logger.info('-'.repeat(60));
   
   const suggestions = contentGeneratorAutopilot.getOptimizationSuggestions(testUserId);
   if (suggestions.length > 0) {
-    console.log('Suggestions:');
-    suggestions.forEach((s, i) => console.log(`  ${i + 1}. ${s}`));
+    logger.info('Suggestions:');
+    suggestions.forEach((s, i) => logger.info(`  ${i + 1}. ${s}`));
   } else {
-    console.log('No suggestions yet (need more data)');
+    logger.info('No suggestions yet (need more data)');
   }
 
   // Test 4: Get user statistics
-  console.log('\n📊 Test 4: User statistics');
-  console.log('-'.repeat(60));
+  logger.info('\n📊 Test 4: User statistics');
+  logger.info('-'.repeat(60));
   
   const stats = contentGeneratorAutopilot.getUserStats(testUserId);
   
-  console.log('Autopilot Stats:');
-  console.log(`  Total Tasks: ${stats.autopilot.totalTasks}`);
-  console.log(`  Enabled Tasks: ${stats.autopilot.enabledTasks}`);
-  console.log(`  Total Executions: ${stats.autopilot.totalExecutions}`);
-  console.log(`  Success Rate: ${(stats.autopilot.averageSuccessRate * 100).toFixed(1)}%`);
+  logger.info('Autopilot Stats:');
+  logger.info(`  Total Tasks: ${stats.autopilot.totalTasks}`);
+  logger.info(`  Enabled Tasks: ${stats.autopilot.enabledTasks}`);
+  logger.info(`  Total Executions: ${stats.autopilot.totalExecutions}`);
+  logger.info(`  Success Rate: ${(stats.autopilot.averageSuccessRate * 100).toFixed(1)}%`);
   
-  console.log('\nReward Stats:');
-  console.log(`  Level: ${stats.rewards.level} (${stats.rewards.levelTitle})`);
-  console.log(`  Total Points: ${stats.rewards.totalPoints}`);
-  console.log(`  Experience: ${stats.rewards.experience}/${stats.rewards.experienceToNext}`);
-  console.log(`  Current Streak: ${stats.rewards.streak}`);
-  console.log(`  Achievements: ${stats.rewards.achievementsUnlocked}/${stats.rewards.totalAchievements}`);
+  logger.info('\nReward Stats:');
+  logger.info(`  Level: ${stats.rewards.level} (${stats.rewards.levelTitle})`);
+  logger.info(`  Total Points: ${stats.rewards.totalPoints}`);
+  logger.info(`  Experience: ${stats.rewards.experience}/${stats.rewards.experienceToNext}`);
+  logger.info(`  Current Streak: ${stats.rewards.streak}`);
+  logger.info(`  Achievements: ${stats.rewards.achievementsUnlocked}/${stats.rewards.totalAchievements}`);
   
-  console.log('\nSmart Analysis:');
-  console.log(`  Smart Rate: ${stats.smartRate}/100`);
-  console.log(`  Insights: ${stats.insights.length}`);
+  logger.info('\nSmart Analysis:');
+  logger.info(`  Smart Rate: ${stats.smartRate}/100`);
+  logger.info(`  Insights: ${stats.insights.length}`);
   
   if (stats.insights.length > 0) {
-    console.log('\n  Generated Insights:');
+    logger.info('\n  Generated Insights:');
     stats.insights.forEach(insight => {
-      console.log(`    [${insight.type}] ${insight.title}`);
-      console.log(`      ${insight.description}`);
+      logger.info(`    [${insight.type}] ${insight.title}`);
+      logger.info(`      ${insight.description}`);
     });
   }
   
-  console.log('\nContent Stats:');
-  console.log(`  Total Generations: ${stats.contentStats.totalGenerations}`);
-  console.log(`  Favorite Type: ${stats.contentStats.favoriteType || 'N/A'}`);
-  console.log(`  Avg Generation Time: ${Math.round(stats.contentStats.avgGenerationTime)}ms`);
-  console.log(`  Success Rate: ${(stats.contentStats.successRate * 100).toFixed(1)}%`);
-  console.log(`  Common Options: ${stats.contentStats.commonOptions.join(', ') || 'None yet'}`);
+  logger.info('\nContent Stats:');
+  logger.info(`  Total Generations: ${stats.contentStats.totalGenerations}`);
+  logger.info(`  Favorite Type: ${stats.contentStats.favoriteType || 'N/A'}`);
+  logger.info(`  Avg Generation Time: ${Math.round(stats.contentStats.avgGenerationTime)}ms`);
+  logger.info(`  Success Rate: ${(stats.contentStats.successRate * 100).toFixed(1)}%`);
+  logger.info(`  Common Options: ${stats.contentStats.commonOptions.join(', ') || 'None yet'}`);
 
   // Test 5: Create workflow
-  console.log('\n⚙️  Test 5: Creating automated workflow');
-  console.log('-'.repeat(60));
+  logger.info('\n⚙️  Test 5: Creating automated workflow');
+  logger.info('-'.repeat(60));
   
   const workflowId = await contentGeneratorAutopilot.createWorkflow(
     testUserId,
@@ -122,28 +122,28 @@ async function testContentGeneratorAutopilot() {
     { includeIntro: true, includeConclusion: true, length: 'medium' }
   );
   
-  console.log(`✅ Created workflow: ${workflowId}`);
+  logger.info(`✅ Created workflow: ${workflowId}`);
 
   // Test 6: Get performance insights
-  console.log('\n📈 Test 6: Performance insights');
-  console.log('-'.repeat(60));
+  logger.info('\n📈 Test 6: Performance insights');
+  logger.info('-'.repeat(60));
   
   const insights = contentGeneratorAutopilot.getPerformanceInsights(testUserId);
   
-  console.log(`Speed Improvement: ${insights.speedImprovement.toFixed(1)}%`);
-  console.log(`Quality Score: ${insights.qualityScore.toFixed(1)}/100`);
-  console.log(`Efficiency Rating: ${insights.efficiencyRating}`);
+  logger.info(`Speed Improvement: ${insights.speedImprovement.toFixed(1)}%`);
+  logger.info(`Quality Score: ${insights.qualityScore.toFixed(1)}/100`);
+  logger.info(`Efficiency Rating: ${insights.efficiencyRating}`);
   
   if (insights.recommendations.length > 0) {
-    console.log('\nRecommendations:');
+    logger.info('\nRecommendations:');
     insights.recommendations.forEach((r, i) => {
-      console.log(`  ${i + 1}. ${r}`);
+      logger.info(`  ${i + 1}. ${r}`);
     });
   }
 
   // Test 7: Simulate some failures
-  console.log('\n❌ Test 7: Learning from failures');
-  console.log('-'.repeat(60));
+  logger.info('\n❌ Test 7: Learning from failures');
+  logger.info('-'.repeat(60));
   
   await contentGeneratorAutopilot.learnFromGeneration(
     testUserId,
@@ -163,38 +163,38 @@ async function testContentGeneratorAutopilot() {
     true
   );
 
-  console.log('✅ Learned from 1 failure and 1 success');
-  console.log('   Autopilot adjusts success rate accordingly');
+  logger.info('✅ Learned from 1 failure and 1 success');
+  logger.info('   Autopilot adjusts success rate accordingly');
 
   // Test 8: Export data
-  console.log('\n💾 Test 8: Export learning data');
-  console.log('-'.repeat(60));
+  logger.info('\n💾 Test 8: Export learning data');
+  logger.info('-'.repeat(60));
   
   const exportedData = await contentGeneratorAutopilot.exportData();
   const dataSize = new Blob([exportedData]).size;
-  console.log(`✅ Exported ${dataSize} bytes of learning data`);
-  console.log(`   Data includes tasks, history, and patterns`);
+  logger.info(`✅ Exported ${dataSize} bytes of learning data`);
+  logger.info(`   Data includes tasks, history, and patterns`);
 
   // Final summary
-  console.log('\n' + '='.repeat(60));
-  console.log('🎉 Content Generator Autopilot Test Complete!');
-  console.log('='.repeat(60));
+  logger.info('\n' + '='.repeat(60));
+  logger.info('🎉 Content Generator Autopilot Test Complete!');
+  logger.info('='.repeat(60));
   
   const finalStats = contentGeneratorAutopilot.getUserStats(testUserId);
   const finalInsights = contentGeneratorAutopilot.getPerformanceInsights(testUserId);
   
-  console.log(`\n📈 Final Stats:`);
-  console.log(`   Generations: ${finalStats.contentStats.totalGenerations}`);
-  console.log(`   Favorite Type: ${finalStats.contentStats.favoriteType || 'N/A'}`);
-  console.log(`   Success Rate: ${(finalStats.contentStats.successRate * 100).toFixed(1)}%`);
-  console.log(`   Smart Rate: ${finalStats.smartRate}/100`);
-  console.log(`   Level: ${finalStats.rewards.level} (${finalStats.rewards.levelTitle})`);
-  console.log(`   Efficiency: ${finalInsights.efficiencyRating}`);
-  console.log(`   Quality Score: ${finalInsights.qualityScore.toFixed(1)}/100`);
+  logger.info(`\n📈 Final Stats:`);
+  logger.info(`   Generations: ${finalStats.contentStats.totalGenerations}`);
+  logger.info(`   Favorite Type: ${finalStats.contentStats.favoriteType || 'N/A'}`);
+  logger.info(`   Success Rate: ${(finalStats.contentStats.successRate * 100).toFixed(1)}%`);
+  logger.info(`   Smart Rate: ${finalStats.smartRate}/100`);
+  logger.info(`   Level: ${finalStats.rewards.level} (${finalStats.rewards.levelTitle})`);
+  logger.info(`   Efficiency: ${finalInsights.efficiencyRating}`);
+  logger.info(`   Quality Score: ${finalInsights.qualityScore.toFixed(1)}/100`);
 }
 
 // Run tests
 testContentGeneratorAutopilot().catch(error => {
-  console.error('❌ Test failed:', error);
+  logger.error('❌ Test failed:', error);
   process.exit(1);
 });

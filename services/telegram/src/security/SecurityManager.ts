@@ -28,7 +28,7 @@ export class SecurityManager extends EventEmitter {
    */
   private initializeSecurity(): void {
     try {
-      console.log('🔒 Initializing Security Manager...');
+      logger.info('🔒 Initializing Security Manager...');
       
       // Initialize whitelist and blacklist
       this.initializeAccessLists();
@@ -37,10 +37,10 @@ export class SecurityManager extends EventEmitter {
       this.initializeRateLimiting();
       
       this.isSecurityActive = true;
-      console.log('✅ Security Manager initialized');
+      logger.info('✅ Security Manager initialized');
       
     } catch (error) {
-      console.error('❌ Security initialization failed:', error);
+      logger.error('❌ Security initialization failed:', error);
       this.isSecurityActive = false;
     }
   }
@@ -67,7 +67,7 @@ export class SecurityManager extends EventEmitter {
    */
   private initializeRateLimiting(): void {
     // Rate limiting is handled by the core bot
-    console.log('⚡ Rate limiting initialized');
+    logger.info('⚡ Rate limiting initialized');
   }
 
   /**
@@ -151,7 +151,7 @@ export class SecurityManager extends EventEmitter {
       }
       
     } catch (error) {
-      console.error('❌ Activity monitoring error:', error);
+      logger.error('❌ Activity monitoring error:', error);
     }
   }
 
@@ -250,7 +250,7 @@ export class SecurityManager extends EventEmitter {
   blockUser(userId: number, reason: string): void {
     this.blacklist.add(userId);
     this.emit('user_blocked', { userId, reason });
-    console.log(`🚫 User ${userId} blocked: ${reason}`);
+    logger.info(`🚫 User ${userId} blocked: ${reason}`);
   }
 
   /**
@@ -263,7 +263,7 @@ export class SecurityManager extends EventEmitter {
     }, duration);
     
     this.emit('user_temporarily_blocked', { userId, duration });
-    console.log(`⏰ User ${userId} temporarily blocked for ${duration}ms`);
+    logger.info(`⏰ User ${userId} temporarily blocked for ${duration}ms`);
   }
 
   /**
@@ -271,7 +271,7 @@ export class SecurityManager extends EventEmitter {
    */
   warnUser(userId: number, message: string): void {
     this.emit('user_warned', { userId, message });
-    console.log(`⚠️ User ${userId} warned: ${message}`);
+    logger.info(`⚠️ User ${userId} warned: ${message}`);
   }
 
   /**
@@ -279,7 +279,7 @@ export class SecurityManager extends EventEmitter {
    */
   logActivity(userId: number, message: string): void {
     this.emit('activity_logged', { userId, message });
-    console.log(`📝 Activity logged for user ${userId}: ${message}`);
+    logger.info(`📝 Activity logged for user ${userId}: ${message}`);
   }
 
   /**
@@ -288,7 +288,7 @@ export class SecurityManager extends EventEmitter {
   addToWhitelist(userId: number): void {
     this.whitelist.add(userId);
     this.emit('user_whitelisted', { userId });
-    console.log(`✅ User ${userId} added to whitelist`);
+    logger.info(`✅ User ${userId} added to whitelist`);
   }
 
   /**
@@ -297,7 +297,7 @@ export class SecurityManager extends EventEmitter {
   removeFromWhitelist(userId: number): void {
     this.whitelist.delete(userId);
     this.emit('user_unwhitelisted', { userId });
-    console.log(`❌ User ${userId} removed from whitelist`);
+    logger.info(`❌ User ${userId} removed from whitelist`);
   }
 
   /**
@@ -306,7 +306,7 @@ export class SecurityManager extends EventEmitter {
   addToBlacklist(userId: number, reason: string): void {
     this.blacklist.add(userId);
     this.emit('user_blacklisted', { userId, reason });
-    console.log(`🚫 User ${userId} added to blacklist: ${reason}`);
+    logger.info(`🚫 User ${userId} added to blacklist: ${reason}`);
   }
 
   /**
@@ -315,7 +315,7 @@ export class SecurityManager extends EventEmitter {
   removeFromBlacklist(userId: number): void {
     this.blacklist.delete(userId);
     this.emit('user_unblacklisted', { userId });
-    console.log(`✅ User ${userId} removed from blacklist`);
+    logger.info(`✅ User ${userId} removed from blacklist`);
   }
 
   /**
@@ -372,7 +372,7 @@ export class SecurityManager extends EventEmitter {
     this.rateLimits.delete(userId);
     this.suspiciousActivity.delete(userId);
     this.emit('user_security_cleared', { userId });
-    console.log(`🧹 Security data cleared for user ${userId}`);
+    logger.info(`🧹 Security data cleared for user ${userId}`);
   }
 
   /**

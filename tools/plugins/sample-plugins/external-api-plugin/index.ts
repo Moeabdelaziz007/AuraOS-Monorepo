@@ -69,7 +69,7 @@ export class ExternalAPIPlugin implements Plugin {
   }
 
   async initialize(): Promise<void> {
-    console.log('External API Plugin initialized');
+    logger.info('External API Plugin initialized');
 
     // Register API commands
     this.api.registerCommand('api:get', {
@@ -158,7 +158,7 @@ export class ExternalAPIPlugin implements Plugin {
   async destroy(): Promise<void> {
     // Save cache to storage
     await this.api.storage.set('api-cache', this.cache);
-    console.log('External API Plugin destroyed');
+    logger.info('External API Plugin destroyed');
   }
 
   private async checkRateLimit(url: string): Promise<void> {
@@ -230,7 +230,7 @@ export class ExternalAPIPlugin implements Plugin {
         this.cache = storedCache;
       }
     } catch (error) {
-      console.warn('Failed to load cache from storage:', error);
+      logger.warn('Failed to load cache from storage:', error);
     }
   }
 

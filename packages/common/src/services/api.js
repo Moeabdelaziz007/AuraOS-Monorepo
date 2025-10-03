@@ -63,7 +63,7 @@ export const appsAPI = {
           processor: true
         });
       } catch (error) {
-        console.warn('Data Agent failed, falling back to direct API:', error);
+        logger.warn('Data Agent failed, falling back to direct API:', error);
       }
     }
     
@@ -81,7 +81,7 @@ export const appsAPI = {
         });
         return apps[0] || null;
       } catch (error) {
-        console.warn('Data Agent failed, falling back to direct API:', error);
+        logger.warn('Data Agent failed, falling back to direct API:', error);
       }
     }
     
@@ -143,7 +143,7 @@ export const appsAPI = {
       try {
         return await dataAgent.batchCreate('apps', appsData);
       } catch (error) {
-        console.warn('Data Agent batch create failed, falling back to individual creates:', error);
+        logger.warn('Data Agent batch create failed, falling back to individual creates:', error);
       }
     }
     
@@ -165,7 +165,7 @@ export const appsAPI = {
       try {
         return await dataAgent.generateAnalyticsReport(timeRange);
       } catch (error) {
-        console.warn('Data Agent analytics failed:', error);
+        logger.warn('Data Agent analytics failed:', error);
       }
     }
     
@@ -197,7 +197,7 @@ export const appsAPI = {
           app.category.toLowerCase().includes(query.toLowerCase())
         );
       } catch (error) {
-        console.warn('Data Agent search failed:', error);
+        logger.warn('Data Agent search failed:', error);
       }
     }
     
@@ -220,7 +220,7 @@ export const systemAPI = {
         });
         return statusData[0] || null;
       } catch (error) {
-        console.warn('Data Agent failed, falling back to direct API:', error);
+        logger.warn('Data Agent failed, falling back to direct API:', error);
       }
     }
     
@@ -238,7 +238,7 @@ export const systemAPI = {
           processor: true
         });
       } catch (error) {
-        console.warn('Data Agent failed, falling back to direct API:', error);
+        logger.warn('Data Agent failed, falling back to direct API:', error);
       }
     }
     
@@ -274,7 +274,7 @@ export const systemAPI = {
         };
         return enhancedHealth;
       } catch (error) {
-        console.warn('Failed to enhance health data:', error);
+        logger.warn('Failed to enhance health data:', error);
       }
     }
     
@@ -307,7 +307,7 @@ export const systemAPI = {
       try {
         return await dataAgent.generateAnalyticsReport(timeRange);
       } catch (error) {
-        console.warn('Data Agent analytics failed:', error);
+        logger.warn('Data Agent analytics failed:', error);
       }
     }
     
@@ -351,7 +351,7 @@ export const systemAPI = {
           window.removeEventListener('dataUpdate', handleUpdate);
         };
       } catch (error) {
-        console.warn('Real-time subscription failed:', error);
+        logger.warn('Real-time subscription failed:', error);
       }
     }
     
@@ -361,7 +361,7 @@ export const systemAPI = {
         const status = await systemAPI.getStatus();
         callback([status]);
       } catch (error) {
-        console.error('Polling error:', error);
+        logger.error('Polling error:', error);
       }
     }, 5000);
     
@@ -382,7 +382,7 @@ export const userAPI = {
         });
         return users[0] || null;
       } catch (error) {
-        console.warn('Data Agent failed, falling back to direct API:', error);
+        logger.warn('Data Agent failed, falling back to direct API:', error);
       }
     }
     
@@ -411,7 +411,7 @@ export const userAPI = {
           return user.usageStats;
         }
       } catch (error) {
-        console.warn('Data Agent user analytics failed:', error);
+        logger.warn('Data Agent user analytics failed:', error);
       }
     }
     

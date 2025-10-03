@@ -113,25 +113,25 @@ const Dashboard: React.FC = () => {
       id: 'new-project',
       label: 'New Project',
       icon: <Plus className="h-4 w-4" />,
-      onClick: () => console.log('New Project clicked')
+      onClick: () => logger.info('New Project clicked')
     },
     {
       id: 'run-workflow',
       label: 'Run Workflow',
       icon: <Zap className="h-4 w-4" />,
-      onClick: () => console.log('Run Workflow clicked')
+      onClick: () => logger.info('Run Workflow clicked')
     },
     {
       id: 'system-settings',
       label: 'Settings',
       icon: <Settings className="h-4 w-4" />,
-      onClick: () => console.log('Settings clicked')
+      onClick: () => logger.info('Settings clicked')
     },
     {
       id: 'view-logs',
       label: 'View Logs',
       icon: <Activity className="h-4 w-4" />,
-      onClick: () => console.log('View Logs clicked')
+      onClick: () => logger.info('View Logs clicked')
     }
   ];
 

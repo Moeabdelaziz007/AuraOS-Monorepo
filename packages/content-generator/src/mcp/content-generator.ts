@@ -528,12 +528,12 @@ export class ContentGeneratorMCP {
   async start(): Promise<void> {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('ContentGeneratorMCP server started');
+    logger.error('ContentGeneratorMCP server started');
   }
 }
 
 // بدء الخادم إذا تم تشغيله مباشرة
 if (require.main === module) {
   const server = new ContentGeneratorMCP();
-  server.start().catch(console.error);
+  server.start().catch(logger.error);
 }

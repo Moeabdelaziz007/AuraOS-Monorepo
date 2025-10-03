@@ -41,12 +41,12 @@ export class AutopilotService {
       
       if (savedData) {
         this.loadFromData(savedData);
-        console.log('[Autopilot] Loaded saved learning data');
+        logger.info('[Autopilot] Loaded saved learning data');
       } else {
         this.initializeSimpleTasks();
       }
     } catch (error) {
-      console.error('[Autopilot] Failed to load saved data, starting fresh:', error);
+      logger.error('[Autopilot] Failed to load saved data, starting fresh:', error);
       this.initializeSimpleTasks();
     }
   }
@@ -63,7 +63,7 @@ export class AutopilotService {
     this.executionHistory = data.executionHistory;
     this.suggestions = data.suggestions;
     
-    console.log(`[Autopilot] Restored ${this.learnedTasks.size} tasks and ${this.executionHistory.length} execution records`);
+    logger.info(`[Autopilot] Restored ${this.learnedTasks.size} tasks and ${this.executionHistory.length} execution records`);
   }
 
   /**
@@ -93,7 +93,7 @@ export class AutopilotService {
       this.learnedTasks.set(task.id, task);
     });
 
-    console.log(`[Autopilot] Initialized with ${this.learnedTasks.size} simple tasks`);
+    logger.info(`[Autopilot] Initialized with ${this.learnedTasks.size} simple tasks`);
   }
 
   /**
@@ -136,7 +136,7 @@ export class AutopilotService {
     let error: string | undefined;
 
     try {
-      console.log(`[Autopilot] Executing task: ${task.name}`);
+      logger.info(`[Autopilot] Executing task: ${task.name}`);
       
       // Execute each action in sequence
       for (const action of task.actions) {
@@ -144,11 +144,11 @@ export class AutopilotService {
       }
       
       success = true;
-      console.log(`[Autopilot] Task completed: ${task.name}`);
+      logger.info(`[Autopilot] Task completed: ${task.name}`);
     } catch (err) {
       success = false;
       error = err instanceof Error ? err.message : 'Unknown error';
-      console.error(`[Autopilot] Task failed: ${task.name}`, error);
+      logger.error(`[Autopilot] Task failed: ${task.name}`, error);
     }
 
     const duration = Date.now() - startTime;
@@ -177,7 +177,7 @@ export class AutopilotService {
    * Execute a single action
    */
   private async executeAction(action: TaskAction): Promise<void> {
-    console.log(`[Autopilot] Action: ${action.type}`, action.target || action.value);
+    logger.info(`[Autopilot] Action: ${action.type}`, action.target || action.value);
     
     // Simulate action execution
     // In real implementation, this would interact with the UI
@@ -188,27 +188,27 @@ export class AutopilotService {
       
       case 'click':
         // Simulate click
-        console.log(`  → Click: ${action.target}`);
+        logger.info(`  → Click: ${action.target}`);
         break;
       
       case 'type':
         // Simulate typing
-        console.log(`  → Type: ${action.value}`);
+        logger.info(`  → Type: ${action.value}`);
         break;
       
       case 'open':
         // Simulate opening app
-        console.log(`  → Open: ${action.target}`);
+        logger.info(`  → Open: ${action.target}`);
         break;
       
       case 'close':
         // Simulate closing
-        console.log(`  → Close: ${action.target}`);
+        logger.info(`  → Close: ${action.target}`);
         break;
       
       case 'navigate':
         // Simulate navigation
-        console.log(`  → Navigate: ${action.target}`);
+        logger.info(`  → Navigate: ${action.target}`);
         break;
     }
     
@@ -236,7 +236,7 @@ export class AutopilotService {
       task.trigger.confidence = Math.min(0.95, task.trigger.confidence + 0.05);
     }
     
-    console.log(`[Autopilot] Task stats updated: ${task.name}`, {
+    logger.info(`[Autopilot] Task stats updated: ${task.name}`, {
       executed: task.timesExecuted,
       successRate: task.successRate.toFixed(2),
       confidence: task.trigger.confidence.toFixed(2),
@@ -249,7 +249,7 @@ export class AutopilotService {
   learnFromUserActions(actions: TaskAction[], context: LearningContext): void {
     if (!this.isLearning) return;
 
-    console.log('[Autopilot] Learning from user actions:', actions.length);
+    logger.info('[Autopilot] Learning from user actions:', actions.length);
     
     // Simple pattern recognition
     // Check if actions match any existing task
@@ -257,7 +257,7 @@ export class AutopilotService {
     
     if (matchingTask) {
       // Reinforce existing task
-      console.log(`[Autopilot] Reinforcing task: ${matchingTask.name}`);
+      logger.info(`[Autopilot] Reinforcing task: ${matchingTask.name}`);
       matchingTask.trigger.confidence = Math.min(0.95, matchingTask.trigger.confidence + 0.1);
     } else if (actions.length >= 2 && actions.length <= 5) {
       // Create new task if sequence is reasonable length
@@ -316,7 +316,7 @@ export class AutopilotService {
     
     this.learnedTasks.set(taskId, newTask);
     
-    console.log(`[Autopilot] New task learned: ${taskName}`);
+    logger.info(`[Autopilot] New task learned: ${taskName}`);
     
     // Create suggestion for user
     this.createSuggestion(newTask);
@@ -392,7 +392,7 @@ export class AutopilotService {
     if (task) {
       task.enabled = true;
       task.trigger.confidence = Math.min(0.8, task.trigger.confidence + 0.2);
-      console.log(`[Autopilot] Task enabled: ${task.name}`);
+      logger.info(`[Autopilot] Task enabled: ${task.name}`);
     }
   }
 
@@ -409,7 +409,7 @@ export class AutopilotService {
     if (task) {
       // Remove the task
       this.learnedTasks.delete(suggestion.taskId);
-      console.log(`[Autopilot] Task rejected and removed: ${task.name}`);
+      logger.info(`[Autopilot] Task rejected and removed: ${task.name}`);
     }
   }
 
@@ -449,7 +449,7 @@ export class AutopilotService {
    */
   setLearningMode(enabled: boolean): void {
     this.isLearning = enabled;
-    console.log(`[Autopilot] Learning mode: ${enabled ? 'ON' : 'OFF'}`);
+    logger.info(`[Autopilot] Learning mode: ${enabled ? 'ON' : 'OFF'}`);
   }
 
   /**
@@ -485,9 +485,9 @@ export class AutopilotService {
       };
 
       await this.storage.save(data);
-      console.log('[Autopilot] State saved successfully');
+      logger.info('[Autopilot] State saved successfully');
     } catch (error) {
-      console.error('[Autopilot] Failed to save state:', error);
+      logger.error('[Autopilot] Failed to save state:', error);
       throw error;
     }
   }
@@ -504,7 +504,7 @@ export class AutopilotService {
 
     this.saveDebounceTimer = setTimeout(() => {
       this.saveState().catch(error => {
-        console.error('[Autopilot] Auto-save failed:', error);
+        logger.error('[Autopilot] Auto-save failed:', error);
       });
     }, 2000); // Save 2 seconds after last change
   }
@@ -514,7 +514,7 @@ export class AutopilotService {
    */
   setAutoSave(enabled: boolean): void {
     this.autoSaveEnabled = enabled;
-    console.log(`[Autopilot] Auto-save: ${enabled ? 'ON' : 'OFF'}`);
+    logger.info(`[Autopilot] Auto-save: ${enabled ? 'ON' : 'OFF'}`);
   }
 
   /**
@@ -544,7 +544,7 @@ export class AutopilotService {
     this.executionHistory = [];
     this.suggestions = [];
     this.initializeSimpleTasks();
-    console.log('[Autopilot] All data cleared, reinitialized with simple tasks');
+    logger.info('[Autopilot] All data cleared, reinitialized with simple tasks');
   }
 
   /**
@@ -568,7 +568,7 @@ export class AutopilotService {
     this.executionHistory = [];
     this.suggestions = [];
     
-    console.log('[Autopilot] Learning reset to simple tasks');
+    logger.info('[Autopilot] Learning reset to simple tasks');
   }
 }
 

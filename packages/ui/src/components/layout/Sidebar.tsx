@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath = '/dashboard', onNavigat
   };
 
   const handleLogout = () => {
-    console.log('Logout clicked');
+    logger.info('Logout clicked');
     // Implement logout logic
   };
 

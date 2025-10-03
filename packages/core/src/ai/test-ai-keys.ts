@@ -17,7 +17,7 @@ export async function testAIKeys(): Promise<{
   };
 
   // اختبار Gemini
-  console.log('[AI Test] جاري اختبار Gemini API...');
+  logger.info('[AI Test] جاري اختبار Gemini API...');
   try {
     if (!AI_CONFIG.gemini.apiKey) {
       results.gemini = {
@@ -44,7 +44,7 @@ export async function testAIKeys(): Promise<{
           usage: response.usage,
         },
       };
-      console.log('[AI Test] ✅ Gemini API متصل');
+      logger.info('[AI Test] ✅ Gemini API متصل');
     }
   } catch (error) {
     results.gemini = {
@@ -52,11 +52,11 @@ export async function testAIKeys(): Promise<{
       message: error instanceof Error ? error.message : 'خطأ غير معروف',
       details: error,
     };
-    console.error('[AI Test] ❌ خطأ في Gemini:', error);
+    logger.error('[AI Test] ❌ خطأ في Gemini:', error);
   }
 
   // اختبار z.ai
-  console.log('[AI Test] جاري اختبار z.ai API...');
+  logger.info('[AI Test] جاري اختبار z.ai API...');
   try {
     if (!AI_CONFIG.zai.apiKey) {
       results.zai = {
@@ -83,7 +83,7 @@ export async function testAIKeys(): Promise<{
           usage: response.usage,
         },
       };
-      console.log('[AI Test] ✅ z.ai API متصل');
+      logger.info('[AI Test] ✅ z.ai API متصل');
     }
   } catch (error) {
     results.zai = {
@@ -91,7 +91,7 @@ export async function testAIKeys(): Promise<{
       message: error instanceof Error ? error.message : 'خطأ غير معروف',
       details: error,
     };
-    console.error('[AI Test] ❌ خطأ في z.ai:', error);
+    logger.error('[AI Test] ❌ خطأ في z.ai:', error);
   }
 
   return results;
@@ -100,20 +100,20 @@ export async function testAIKeys(): Promise<{
 // تشغيل الاختبار إذا تم استدعاء الملف مباشرة
 if (require.main === module) {
   testAIKeys().then((results) => {
-    console.log('\n=== نتائج اختبار AI APIs ===\n');
+    logger.info('\n=== نتائج اختبار AI APIs ===\n');
     
-    console.log('🤖 Gemini API:');
-    console.log('  النجاح:', results.gemini.success ? '✅' : '❌');
-    console.log('  الرسالة:', results.gemini.message);
+    logger.info('🤖 Gemini API:');
+    logger.info('  النجاح:', results.gemini.success ? '✅' : '❌');
+    logger.info('  الرسالة:', results.gemini.message);
     if (results.gemini.details) {
-      console.log('  التفاصيل:', JSON.stringify(results.gemini.details, null, 2));
+      logger.info('  التفاصيل:', JSON.stringify(results.gemini.details, null, 2));
     }
     
-    console.log('\n🤖 z.ai API:');
-    console.log('  النجاح:', results.zai.success ? '✅' : '❌');
-    console.log('  الرسالة:', results.zai.message);
+    logger.info('\n🤖 z.ai API:');
+    logger.info('  النجاح:', results.zai.success ? '✅' : '❌');
+    logger.info('  الرسالة:', results.zai.message);
     if (results.zai.details) {
-      console.log('  التفاصيل:', JSON.stringify(results.zai.details, null, 2));
+      logger.info('  التفاصيل:', JSON.stringify(results.zai.details, null, 2));
     }
 
     const allSuccess = results.gemini.success && results.zai.success;

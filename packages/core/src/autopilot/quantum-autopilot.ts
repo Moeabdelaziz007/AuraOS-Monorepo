@@ -96,9 +96,9 @@ export class QuantumAutopilot {
       preferredApproach?: 'speed' | 'quality' | 'balanced';
     }
   ): Promise<QuantumExecutionResult> {
-    console.log(`\n🌀 Quantum Autopilot: Processing task`);
-    console.log(`📝 Task: ${taskDescription}`);
-    console.log(`⚙️  Constraints:`, constraints || 'None');
+    logger.info(`\n🌀 Quantum Autopilot: Processing task`);
+    logger.info(`📝 Task: ${taskDescription}`);
+    logger.info(`⚙️  Constraints:`, constraints || 'None');
 
     const startTime = Date.now();
     let iterationCount = 0;
@@ -107,19 +107,19 @@ export class QuantumAutopilot {
     // Iterative quantum loop
     while (iterationCount < 3) {
       iterationCount++;
-      console.log(`\n🔄 Iteration ${iterationCount}/3`);
+      logger.info(`\n🔄 Iteration ${iterationCount}/3`);
 
       // Phase 1: Superposition - Generate multiple paths
       const paths = await this.generatePaths(taskDescription, constraints);
-      console.log(`✨ Generated ${paths.length} possible paths`);
+      logger.info(`✨ Generated ${paths.length} possible paths`);
 
       // Phase 2: Entanglement - Analyze relationships
       const entanglements = this.entangle(paths);
-      console.log(`🔗 Found ${entanglements.length} path relationships`);
+      logger.info(`🔗 Found ${entanglements.length} path relationships`);
 
       // Phase 3: Collapse - Select optimal path
       const chosenPath = this.collapse(paths, entanglements, constraints);
-      console.log(`⚡ Collapsed to: ${chosenPath.name}`);
+      logger.info(`⚡ Collapsed to: ${chosenPath.name}`);
 
       // Execute the chosen path
       const result = await this.execute(chosenPath, taskDescription);
@@ -132,11 +132,11 @@ export class QuantumAutopilot {
       }
 
       if (!shouldContinue || result.quality >= (constraints?.minQuality || 0.8)) {
-        console.log(`✅ Task completed successfully`);
+        logger.info(`✅ Task completed successfully`);
         break;
       }
 
-      console.log(`🔁 Quality ${(result.quality * 100).toFixed(0)}% - Iterating...`);
+      logger.info(`🔁 Quality ${(result.quality * 100).toFixed(0)}% - Iterating...`);
     }
 
     const totalDuration = Date.now() - startTime;
@@ -467,9 +467,9 @@ export class QuantumAutopilot {
     // Sort by score and return best
     scoredPaths.sort((a, b) => b.score - a.score);
 
-    console.log(`\n📊 Path Scores:`);
+    logger.info(`\n📊 Path Scores:`);
     scoredPaths.forEach(({ path, score }) => {
-      console.log(`   ${path.name}: ${score.toFixed(1)} points`);
+      logger.info(`   ${path.name}: ${score.toFixed(1)} points`);
     });
 
     return scoredPaths[0].path;
@@ -482,13 +482,13 @@ export class QuantumAutopilot {
     path: ExecutionPath,
     taskDescription: string
   ): Promise<QuantumExecutionResult> {
-    console.log(`\n⚡ Executing: ${path.name}`);
+    logger.info(`\n⚡ Executing: ${path.name}`);
     const startTime = Date.now();
     const outputs: any[] = [];
 
     try {
       for (const step of path.steps) {
-        console.log(`   → ${step.action}`);
+        logger.info(`   → ${step.action}`);
         
         // Simulate step execution
         await this.executeStep(step, taskDescription);
@@ -564,24 +564,24 @@ export class QuantumAutopilot {
     result: QuantumExecutionResult,
     constraints?: any
   ): Promise<boolean> {
-    console.log(`\n📈 Feedback Analysis:`);
-    console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
-    console.log(`   Duration: ${result.duration}ms`);
-    console.log(`   Success: ${result.success ? 'Yes' : 'No'}`);
+    logger.info(`\n📈 Feedback Analysis:`);
+    logger.info(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
+    logger.info(`   Duration: ${result.duration}ms`);
+    logger.info(`   Success: ${result.success ? 'Yes' : 'No'}`);
 
     const minQuality = constraints?.minQuality || 0.8;
     
     if (result.quality >= minQuality) {
-      console.log(`   ✅ Quality threshold met`);
+      logger.info(`   ✅ Quality threshold met`);
       return false;
     }
 
     if (result.quality < 0.5) {
-      console.log(`   ⚠️  Quality too low, will iterate`);
+      logger.info(`   ⚠️  Quality too low, will iterate`);
       return true;
     }
 
-    console.log(`   🔄 Quality acceptable but can improve`);
+    logger.info(`   🔄 Quality acceptable but can improve`);
     return false;
   }
 
@@ -665,25 +665,25 @@ export class QuantumAutopilot {
     balanced: QuantumExecutionResult;
     winner: string;
   }> {
-    console.log(`\n🔬 Comparing Approaches for: "${taskDescription}"`);
-    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+    logger.info(`\n🔬 Comparing Approaches for: "${taskDescription}"`);
+    logger.info(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
     // Test speed approach
-    console.log(`\n⚡ Testing SPEED approach...`);
+    logger.info(`\n⚡ Testing SPEED approach...`);
     const speedResult = await this.executeTask(taskDescription, {
       preferredApproach: 'speed',
       minQuality: 0.6,
     });
 
     // Test quality approach
-    console.log(`\n💎 Testing QUALITY approach...`);
+    logger.info(`\n💎 Testing QUALITY approach...`);
     const qualityResult = await this.executeTask(taskDescription, {
       preferredApproach: 'quality',
       minQuality: 0.85,
     });
 
     // Test balanced approach
-    console.log(`\n⚖️  Testing BALANCED approach...`);
+    logger.info(`\n⚖️  Testing BALANCED approach...`);
     const balancedResult = await this.executeTask(taskDescription, {
       preferredApproach: 'balanced',
       minQuality: 0.75,
@@ -699,12 +699,12 @@ export class QuantumAutopilot {
     scores.sort((a, b) => b.score - a.score);
     const winner = scores[0].name;
 
-    console.log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-    console.log(`\n🏆 Winner: ${winner.toUpperCase()}`);
-    console.log(`\n📊 Comparison Results:`);
-    console.log(`   Speed:    Quality ${(speedResult.quality * 100).toFixed(1)}% | Time ${speedResult.duration}ms`);
-    console.log(`   Quality:  Quality ${(qualityResult.quality * 100).toFixed(1)}% | Time ${qualityResult.duration}ms`);
-    console.log(`   Balanced: Quality ${(balancedResult.quality * 100).toFixed(1)}% | Time ${balancedResult.duration}ms`);
+    logger.info(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    logger.info(`\n🏆 Winner: ${winner.toUpperCase()}`);
+    logger.info(`\n📊 Comparison Results:`);
+    logger.info(`   Speed:    Quality ${(speedResult.quality * 100).toFixed(1)}% | Time ${speedResult.duration}ms`);
+    logger.info(`   Quality:  Quality ${(qualityResult.quality * 100).toFixed(1)}% | Time ${qualityResult.duration}ms`);
+    logger.info(`   Balanced: Quality ${(balancedResult.quality * 100).toFixed(1)}% | Time ${balancedResult.duration}ms`);
 
     return {
       speed: speedResult,

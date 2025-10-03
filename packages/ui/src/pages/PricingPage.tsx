@@ -33,7 +33,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ currentTier = 'free' }
       // Redirect to Stripe Checkout
       window.location.href = data.url;
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      logger.error('Error creating checkout session:', error);
       alert('Failed to start checkout. Please try again.');
       setLoading(false);
     }
@@ -55,7 +55,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ currentTier = 'free' }
       // Redirect to Stripe Customer Portal
       window.location.href = data.url;
     } catch (error) {
-      console.error('Error creating portal session:', error);
+      logger.error('Error creating portal session:', error);
       alert('Failed to open billing portal. Please try again.');
       setLoading(false);
     }

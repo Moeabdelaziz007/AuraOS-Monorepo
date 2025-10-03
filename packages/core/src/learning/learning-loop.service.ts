@@ -172,7 +172,7 @@ class LearningLoopService {
       await this.generateInsights(context);
 
     } catch (error) {
-      console.error('Error analyzing activity:', error);
+      logger.error('Error analyzing activity:', error);
     }
   }
 
@@ -312,7 +312,7 @@ class LearningLoopService {
         });
       }
     } catch (error) {
-      console.error('Error generating insights:', error);
+      logger.error('Error generating insights:', error);
     }
   }
 
@@ -345,7 +345,7 @@ class LearningLoopService {
       
       // If parsed but not valid array, fall through to create default insight
     } catch (error) {
-      console.warn('[Learning Loop] Failed to parse AI insights as JSON:', error);
+      logger.warn('[Learning Loop] Failed to parse AI insights as JSON:', error);
     }
     
     // If not JSON or invalid structure, create a single insight from the text

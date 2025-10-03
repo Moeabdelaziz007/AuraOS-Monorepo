@@ -1,1 +1,58 @@
 image: gitpod/workspace-full
+
+tasks:
+  - name: Install Dependencies
+    init: |
+      pnpm install --frozen-lockfile
+      echo "✅ Dependencies installed"
+    command: |
+      echo "🚀 AuraOS Development Environment Ready"
+      echo "Run 'pnpm dev' to start the development server"
+  
+  - name: Firebase Emulators
+    command: |
+      echo "🔥 Firebase emulators available"
+      echo "Run 'pnpm firebase:emulators' to start"
+
+ports:
+  - port: 3000
+    onOpen: notify
+    name: Development Server
+    description: Main development server
+  
+  - port: 5000
+    onOpen: ignore
+    name: Firebase Hosting
+    description: Firebase hosting emulator
+  
+  - port: 5001
+    onOpen: ignore
+    name: Firebase Functions
+    description: Firebase functions emulator
+  
+  - port: 8080
+    onOpen: ignore
+    name: Firestore
+    description: Firestore emulator
+  
+  - port: 9099
+    onOpen: ignore
+    name: Firebase Auth
+    description: Firebase authentication emulator
+  
+  - port: 4000
+    onOpen: ignore
+    name: Firebase UI
+    description: Firebase emulator UI
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
+    - bradlc.vscode-tailwindcss
+    - dsznajder.es7-react-js-snippets
+    - formulahendry.auto-rename-tag
+    - christian-kohler.path-intellisense
+    - ms-vscode.vscode-typescript-next
+    - usernamehw.errorlens
+    - eamodio.gitlens

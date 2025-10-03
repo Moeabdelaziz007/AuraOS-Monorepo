@@ -58,20 +58,20 @@ export class BotCore extends EventEmitter {
    */
   async start(): Promise<void> {
     try {
-      console.log('🤖 Starting AuraOS Telegram Bot...');
+      logger.info('🤖 Starting AuraOS Telegram Bot...');
       this.isRunning = true;
       
       // Initialize core services
       await this.initializeServices();
       
-      console.log('✅ AuraOS Telegram Bot is running!');
-      console.log(`📱 Bot Token: ${this.config.token.substring(0, 10)}...`);
-      console.log(`👤 Admin Chat ID: ${this.config.adminChatId}`);
-      console.log('🎯 Listening for messages...');
+      logger.info('✅ AuraOS Telegram Bot is running!');
+      logger.info(`📱 Bot Token: ${this.config.token.substring(0, 10)}...`);
+      logger.info(`👤 Admin Chat ID: ${this.config.adminChatId}`);
+      logger.info('🎯 Listening for messages...');
       
       this.emit('bot_started');
     } catch (error) {
-      console.error('❌ Failed to start bot:', error);
+      logger.error('❌ Failed to start bot:', error);
       throw error;
     }
   }
@@ -81,7 +81,7 @@ export class BotCore extends EventEmitter {
    */
   async stop(): Promise<void> {
     try {
-      console.log('🛑 Stopping AuraOS Telegram Bot...');
+      logger.info('🛑 Stopping AuraOS Telegram Bot...');
       this.isRunning = false;
       
       // Save analytics data
@@ -90,10 +90,10 @@ export class BotCore extends EventEmitter {
       // Cleanup
       this.bot.stopPolling();
       
-      console.log('✅ Bot stopped successfully');
+      logger.info('✅ Bot stopped successfully');
       this.emit('bot_stopped');
     } catch (error) {
-      console.error('❌ Error stopping bot:', error);
+      logger.error('❌ Error stopping bot:', error);
       throw error;
     }
   }
@@ -103,7 +103,7 @@ export class BotCore extends EventEmitter {
    */
   registerCommand(handler: CommandHandler): void {
     this.commandHandlers.set(handler.command, handler);
-    console.log(`📝 Registered command: ${handler.command}`);
+    logger.info(`📝 Registered command: ${handler.command}`);
   }
 
   /**
@@ -186,7 +186,7 @@ export class BotCore extends EventEmitter {
       }
 
     } catch (error) {
-      console.error('❌ Error handling message:', error);
+      logger.error('❌ Error handling message:', error);
       this.emit('error', error);
     }
   }
@@ -231,7 +231,7 @@ export class BotCore extends EventEmitter {
       this.emit('command_executed', { command: commandName, user: userSession });
 
     } catch (error) {
-      console.error(`❌ Error executing command ${command}:`, error);
+      logger.error(`❌ Error executing command ${command}:`, error);
       await this.bot.sendMessage(userSession.chatId, 
         '❌ An error occurred while executing the command.');
     }
@@ -262,7 +262,7 @@ export class BotCore extends EventEmitter {
       });
 
     } catch (error) {
-      console.error('❌ Error handling text message:', error);
+      logger.error('❌ Error handling text message:', error);
       await this.bot.sendMessage(userSession.chatId, 
         '❌ Sorry, I encountered an error processing your message.');
     }
@@ -290,7 +290,7 @@ export class BotCore extends EventEmitter {
       await this.handleCallbackData(data, userSession, query);
 
     } catch (error) {
-      console.error('❌ Error handling callback query:', error);
+      logger.error('❌ Error handling callback query:', error);
     }
   }
 
@@ -366,14 +366,14 @@ export class BotCore extends EventEmitter {
    */
   private async saveAnalytics(): Promise<void> {
     // Save to file or database
-    console.log('💾 Saving analytics data...');
+    logger.info('💾 Saving analytics data...');
   }
 
   /**
    * Handle polling errors
    */
   private handlePollingError(error: any): void {
-    console.error('❌ Polling error:', error);
+    logger.error('❌ Polling error:', error);
     this.emit('polling_error', error);
   }
 
@@ -381,21 +381,21 @@ export class BotCore extends EventEmitter {
    * Handle user joined event
    */
   private handleUserJoined(user: UserSession): void {
-    console.log(`👤 User joined: ${user.username || user.firstName} (${user.userId})`);
+    logger.info(`👤 User joined: ${user.username || user.firstName} (${user.userId})`);
   }
 
   /**
    * Handle user left event
    */
   private handleUserLeft(user: UserSession): void {
-    console.log(`👤 User left: ${user.username || user.firstName} (${user.userId})`);
+    logger.info(`👤 User left: ${user.username || user.firstName} (${user.userId})`);
   }
 
   /**
    * Handle command executed event
    */
   private handleCommandExecuted(data: any): void {
-    console.log(`⚡ Command executed: ${data.command} by user ${data.user.userId}`);
+    logger.info(`⚡ Command executed: ${data.command} by user ${data.user.userId}`);
   }
 
   /**

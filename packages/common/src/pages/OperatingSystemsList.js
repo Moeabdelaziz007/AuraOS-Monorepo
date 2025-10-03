@@ -36,7 +36,7 @@ function OperatingSystemsList() {
       setOperatingSystems(data);
     } catch (err) {
       setError('Failed to load operating systems');
-      console.error('Error loading OS:', err);
+      logger.error('Error loading OS:', err);
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,7 @@ function OperatingSystemsList() {
       await osPlatformAPI.addToComparison(osId);
       // Show success message or update UI
     } catch (err) {
-      console.error('Error adding to comparison:', err);
+      logger.error('Error adding to comparison:', err);
     }
   };
 
@@ -56,7 +56,7 @@ function OperatingSystemsList() {
       await osPlatformAPI.toggleFavorite(osId);
       loadOperatingSystems(); // Refresh to update favorite status
     } catch (err) {
-      console.error('Error toggling favorite:', err);
+      logger.error('Error toggling favorite:', err);
     }
   };
 

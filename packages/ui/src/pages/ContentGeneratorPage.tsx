@@ -78,7 +78,7 @@ export const ContentGeneratorPage: React.FC = () => {
           setUsageStats({ generationsThisMonth: 0, totalGenerations: 0 });
         }
       } catch (err) {
-        console.error('Error loading user data:', err);
+        logger.error('Error loading user data:', err);
       }
     };
 
@@ -151,7 +151,7 @@ export const ContentGeneratorPage: React.FC = () => {
         setUsageStats(usageDoc.data() as UsageStats);
       }
     } catch (err: any) {
-      console.error('Error generating content:', err);
+      logger.error('Error generating content:', err);
       setError(err.message || 'Failed to generate content. Please try again.');
     } finally {
       setLoading(false);

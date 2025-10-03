@@ -34,20 +34,20 @@ export class MCPAIBridge {
   async initialize(): Promise<void> {
     if (this.initialized) return;
 
-    console.log('[MCP-AI Bridge] جاري تهيئة الخوادم...');
+    logger.info('[MCP-AI Bridge] جاري تهيئة الخوادم...');
 
     // تسجيل FileSystem Server
     const fsServer = new FileSystemMCPServer('/tmp/auraos', 10 * 1024 * 1024);
     await this.gateway.registerServer(fsServer);
-    console.log('[MCP-AI Bridge] ✅ FileSystem Server جاهز');
+    logger.info('[MCP-AI Bridge] ✅ FileSystem Server جاهز');
 
     // تسجيل Emulator Server
     const emulatorServer = new EmulatorControlMCPServer();
     await this.gateway.registerServer(emulatorServer);
-    console.log('[MCP-AI Bridge] ✅ Emulator Server جاهز');
+    logger.info('[MCP-AI Bridge] ✅ Emulator Server جاهز');
 
     this.initialized = true;
-    console.log('[MCP-AI Bridge] ✅ جميع الخوادم جاهزة');
+    logger.info('[MCP-AI Bridge] ✅ جميع الخوادم جاهزة');
   }
 
   /**
@@ -127,7 +127,7 @@ export class MCPAIBridge {
         };
       }
     } catch (error) {
-      console.warn('[MCP-AI Bridge] Failed to parse tool plan:', error);
+      logger.warn('[MCP-AI Bridge] Failed to parse tool plan:', error);
       return {
         response: aiResponse.content,
         toolsUsed: [],
@@ -141,12 +141,12 @@ export class MCPAIBridge {
 
     for (const tool of toolPlan.tools || []) {
       try {
-        console.log(`[MCP-AI Bridge] تنفيذ: ${tool.name}`);
+        logger.info(`[MCP-AI Bridge] تنفيذ: ${tool.name}`);
         const result = await this.client.executeTool(tool.name, tool.params);
         toolsUsed.push(tool.name);
         results.push(result);
       } catch (error) {
-        console.error(`[MCP-AI Bridge] خطأ في ${tool.name}:`, error);
+        logger.error(`[MCP-AI Bridge] خطأ في ${tool.name}:`, error);
         results.push({
           success: false,
           error: error instanceof Error ? error.message : 'خطأ غير معروف',

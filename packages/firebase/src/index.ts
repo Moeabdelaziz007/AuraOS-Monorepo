@@ -104,7 +104,7 @@ export class FirebaseService {
   }
 
   async updateUserProfile(uid: string, updates: Partial<UserProfile>): Promise<void> {
-    console.log('Updating user profile:', uid, updates);
+    logger.info('Updating user profile:', uid, updates);
     // Mock implementation
   }
 

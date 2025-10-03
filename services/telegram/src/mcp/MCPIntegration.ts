@@ -25,16 +25,16 @@ export class MCPIntegration extends EventEmitter {
    */
   private async initializeMCP(): Promise<void> {
     try {
-      console.log('🔗 Initializing MCP Integration...');
+      logger.info('🔗 Initializing MCP Integration...');
       
       // Register core MCP tools
       await this.registerCoreTools();
       
       this.isConnected = true;
-      console.log('✅ MCP Integration initialized');
+      logger.info('✅ MCP Integration initialized');
       
     } catch (error) {
-      console.error('❌ MCP initialization failed:', error);
+      logger.error('❌ MCP initialization failed:', error);
       this.isConnected = false;
     }
   }
@@ -149,7 +149,7 @@ export class MCPIntegration extends EventEmitter {
    */
   registerTool(tool: MCPTool): void {
     this.tools.set(tool.name, tool);
-    console.log(`🔧 Registered MCP tool: ${tool.name}`);
+    logger.info(`🔧 Registered MCP tool: ${tool.name}`);
   }
 
   /**
@@ -201,7 +201,7 @@ export class MCPIntegration extends EventEmitter {
       };
 
     } catch (error) {
-      console.error(`❌ MCP tool execution error (${toolName}):`, error);
+      logger.error(`❌ MCP tool execution error (${toolName}):`, error);
       return {
         success: false,
         error: 'Tool execution failed',
