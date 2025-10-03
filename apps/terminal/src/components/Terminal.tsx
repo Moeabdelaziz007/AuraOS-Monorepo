@@ -20,6 +20,20 @@ const Terminal: React.FC = () => {
   useEffect(() => {
     if (!terminalRef.current) return;
 
+    // Initialize VFS
+    const initVFS = async () => {
+      try {
+        // Import VFS dynamically to avoid issues
+        const { vfs } = await import('@auraos/core/vfs');
+        await vfs.initialize();
+        console.log('VFS initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize VFS:', error);
+      }
+    };
+
+    initVFS();
+
     // Initialize xterm
     const term = new XTerm({
       cursorBlink: true,
