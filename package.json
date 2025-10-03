@@ -33,7 +33,8 @@
     "@typescript-eslint/parser": "^6.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "zustand": "^4.5.2"
   },
   "engines": {
     "node": ">=18.0.0",

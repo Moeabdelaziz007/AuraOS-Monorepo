@@ -11,13 +11,13 @@ import { getStorage } from 'firebase/storage';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCiZQHxCQZ0Jy_PjUTBX1cdJ7YfHnsJ8zQ",
-  authDomain: "selfos-62f70.firebaseapp.com",
-  projectId: "selfos-62f70",
-  storageBucket: "selfos-62f70.firebasestorage.app",
-  messagingSenderId: "693748251235",
-  appId: "1:693748251235:web:4fe7e5cefae61f127e1656",
-  measurementId: "G-GNFLCQJX48"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || ''
 };
 
 // Initialize Firebase

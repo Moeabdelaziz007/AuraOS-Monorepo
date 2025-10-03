@@ -6,7 +6,7 @@
 export const AI_CONFIG = {
   // Gemini API Configuration
   gemini: {
-    apiKey: 'AIzaSyBiPaJdVBxBno4gRznPxua5TydUmMN4U3g',
+    apiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
     models: {
       chat: 'gemini-pro',
@@ -23,8 +23,7 @@ export const AI_CONFIG = {
 
   // z.ai API Configuration
   zai: {
-    // Add z.ai API key when available
-    apiKey: process.env.VITE_ZAI_API_KEY || '',
+    apiKey: import.meta.env.VITE_ZAI_API_KEY || '',
     baseUrl: 'https://api.z.ai/v1',
     models: {
       chat: 'z-chat-v1',
