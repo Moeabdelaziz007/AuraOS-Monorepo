@@ -63,9 +63,18 @@ echo ""
 
 # Deploy to Firebase
 echo -e "${BLUE}🚀 Deploying to Firebase...${NC}"
-firebase deploy --token "$FIREBASE_TOKEN" --only hosting,firestore:rules
+
+# Use service account key if available, otherwise use token
+if [ -f "serviceAccountKey.json" ]; then
+  export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/serviceAccountKey.json"
+  unset FIREBASE_TOKEN
+  firebase deploy --only hosting,firestore:rules
+else
+  firebase deploy --token "$FIREBASE_TOKEN" --only hosting,firestore:rules
+fi
+
 echo -e "${GREEN}✅ Deployed to Firebase${NC}"
 echo ""
 
 echo -e "${GREEN}🎉 Auto deploy complete!${NC}"
-echo -e "${BLUE}🌐 Your app is live at: https://adept-student-469614-k2.web.app${NC}"
+echo -e "${BLUE}🌐 Your app is live at: https://auraos-ac2e0.web.app${NC}"
