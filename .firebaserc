@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "selfos-62f70"
-  },
-  "targets": {
-    "selfos-62f70": {
-      "hosting": {
-        "production": [
-          "selfos-62f70"
-        ]
-      }
-    }
   }
 }
