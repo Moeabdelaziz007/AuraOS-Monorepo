@@ -1,153 +1,155 @@
-/**
- * Learning Loop Hook
- * React hook for interacting with the learning loop system
- */
-
 import { useState, useEffect, useCallback } from 'react';
-// import { learningLoopService } from '@auraos/core/learning/learning-loop.service';
-import type { Insight, LearningPattern, LearningSession } from '@auraos/firebase/types/user';
 
-export function useLearningLoop(user: any = null) {
+export interface Insight {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  priority: 'low' | 'medium' | 'high';
+  timestamp: Date;
+}
+
+export interface Pattern {
+  id: string;
+  name: string;
+  description: string;
+  patternType: string;
+  frequency: number;
+  confidence: number;
+  timestamp: Date;
+}
+
+export interface Session {
+  id: string;
+  startTime: Date;
+  endTime?: Date;
+  duration: number;
+  status: 'active' | 'completed' | 'paused';
+  activities: Activity[];
+}
+
+export interface Activity {
+  id: string;
+  type: string;
+  description: string;
+  timestamp: Date;
+  duration: number;
+}
+
+export interface LearningLoopHook {
+  insights: Insight[];
+  patterns: Pattern[];
+  sessions: Session[];
+  loading: boolean;
+  acknowledgeInsight: (id: string) => void;
+  refresh: () => void;
+  trackAppLaunch: (appId: string, appName: string) => void;
+  trackActivity: (activity: Omit<Activity, 'id' | 'timestamp'>) => void;
+}
+
+export function useLearningLoop(): LearningLoopHook {
   const [insights, setInsights] = useState<Insight[]>([]);
-  const [patterns, setPatterns] = useState<LearningPattern[]>([]);
-  const [sessions, setSessions] = useState<LearningSession[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
+  const [patterns, setPatterns] = useState<Pattern[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // Initialize learning loop
+  // Mock data for development
   useEffect(() => {
-    if (!user || initialized) return;
-
-    const init = async () => {
-      try {
-        await learningLoopService.initialize(user.uid);
-        setInitialized(true);
-      } catch (error) {
-        console.error('Failed to initialize learning loop:', error);
+    setInsights([
+      {
+        id: '1',
+        title: 'Productivity Peak Detected',
+        description: 'You are most productive between 9-11 AM. Consider scheduling important tasks during this time.',
+        type: 'productivity',
+        priority: 'medium',
+        timestamp: new Date()
+      },
+      {
+        id: '2',
+        title: 'Frequent App Switching',
+        description: 'You switch between apps frequently. Consider using workspaces to group related tasks.',
+        type: 'workflow',
+        priority: 'low',
+        timestamp: new Date()
       }
-    };
+    ]);
 
-    init();
-
-    // Cleanup on unmount
-    return () => {
-      if (initialized) {
-        learningLoopService.shutdown();
+    setPatterns([
+      {
+        id: '1',
+        name: 'Morning Routine',
+        description: 'Consistent pattern of checking email and calendar first thing in the morning',
+        patternType: 'behavioral',
+        frequency: 0.85,
+        confidence: 0.92,
+        timestamp: new Date()
+      },
+      {
+        id: '2',
+        name: 'Focus Sessions',
+        description: 'Long uninterrupted work sessions typically occur in the afternoon',
+        patternType: 'productivity',
+        frequency: 0.67,
+        confidence: 0.78,
+        timestamp: new Date()
       }
-    };
-  }, [user, initialized]);
+    ]);
 
-  // Load data
-  useEffect(() => {
-    if (!user || !initialized) return;
-
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        const [insightsData, patternsData, sessionsData] = await Promise.all([
-          learningLoopService.getUnacknowledgedInsights(user.uid),
-          learningLoopService.getPatterns(user.uid),
-          learningLoopService.getSessionHistory(user.uid, 5),
-        ]);
-
-        setInsights(insightsData);
-        setPatterns(patternsData);
-        setSessions(sessionsData);
-      } catch (error) {
-        console.error('Failed to load learning data:', error);
-      } finally {
-        setLoading(false);
+    setSessions([
+      {
+        id: '1',
+        startTime: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+        endTime: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
+        duration: 60 * 60 * 1000, // 1 hour
+        status: 'completed',
+        activities: [
+          {
+            id: '1',
+            type: 'app_usage',
+            description: 'Used Terminal for 30 minutes',
+            timestamp: new Date(),
+            duration: 30 * 60 * 1000
+          }
+        ]
       }
-    };
-
-    loadData();
-  }, [user, initialized]);
-
-  // Track app launch
-  const trackAppLaunch = useCallback(async (appId: string, appName: string) => {
-    if (!initialized) return;
-    try {
-      await learningLoopService.trackAppLaunch(appId, appName);
-    } catch (error) {
-      console.error('Failed to track app launch:', error);
-    }
-  }, [initialized]);
-
-  // Track command
-  const trackCommand = useCallback(async (command: string, success: boolean, errorMessage?: string) => {
-    if (!initialized) return;
-    try {
-      await learningLoopService.trackCommand(command, success, errorMessage);
-    } catch (error) {
-      console.error('Failed to track command:', error);
-    }
-  }, [initialized]);
-
-  // Track file operation
-  const trackFileOperation = useCallback(async (operation: string, filePath: string, success: boolean) => {
-    if (!initialized) return;
-    try {
-      await learningLoopService.trackFileOperation(operation, filePath, success);
-    } catch (error) {
-      console.error('Failed to track file operation:', error);
-    }
-  }, [initialized]);
-
-  // Track AI interaction
-  const trackAIInteraction = useCallback(async (
-    prompt: string,
-    response: string,
-    model: string,
-    duration: number
-  ) => {
-    if (!initialized) return;
-    try {
-      await learningLoopService.trackAIInteraction(prompt, response, model, duration);
-    } catch (error) {
-      console.error('Failed to track AI interaction:', error);
-    }
-  }, [initialized]);
-
-  // Acknowledge insight
-  const acknowledgeInsight = useCallback(async (insightId: string) => {
-    try {
-      await learningLoopService.acknowledgeInsight(insightId);
-      setInsights(prev => prev.filter(i => i.id !== insightId));
-    } catch (error) {
-      console.error('Failed to acknowledge insight:', error);
-    }
+    ]);
   }, []);
 
-  // Refresh data
-  const refresh = useCallback(async () => {
-    if (!user || !initialized) return;
+  const acknowledgeInsight = useCallback((id: string) => {
+    setInsights(prev => prev.filter(insight => insight.id !== id));
+  }, []);
 
-    try {
-      const [insightsData, patternsData, sessionsData] = await Promise.all([
-        learningLoopService.getUnacknowledgedInsights(user.uid),
-        learningLoopService.getPatterns(user.uid),
-        learningLoopService.getSessionHistory(user.uid, 5),
-      ]);
+  const refresh = useCallback(() => {
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
-      setInsights(insightsData);
-      setPatterns(patternsData);
-      setSessions(sessionsData);
-    } catch (error) {
-      console.error('Failed to refresh learning data:', error);
-    }
-  }, [user, initialized]);
+  const trackAppLaunch = useCallback((appId: string, appName: string) => {
+    console.log('App launched:', appId, appName);
+    // Implement tracking logic
+  }, []);
+
+  const trackActivity = useCallback((activity: Omit<Activity, 'id' | 'timestamp'>) => {
+    const newActivity: Activity = {
+      ...activity,
+      id: Date.now().toString(),
+      timestamp: new Date()
+    };
+    console.log('Activity tracked:', newActivity);
+    // Implement tracking logic
+  }, []);
 
   return {
     insights,
     patterns,
     sessions,
     loading,
-    initialized,
-    trackAppLaunch,
-    trackCommand,
-    trackFileOperation,
-    trackAIInteraction,
     acknowledgeInsight,
     refresh,
+    trackAppLaunch,
+    trackActivity
   };
 }
