@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./mcp/server": "./src/mcp/server.ts",
     "./mcp/types": "./src/mcp/types.ts",
     "./mcp/gateway": "./src/mcp/gateway.ts",
     "./mcp/client": "./src/mcp/client.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
   }
 }
