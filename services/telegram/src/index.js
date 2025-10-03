@@ -182,12 +182,15 @@ Type /help for more details!
 // Command: /help
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  const isAdminUser = isAdmin(userId);
   
-  const helpMessage = `
+  let helpMessage = `
 📚 *AuraOS Bot - Help Guide*
 
 *Basic Commands:*
 • /start - Initialize bot session
+• /menu - Show interactive menu
 • /help - Show this help message
 • /status - Get system status
 • /info - Bot information
@@ -199,18 +202,48 @@ bot.onText(/\/help/, (msg) => {
 *System Commands:*
 • /memory - Memory usage
 • /version - AuraOS version
+`;
 
+  if (isAdminUser) {
+    helpMessage += `
 *Admin Commands:* (Admins only)
 • /admin - Access admin panel
+• /analytics - Usage analytics
 • /broadcast <message> - Send to all users
 • /stats - Detailed statistics
 • /users - List active users
 
+*Cursor CLI Commands:* (Admins only)
+• /code <file> - Analyze code file
+• /files [dir] - List files in directory
+• /search <term> - Search in files
+• /git - Git status
+• /gitlog - Recent commits
+• /tree - Project structure
+• /read <file> - Read file content
+• /pkg - Package information
+• /find <pattern> - Find files by name
+• /sysinfo - System information
+• /loc - Count lines of code
+• /ai <command> - AI-powered command
+
+*Examples:*
+\`/code src/index.js\`
+\`/search "TODO"\`
+\`/find "*.tsx"\`
+\`/ai show files\`
+`;
+  }
+
+  helpMessage += `
 *Features:*
 ✅ AI-powered responses
 ✅ System monitoring
 ✅ Real-time notifications
-✅ MCP integration (coming soon)
+✅ Interactive keyboards
+✅ Rate limiting protection
+✅ Cursor CLI integration
+✅ Code analysis
 
 Need help? Contact the admin!
   `;
@@ -552,6 +585,342 @@ ${commandStats}
   `;
   
   bot.sendMessage(chatId, analyticsMessage, { parse_mode: 'Markdown' });
+});
+
+// Command: /code <file> - Analyze code file (Admin only)
+bot.onText(/\/code (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('code');
+  const filePath = match[1];
+  
+  bot.sendMessage(chatId, '🔍 Analyzing code...');
+  
+  const result = await cursor.analyzeCode(filePath);
+  
+  if (result.success) {
+    const message = `
+📝 *Code Analysis: ${filePath}*
+
+*Statistics:*
+📏 Lines: ${result.analysis.lines}
+🔧 Functions: ${result.analysis.functions}
+📦 Classes: ${result.analysis.classes}
+📥 Imports: ${result.analysis.imports}
+📤 Exports: ${result.analysis.exports}
+💬 Comments: ${result.analysis.comments}
+⚠️ TODOs: ${result.analysis.todos}
+
+*Preview:*
+\`\`\`
+${result.preview}
+\`\`\`
+    `;
+    bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /files [directory] - List files
+bot.onText(/\/files(.*)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('files');
+  const directory = match[1].trim() || '.';
+  
+  bot.sendMessage(chatId, '📁 Listing files...');
+  
+  const result = await cursor.listFiles(directory);
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output);
+    bot.sendMessage(chatId, `📁 *Files in ${directory}:*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /search <term> - Search in files
+bot.onText(/\/search (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('search');
+  const searchTerm = match[1];
+  
+  bot.sendMessage(chatId, '🔍 Searching...');
+  
+  const result = await cursor.searchInFiles(searchTerm);
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output);
+    bot.sendMessage(chatId, `🔍 *Search results for "${searchTerm}":*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /git - Git status
+bot.onText(/\/git$/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('git');
+  
+  bot.sendMessage(chatId, '📊 Getting git status...');
+  
+  const result = await cursor.getGitStatus();
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output || 'Working tree clean ✅');
+    bot.sendMessage(chatId, `📊 *Git Status:*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /gitlog - Git log
+bot.onText(/\/gitlog/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('gitlog');
+  
+  bot.sendMessage(chatId, '📜 Getting git log...');
+  
+  const result = await cursor.getGitLog();
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output);
+    bot.sendMessage(chatId, `📜 *Recent Commits:*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /tree - Project structure
+bot.onText(/\/tree/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('tree');
+  
+  bot.sendMessage(chatId, '🌳 Getting project structure...');
+  
+  const result = await cursor.getProjectStructure();
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output);
+    bot.sendMessage(chatId, `🌳 *Project Structure:*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /read <file> - Read file content
+bot.onText(/\/read (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('read');
+  const filePath = match[1];
+  
+  bot.sendMessage(chatId, '📖 Reading file...');
+  
+  const result = await cursor.readFile(filePath);
+  
+  if (result.success) {
+    const truncated = result.truncated ? '\n\n... (truncated)' : '';
+    bot.sendMessage(chatId, `📖 *File: ${filePath}*\n\`\`\`\n${result.content}${truncated}\n\`\`\`\n\nTotal lines: ${result.totalLines}`, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /pkg - Package info
+bot.onText(/\/pkg/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('pkg');
+  
+  bot.sendMessage(chatId, '📦 Getting package info...');
+  
+  const result = await cursor.getPackageInfo();
+  
+  if (result.success) {
+    const message = `
+📦 *Package Information*
+
+*Name:* ${result.name}
+*Version:* ${result.version}
+*Description:* ${result.description}
+
+*Scripts:* ${result.scripts.length}
+*Dependencies:* ${result.dependencies}
+*Dev Dependencies:* ${result.devDependencies}
+
+*Available Scripts:*
+${result.scripts.map(s => `• ${s}`).join('\n')}
+    `;
+    bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /find <pattern> - Find files
+bot.onText(/\/find (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('find');
+  const pattern = match[1];
+  
+  bot.sendMessage(chatId, '🔍 Finding files...');
+  
+  const result = await cursor.findFiles(pattern);
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output || 'No files found');
+    bot.sendMessage(chatId, `🔍 *Files matching "${pattern}":*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /sysinfo - System information
+bot.onText(/\/sysinfo/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('sysinfo');
+  
+  bot.sendMessage(chatId, '💻 Getting system info...');
+  
+  const result = await cursor.getSystemInfo();
+  
+  const message = `
+💻 *System Information*
+
+*Disk Usage:*
+\`\`\`
+${result.disk}
+\`\`\`
+
+*Memory:*
+\`\`\`
+${result.memory}
+\`\`\`
+
+*CPU:*
+\`\`\`
+${result.cpu}
+\`\`\`
+  `;
+  
+  bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+});
+
+// Command: /loc - Count lines of code
+bot.onText(/\/loc/, async (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('loc');
+  
+  bot.sendMessage(chatId, '📊 Counting lines of code...');
+  
+  const result = await cursor.countLinesOfCode();
+  
+  if (result.success) {
+    bot.sendMessage(chatId, `📊 *Lines of Code:*\n\`\`\`\n${result.output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
+});
+
+// Command: /ai <command> - AI-powered command execution
+bot.onText(/\/ai (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  
+  if (!isAdmin(userId)) {
+    bot.sendMessage(chatId, '❌ Access denied. Admin privileges required.');
+    return;
+  }
+  
+  trackCommand('ai');
+  const command = match[1];
+  
+  bot.sendMessage(chatId, '🤖 Processing AI command...');
+  
+  const result = await cursor.executeAICommand(command);
+  
+  if (result.success) {
+    const output = cursor.formatOutput(result.output);
+    bot.sendMessage(chatId, `🤖 *AI Command Result:*\n\`\`\`\n${output}\n\`\`\``, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, `❌ Error: ${result.error}`);
+  }
 });
 
 // Handle callback queries (inline button clicks)
@@ -897,7 +1266,12 @@ bot.setMyCommands([
   { command: 'uptime', description: 'Bot uptime' },
   { command: 'memory', description: 'Memory usage' },
   { command: 'version', description: 'AuraOS version' },
-  { command: 'admin', description: 'Admin panel (admins only)' }
+  { command: 'admin', description: 'Admin panel (admins only)' },
+  { command: 'code', description: 'Analyze code file (admin)' },
+  { command: 'files', description: 'List files (admin)' },
+  { command: 'git', description: 'Git status (admin)' },
+  { command: 'tree', description: 'Project structure (admin)' },
+  { command: 'ai', description: 'AI command (admin)' }
 ]).then(() => {
   console.log('✅ Bot commands menu set successfully');
 }).catch(err => {

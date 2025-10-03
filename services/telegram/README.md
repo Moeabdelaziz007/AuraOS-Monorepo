@@ -54,6 +54,7 @@ Once you open the bot, type these commands:
 
 #### Basic Commands
 - `/start` - Initialize bot and see welcome message
+- `/menu` - Show interactive menu with buttons
 - `/help` - Show all available commands
 - `/status` - Get system status
 - `/info` - Bot information
@@ -68,11 +69,33 @@ Once you open the bot, type these commands:
   - Example: `/echo Hello World`
 
 #### Admin Commands (Only for you - Chat ID: 1259666822)
-- `/admin` - Access admin panel
+- `/admin` - Access admin panel with interactive buttons
 - `/stats` - Detailed system statistics
 - `/users` - List all active users
+- `/analytics` - View usage analytics and command statistics
 - `/broadcast <message>` - Send message to all users
   - Example: `/broadcast System maintenance in 10 minutes`
+
+#### Cursor CLI Commands (Admin Only) 🤖
+- `/code <file>` - Analyze code file with statistics
+  - Example: `/code src/index.js`
+- `/files [directory]` - List files in directory
+  - Example: `/files src`
+- `/search <term>` - Search for text in files
+  - Example: `/search "TODO"`
+- `/git` - Show git status
+- `/gitlog` - Show recent commits
+- `/tree` - Display project structure
+- `/read <file>` - Read file content
+  - Example: `/read package.json`
+- `/pkg` - Show package.json information
+- `/find <pattern>` - Find files by pattern
+  - Example: `/find "*.tsx"`
+- `/sysinfo` - Display system information
+- `/loc` - Count lines of code
+- `/ai <command>` - Execute AI-powered natural language command
+  - Example: `/ai show files`
+  - Example: `/ai git status`
 
 ### Chat with the Bot
 
@@ -110,6 +133,34 @@ Bot: Shows AuraOS version, features, repository link
 
 ## 🔧 Integration with AuraOS
 
+### ✅ Current Features
+
+1. **Cursor CLI Integration** 🤖
+   - Code analysis and statistics
+   - File operations (read, list, search)
+   - Git operations (status, log)
+   - Project structure visualization
+   - AI-powered command execution
+   - System monitoring
+
+2. **Interactive UI** 🎛️
+   - Inline keyboard buttons
+   - Quick command access
+   - Admin panel with dedicated keyboard
+   - Command menu autocomplete
+
+3. **Analytics & Monitoring** 📈
+   - Usage statistics tracking
+   - Command popularity metrics
+   - User activity monitoring
+   - Performance analytics
+
+4. **Security Features** 🔐
+   - Rate limiting (20 req/min)
+   - Admin-only commands
+   - Safe command execution
+   - Input validation
+
 ### Future Features (Coming Soon)
 
 1. **MCP Integration**
@@ -118,19 +169,22 @@ Bot: Shows AuraOS version, features, repository link
    - Run BASIC programs
 
 2. **AI Assistant**
-   - Ask questions about your code
-   - Get AI-powered suggestions
+   - OpenAI/Claude integration
+   - Natural language code queries
+   - Automated code reviews
    - Debug assistance
 
 3. **Notifications**
    - Build status updates
    - Error alerts
    - System events
+   - Git push notifications
 
 4. **Remote Control**
    - Start/stop services
    - Deploy applications
    - View logs
+   - Run tests remotely
 
 ## 📝 Example Usage Session
 
@@ -221,7 +275,27 @@ Edit `src/index.js` and change the message templates.
 - [Telegram Bot API](https://core.telegram.org/bots/api)
 - [node-telegram-bot-api Docs](https://github.com/yagop/node-telegram-bot-api)
 - [AuraOS Repository](https://github.com/Moeabdelaziz007/AuraOS-Monorepo)
+- [Cursor CLI Guide](./CURSOR_CLI_GUIDE.md) - Detailed guide for Cursor integration
+- [Improvements](./IMPROVEMENTS.md) - New features and enhancements
+
+## 📖 Additional Documentation
+
+- **USAGE_GUIDE.md** - Step-by-step usage instructions
+- **CURSOR_CLI_GUIDE.md** - Complete Cursor CLI integration guide
+- **IMPROVEMENTS.md** - List of all improvements and new features
+
+## 🎉 What's New in v1.0.0 Enhanced
+
+- ✅ **Interactive Inline Keyboards** - Button-based UI for all commands
+- ✅ **Cursor CLI Integration** - AI-powered code analysis and file operations
+- ✅ **Rate Limiting** - Protection against spam (20 req/min)
+- ✅ **Usage Analytics** - Track command usage and patterns
+- ✅ **Command Menu** - Autocomplete for all commands
+- ✅ **Enhanced Admin Panel** - Dedicated keyboard with quick access
+- ✅ **Better Error Handling** - Graceful error recovery
+- ✅ **Improved Logging** - Detailed startup and error logs
 
 ---
 
+**Version:** 1.0.0 Enhanced  
 **Made with ❤️ for AuraOS**
