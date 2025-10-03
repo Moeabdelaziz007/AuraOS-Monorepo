@@ -1,6 +1,6 @@
 /**
  * Firebase Configuration for AuraOS
- * Project: selfos-62f70
+ * Project: auraos-ac2e0
  */
 
 import { initializeApp } from 'firebase/app';
