@@ -1,4 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Terminal as TerminalIcon, 
+  Copy, 
+  Download, 
+  Trash2, 
+  Maximize2,
+  Minimize2,
+  Settings
+} from 'lucide-react';
 
 /**
  * Terminal App
@@ -24,6 +37,9 @@ export const TerminalApp: React.FC = () => {
       type: 'info',
     },
   ]);
+  const [isMaximized, setIsMaximized] = useState(false);
+  const [currentPath, setCurrentPath] = useState('/home/user');
+  const terminalRef = useRef<HTMLDivElement>(null);
 
   const executeCommand = async (cmd: string) => {
     if (!cmd.trim()) return;
@@ -111,35 +127,126 @@ config.json`;
     }
   };
 
+  const clearTerminal = () => {
+    setOutputs([]);
+  };
+
+  const copyOutput = () => {
+    const text = outputs.map(output => 
+      output.command ? `$ ${output.command}\n${output.output}` : output.output
+    ).join('\n');
+    navigator.clipboard.writeText(text);
+  };
+
+  const downloadOutput = () => {
+    const text = outputs.map(output => 
+      output.command ? `$ ${output.command}\n${output.output}` : output.output
+    ).join('\n');
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `terminal-output-${new Date().toISOString().split('T')[0]}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [outputs]);
+
   return (
-    <div className="app-container terminal-app">
-      <div className="terminal-output">
+    <div className="h-full flex flex-col bg-background">
+      {/* Terminal Header */}
+      <div className="flex items-center justify-between p-3 border-b border-border bg-card">
+        <div className="flex items-center space-x-2">
+          <TerminalIcon className="h-4 w-4" />
+          <span className="font-medium">Terminal</span>
+          <Badge variant="outline" className="text-xs">
+            {currentPath}
+          </Badge>
+        </div>
+        <div className="flex items-center space-x-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={copyOutput}
+            title="Copy Output"
+          >
+            <Copy className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={downloadOutput}
+            title="Download Output"
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearTerminal}
+            title="Clear Terminal"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsMaximized(!isMaximized)}
+            title={isMaximized ? "Minimize" : "Maximize"}
+          >
+            {isMaximized ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Terminal Output */}
+      <div 
+        ref={terminalRef}
+        className="flex-1 overflow-auto p-4 font-mono text-sm bg-black text-green-400"
+        style={{ fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace' }}
+      >
         {outputs.map((output) => (
-          <div key={output.id} className={`terminal-line ${output.type}`}>
+          <div key={output.id} className="mb-2">
             {output.command && (
-              <div className="terminal-command">
-                <span className="prompt">$</span> {output.command}
+              <div className="flex items-center space-x-2 mb-1">
+                <span className="text-green-400">$</span>
+                <span className="text-white">{output.command}</span>
               </div>
             )}
             {output.output && (
-              <div className="terminal-result">{output.output}</div>
+              <div className={`whitespace-pre-wrap ${
+                output.type === 'error' ? 'text-red-400' : 
+                output.type === 'success' ? 'text-green-400' : 
+                'text-gray-300'
+              }`}>
+                {output.output}
+              </div>
             )}
           </div>
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="terminal-input-form">
-        <span className="prompt">$</span>
-        <input
-          type="text"
-          value={command}
-          onChange={(e) => setCommand(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Enter command..."
-          className="terminal-input"
-          autoFocus
-        />
-      </form>
+      {/* Terminal Input */}
+      <div className="border-t border-border p-3 bg-card">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+          <span className="text-green-400 font-mono">$</span>
+          <Input
+            type="text"
+            value={command}
+            onChange={(e) => setCommand(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Enter command..."
+            className="flex-1 bg-transparent border-none focus:ring-0 font-mono"
+            autoFocus
+          />
+        </form>
+      </div>
     </div>
   );
 };
