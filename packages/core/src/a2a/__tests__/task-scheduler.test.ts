@@ -533,4 +533,29 @@ describe('Task Scheduler', () => {
       expect(stats.totalAgents).toBe(2);
     });
   });
+
+  describe('Tier Difference Calculation', () => {
+    it('should calculate correct tier difference between task and agent', () => {
+      // Access private method through type assertion for testing
+      const schedulerAny = scheduler as any;
+
+      // Same tier
+      expect(schedulerAny.getTierDifference(TaskTier.BEGINNER, TaskTier.BEGINNER)).toBe(0);
+      expect(schedulerAny.getTierDifference(TaskTier.INTERMEDIATE, TaskTier.INTERMEDIATE)).toBe(0);
+
+      // Task one tier above agent
+      expect(schedulerAny.getTierDifference(TaskTier.INTERMEDIATE, TaskTier.BEGINNER)).toBe(1);
+      expect(schedulerAny.getTierDifference(TaskTier.ADVANCED, TaskTier.INTERMEDIATE)).toBe(1);
+      expect(schedulerAny.getTierDifference(TaskTier.EXPERT, TaskTier.ADVANCED)).toBe(1);
+
+      // Task two tiers above agent
+      expect(schedulerAny.getTierDifference(TaskTier.ADVANCED, TaskTier.BEGINNER)).toBe(2);
+      expect(schedulerAny.getTierDifference(TaskTier.EXPERT, TaskTier.INTERMEDIATE)).toBe(2);
+
+      // Task below agent tier (negative difference)
+      expect(schedulerAny.getTierDifference(TaskTier.BEGINNER, TaskTier.INTERMEDIATE)).toBe(-1);
+      expect(schedulerAny.getTierDifference(TaskTier.BEGINNER, TaskTier.ADVANCED)).toBe(-2);
+      expect(schedulerAny.getTierDifference(TaskTier.INTERMEDIATE, TaskTier.EXPERT)).toBe(-2);
+    });
+  });
 });
