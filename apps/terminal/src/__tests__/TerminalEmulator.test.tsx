@@ -144,12 +144,23 @@ describe('TerminalEmulator', () => {
   });
 
   it('handles interrupt (Ctrl+C)', () => {
+    const mockAddOutput = vi.fn();
+    const { useTerminal } = require('../hooks/useTerminal');
+    
+    vi.mocked(useTerminal).mockReturnValue({
+      output: ['$ test command'],
+      addOutput: mockAddOutput,
+      clearOutput: vi.fn(),
+      getCurrentDirectory: () => '/home/user',
+      setCurrentDirectory: vi.fn()
+    });
+    
     render(<TerminalEmulator config={mockConfig} onCommand={mockOnCommand} />);
     
     const input = screen.getByRole('textbox');
     fireEvent.keyDown(input, { key: 'c', ctrlKey: true });
     
-    expect(screen.getByText('^C')).toBeInTheDocument();
+    expect(mockAddOutput).toHaveBeenCalledWith('^C');
   });
 
   it('applies terminal theme', () => {

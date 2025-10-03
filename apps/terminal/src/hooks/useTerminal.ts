@@ -3,7 +3,7 @@ import { CommandResult } from '../types';
 
 export const useTerminal = () => {
   const [output, setOutput] = useState<string[]>([]);
-  const [currentDirectory, setCurrentDirectory] = useState('/home/user');
+  const [currentDirectory, setCurrentDirectoryState] = useState('/home/user');
 
   const addOutput = useCallback((text: string) => {
     setOutput(prev => [...prev, text]);
@@ -18,7 +18,7 @@ export const useTerminal = () => {
   }, [currentDirectory]);
 
   const setCurrentDirectory = useCallback((path: string) => {
-    setCurrentDirectory(path);
+    setCurrentDirectoryState(path);
   }, []);
 
   return {
