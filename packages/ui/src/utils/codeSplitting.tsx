@@ -99,7 +99,7 @@ export const splitLibraries = {
 /**
  * Dynamic import with retry logic
  */
-export const dynamicImportWithRetry = async <T extends any>(
+export const dynamicImportWithRetry = async <T>(
   importFunc: () => Promise<T>,
   maxRetries: number = 3,
   delay: number = 1000

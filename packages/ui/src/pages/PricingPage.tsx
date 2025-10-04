@@ -173,7 +173,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ currentTier = 'free' }
                 Can I upgrade or downgrade anytime?
               </h3>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
-                Yes! You can upgrade to Pro at any time. If you downgrade, you'll keep Pro features
+                Yes! You can upgrade to Pro at any time. If you downgrade, you&apos;ll keep Pro features
                 until the end of your billing period.
               </p>
             </div>
@@ -182,7 +182,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ currentTier = 'free' }
                 What happens if I exceed the free tier limits?
               </h3>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
-                You'll receive a notification when approaching limits. Once reached, you'll need to
+                You&apos;ll receive a notification when approaching limits. Once reached, you&apos;ll need to
                 upgrade to Pro to create more workflows or execute more automations.
               </p>
             </div>
@@ -192,7 +192,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ currentTier = 'free' }
               </h3>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
                 We offer a 14-day money-back guarantee. Try Pro risk-free and get a full refund if
-                you're not satisfied.
+                you&apos;re not satisfied.
               </p>
             </div>
             <div>

@@ -117,7 +117,7 @@ export const ContentGeneratorPage: React.FC = () => {
       const functions = getFunctions();
       const generateContent = httpsCallable(functions, 'generateContent');
 
-      let params: any = {
+      const params = {
         userId: user.uid,
         type: contentType,
         topic,
@@ -516,7 +516,7 @@ export const ContentGeneratorPage: React.FC = () => {
               Upgrade to Pro
             </h3>
             <p className="mb-6 text-gray-600 dark:text-gray-400">
-              You've reached your monthly limit of 10 generations. Upgrade to Aura Pro for unlimited content generation and advanced features!
+              You&apos;ve reached your monthly limit of 10 generations. Upgrade to Aura Pro for unlimited content generation and advanced features!
             </p>
             <div className="mb-6 space-y-2">
               <div className="flex items-center gap-2">
