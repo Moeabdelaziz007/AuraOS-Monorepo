@@ -1,20 +1,46 @@
-/* AuraOS Global Styles */
+/* AuraOS Global Styles - Enhanced Design System */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: 'Courier New', monospace;
-  line-height: 1.5;
+  /* Aurora Light Theme - ثيم الضوء الشفقي */
+  --aurora-primary: #6366f1;      /* Indigo Aurora */
+  --aurora-secondary: #8b5cf6;     /* Purple Magic */
+  --aurora-accent: #06b6d4;        /* Cyan Energy */
+  --aurora-surface: rgba(255,255,255,0.85);
+  --aurora-glass: rgba(255,255,255,0.1);
+  --aurora-backdrop: blur(20px);
+  --aurora-background: #fafbfc;
+  --aurora-foreground: #0f172a;
+  
+  /* Cosmic Dark Theme - ثيم الظلام الكوني */
+  --cosmic-primary: #818cf8;       /* Light Indigo */
+  --cosmic-secondary: #a78bfa;     /* Light Purple */
+  --cosmic-accent: #22d3ee;        /* Light Cyan */
+  --cosmic-surface: rgba(30,30,60,0.8);
+  --cosmic-glass: rgba(255,255,255,0.05);
+  --cosmic-backdrop: blur(25px);
+  --cosmic-background: #0f0f23;
+  --cosmic-foreground: #f1f5f9;
+  
+  /* Spatial Depth System - نظام العمق الفضائي */
+  --depth-1: 0 1px 3px rgba(0,0,0,0.1);
+  --depth-2: 0 4px 12px rgba(0,0,0,0.15);
+  --depth-3: 0 8px 24px rgba(0,0,0,0.2);
+  --depth-4: 0 16px 48px rgba(0,0,0,0.25);
+  --depth-5: 0 32px 64px rgba(0,0,0,0.3);
+  
+  /* Typography */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-  color-scheme: dark;
-  color: #e94560;
-  background-color: #0f0f23;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 * {
@@ -27,7 +53,15 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  background: var(--aurora-background);
+  color: var(--aurora-foreground);
+  transition: all 0.3s ease;
+}
+
+/* Dark mode styles */
+.dark body {
+  background: var(--cosmic-background);
+  color: var(--cosmic-foreground);
 }
 
 #root {

@@ -55,87 +55,219 @@ code, pre, .terminal-app {
   transition: background 0.3s ease;
 }
 
-/* ===== Desktop ===== */
+/* ===== Enhanced Desktop with Glassmorphism ===== */
 
-.desktop {
+.desktop-enhanced {
   width: 100%;
   height: calc(100vh - 48px);
   position: relative;
-  background: linear-gradient(135deg, var(--background) 0%, var(--background-secondary) 100%);
-  transition: background 0.3s ease;
+  background: var(--aurora-background);
+  transition: all 0.3s ease;
 }
 
-.desktop-icons {
+.dark .desktop-enhanced {
+  background: var(--cosmic-background);
+}
+
+.desktop-icons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px);
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, 120px);
+  gap: 24px;
+  padding: 32px;
   grid-auto-flow: column;
-  grid-template-rows: repeat(auto-fill, 100px);
+  grid-template-rows: repeat(auto-fill, 120px);
 }
 
-.desktop-icon {
-  width: 100px;
-  height: 100px;
+.desktop-icon-card {
+  width: 120px;
+  height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--aurora-surface);
+  -webkit-backdrop-filter: var(--aurora-backdrop);
+  backdrop-filter: var(--aurora-backdrop);
+  border: 1px solid var(--aurora-glass);
+  box-shadow: var(--depth-2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-user-select: none;
   user-select: none;
+  position: relative;
+  overflow: hidden;
 }
 
-.desktop-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.desktop-icon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--aurora-primary), var(--aurora-secondary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
-.desktop-icon:active {
-  background-color: rgba(255, 255, 255, 0.2);
+.desktop-icon-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--depth-4);
+  background: var(--aurora-glass);
+}
+
+.desktop-icon-card:hover::before {
+  opacity: 0.1;
+}
+
+.desktop-icon-card:active {
+  transform: translateY(-2px) scale(0.98);
+  background: var(--aurora-glass);
+}
+
+.dark .desktop-icon-card {
+  background: var(--cosmic-surface);
+  -webkit-backdrop-filter: var(--cosmic-backdrop);
+  backdrop-filter: var(--cosmic-backdrop);
+  border: 1px solid var(--cosmic-glass);
+}
+
+.dark .desktop-icon-card:hover {
+  background: var(--cosmic-glass);
+}
+
+.dark .desktop-icon-card::before {
+  background: linear-gradient(135deg, var(--cosmic-primary), var(--cosmic-secondary));
+}
+
+.icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
 }
 
 .icon-image {
-  font-size: 48px;
-  margin-bottom: 8px;
+  font-size: 32px;
+  color: var(--aurora-primary);
+  transition: all 0.3s ease;
+}
+
+.desktop-icon-card:hover .icon-image {
+  transform: scale(1.1);
+  color: var(--aurora-secondary);
+}
+
+.dark .icon-image {
+  color: var(--cosmic-primary);
+}
+
+.dark .desktop-icon-card:hover .icon-image {
+  color: var(--cosmic-secondary);
+}
+
+.icon-pin-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: var(--aurora-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  box-shadow: var(--depth-2);
+}
+
+.dark .icon-pin-badge {
+  background: var(--cosmic-accent);
 }
 
 .icon-label {
   font-size: 12px;
-  color: var(--text-primary);
+  font-weight: 500;
+  color: var(--aurora-foreground);
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   word-break: break-word;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.desktop-icon-card:hover .icon-label {
+  color: var(--aurora-primary);
 }
 
 .dark .icon-label {
-  color: #f1f5f9;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  color: var(--cosmic-foreground);
 }
 
-/* ===== Window ===== */
+.dark .desktop-icon-card:hover .icon-label {
+  color: var(--cosmic-primary);
+}
+
+/* ===== Enhanced Window with Glassmorphism ===== */
 
 .window {
-  background: var(--surface);
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: var(--aurora-surface);
+  -webkit-backdrop-filter: var(--aurora-backdrop);
+  backdrop-filter: var(--aurora-backdrop);
+  border: 1px solid var(--aurora-glass);
+  border-radius: 16px;
+  box-shadow: var(--depth-3);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.window::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--aurora-primary), var(--aurora-secondary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: 16px;
 }
 
 .window.active {
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--depth-5);
+  transform: translateY(-2px);
+}
+
+.window.active::before {
+  opacity: 0.05;
 }
 
 .dark .window {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  background: var(--cosmic-surface);
+  -webkit-backdrop-filter: var(--cosmic-backdrop);
+  backdrop-filter: var(--cosmic-backdrop);
+  border: 1px solid var(--cosmic-glass);
+  box-shadow: var(--depth-3);
 }
 
 .dark .window.active {
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
+  box-shadow: var(--depth-5);
+}
+
+.dark .window::before {
+  background: linear-gradient(135deg, var(--cosmic-primary), var(--cosmic-secondary));
 }
 
 .window-titlebar {
@@ -145,6 +277,7 @@ code, pre, .terminal-app {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  -webkit-user-select: none;
   user-select: none;
   height: 40px;
 }
@@ -215,22 +348,33 @@ code, pre, .terminal-app {
   background: linear-gradient(135deg, transparent 50%, #ccc 50%);
 }
 
-/* ===== Taskbar ===== */
+/* ===== Enhanced Taskbar with Glassmorphism ===== */
 
 .taskbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 48px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
+  height: 56px;
+  background: var(--aurora-surface);
+  -webkit-backdrop-filter: var(--aurora-backdrop);
+  backdrop-filter: var(--aurora-backdrop);
+  border: 1px solid var(--aurora-glass);
+  border-bottom: none;
   display: flex;
   align-items: center;
-  padding: 0 8px;
-  gap: 8px;
+  padding: 0 16px;
+  gap: 12px;
   z-index: 10000;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--depth-2);
+  transition: all 0.3s ease;
+}
+
+.dark .taskbar {
+  background: var(--cosmic-surface);
+  -webkit-backdrop-filter: var(--cosmic-backdrop);
+  backdrop-filter: var(--cosmic-backdrop);
+  border: 1px solid var(--cosmic-glass);
 }
 
 .taskbar-start {
@@ -238,27 +382,52 @@ code, pre, .terminal-app {
 }
 
 .start-button {
-  height: 36px;
-  padding: 0 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 6px;
-  color: white;
+  height: 40px;
+  padding: 0 20px;
+  background: var(--aurora-glass);
+  -webkit-backdrop-filter: var(--aurora-backdrop);
+  backdrop-filter: var(--aurora-backdrop);
+  border: 1px solid var(--aurora-glass);
+  border-radius: 12px;
+  color: var(--aurora-foreground);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
   font-weight: 600;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--depth-1);
 }
 
 .start-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--aurora-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--depth-3);
 }
 
 .start-button.active {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--aurora-secondary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--depth-2);
+}
+
+.dark .start-button {
+  background: var(--cosmic-glass);
+  border: 1px solid var(--cosmic-glass);
+  color: var(--cosmic-foreground);
+}
+
+.dark .start-button:hover {
+  background: var(--cosmic-primary);
+  color: white;
+}
+
+.dark .start-button.active {
+  background: var(--cosmic-secondary);
+  color: white;
 }
 
 .start-icon {

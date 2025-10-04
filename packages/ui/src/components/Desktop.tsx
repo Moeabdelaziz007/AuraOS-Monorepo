@@ -41,22 +41,24 @@ export const Desktop: React.FC<DesktopProps> = ({ apps, onAppLaunch }) => {
   };
 
   return (
-    <div className="desktop">
-      <div className="desktop-icons">
+    <div className="desktop-enhanced">
+      <div className="desktop-icons-grid">
         {sortedApps.map((app) => (
           <div
             key={app.id}
-            className="desktop-icon"
+            className="desktop-icon-card"
             onDoubleClick={() => handleDoubleClick(app.id)}
             title={app.name}
           >
-            <div className="icon-image">{renderIcon(app.icon)}</div>
+            <div className="icon-container">
+              <div className="icon-image">{renderIcon(app.icon)}</div>
+              {pinnedApps.includes(app.id) && (
+                <div className="icon-pin-badge" title="Pinned">
+                  <Pin className="w-3 h-3" />
+                </div>
+              )}
+            </div>
             <div className="icon-label">{app.name}</div>
-            {pinnedApps.includes(app.id) && (
-              <div className="icon-pin" title="Pinned">
-                <Pin className="w-3 h-3" />
-              </div>
-            )}
           </div>
         ))}
       </div>
