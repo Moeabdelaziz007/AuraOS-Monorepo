@@ -27,6 +27,18 @@ import {
 import { initNotesClient } from '../lib/notes-client';
 import type { Note } from '../types';
 
+// Debounce utility
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout | null = null;
+  return (...args: Parameters<T>) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
+
 interface NoteEditorProps {
   note: Note | null;
   onUpdateNote: (noteId: string, updates: Partial<Note>) => void;

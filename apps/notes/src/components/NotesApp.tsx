@@ -4,9 +4,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { LogOut } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 import { NoteList } from './NoteList';
 import { NoteEditor } from './NoteEditor';
+import { useAuth } from '../contexts/AuthContext';
 import { initNotesClient } from '../lib/notes-client';
 import type { Note, Folder } from '../types';
 import '../styles/notes-app.css';
@@ -16,6 +18,7 @@ interface NotesAppProps {
 }
 
 export const NotesApp: React.FC<NotesAppProps> = ({ userId }) => {
+  const { user, logout } = useAuth();
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -60,10 +63,10 @@ export const NotesApp: React.FC<NotesAppProps> = ({ userId }) => {
   const handleCreateNote = async () => {
     try {
       const client = initNotesClient(userId);
-      const { note } = await client.createNote({
+      const note = await client.createNote({
         title: 'Untitled Note',
         content: '',
-        folderId: selectedFolderId,
+        tags: [],
       });
       setNotes([note, ...notes]);
       setSelectedNote(note);
@@ -75,12 +78,12 @@ export const NotesApp: React.FC<NotesAppProps> = ({ userId }) => {
   const handleUpdateNote = async (noteId: string, updates: Partial<Note>) => {
     try {
       const client = initNotesClient(userId);
-      await client.updateNote(noteId, updates);
+      const updatedNote = await client.updateNote(noteId, updates);
       
-      // Update local state
-      setNotes(notes.map(n => n.id === noteId ? { ...n, ...updates } : n));
+      // Update local state with server response
+      setNotes(notes.map(n => n.id === noteId ? updatedNote : n));
       if (selectedNote?.id === noteId) {
-        setSelectedNote({ ...selectedNote, ...updates });
+        setSelectedNote(updatedNote);
       }
     } catch (error) {
       console.error('Failed to update note:', error);
@@ -112,14 +115,33 @@ export const NotesApp: React.FC<NotesAppProps> = ({ userId }) => {
     }
   };
 
-  const filteredNotes = notes.filter(note => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      note.title.toLowerCase().includes(query) ||
-      note.content.toLowerCase().includes(query) ||
-      note.tags.some(tag => tag.toLowerCase().includes(query))
-    );
+  // Use API search when query is provided
+  useEffect(() => {
+    if (searchQuery && searchQuery.trim().length > 0) {
+      handleSearch(searchQuery);
+    }
+  }, [searchQuery]);
+
+  const handleSearch = async (query: string) => {
+    if (!query || query.trim().length === 0) {
+      loadData();
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const client = initNotesClient(userId);
+      const results = await client.searchNotes(query, { limit: 50 });
+      setNotes(results.map(r => r.note));
+    } catch (error) {
+      console.error('Failed to search notes:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredNotes = searchQuery ? notes : notes.filter(note => {
+    return !note.isArchived;
   });
 
   // Sort notes: pinned first, then by updated date
@@ -131,6 +153,15 @@ export const NotesApp: React.FC<NotesAppProps> = ({ userId }) => {
 
   return (
     <div className="notes-app">
+      <div className="app-header">
+        <div className="user-info">
+          <span className="user-name">{user?.name || user?.email}</span>
+          <button className="logout-button" onClick={logout} title="Logout">
+            <LogOut size={18} />
+          </button>
+        </div>
+      </div>
+      
       <Sidebar
         folders={folders}
         selectedFolderId={selectedFolderId}
