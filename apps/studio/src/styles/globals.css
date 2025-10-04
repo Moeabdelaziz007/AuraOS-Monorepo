@@ -1,0 +1,189 @@
+/**
+ * Global Styles for AuraOS Studio
+ */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom CSS Variables */
+:root {
+  --auraos-blue: #3b82f6;
+  --auraos-purple: #8b5cf6;
+  --auraos-green: #10b981;
+  --auraos-orange: #f59e0b;
+  --auraos-red: #ef4444;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Custom Components */
+.auraos-card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4;
+}
+
+.auraos-button {
+  @apply px-4 py-2 rounded-md font-medium transition-all duration-200;
+}
+
+.auraos-button-primary {
+  @apply auraos-button bg-blue-500 text-white hover:bg-blue-600;
+}
+
+.auraos-button-secondary {
+  @apply auraos-button bg-gray-200 text-gray-700 hover:bg-gray-300;
+}
+
+.auraos-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+/* AI Assistant Styles */
+.ai-assistant {
+  @apply fixed bottom-4 right-4 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50;
+}
+
+.ai-suggestion {
+  @apply p-3 rounded-lg border text-left transition-all duration-200 cursor-pointer;
+}
+
+.ai-suggestion-explanation {
+  @apply ai-suggestion border-yellow-200 bg-yellow-50 hover:bg-yellow-100;
+}
+
+.ai-suggestion-suggestion {
+  @apply ai-suggestion border-blue-200 bg-blue-50 hover:bg-blue-100;
+}
+
+.ai-suggestion-fix {
+  @apply ai-suggestion border-red-200 bg-red-50 hover:bg-red-100;
+}
+
+.ai-suggestion-enhancement {
+  @apply ai-suggestion border-green-200 bg-green-50 hover:bg-green-100;
+}
+
+/* Terminal Styles */
+.terminal {
+  @apply bg-black text-green-400 font-mono;
+}
+
+.terminal-input {
+  @apply bg-transparent border-none outline-none text-green-400 placeholder-gray-500;
+}
+
+/* Flow Mode Styles */
+.flow-canvas {
+  @apply bg-gradient-to-br from-blue-50 to-purple-50;
+}
+
+.flow-node {
+  @apply bg-white rounded-lg shadow-lg border border-gray-200 p-4;
+}
+
+.flow-edge {
+  @apply stroke-blue-500 stroke-2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-assistant {
+    @apply w-full bottom-0 right-0 rounded-t-lg;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --auraos-blue: #60a5fa;
+    --auraos-purple: #a78bfa;
+    --auraos-green: #34d399;
+    --auraos-orange: #fbbf24;
+    --auraos-red: #f87171;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

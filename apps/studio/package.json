@@ -1,0 +1,75 @@
+{
+  "name": "@auraos/studio",
+  "version": "1.0.0",
+  "description": "AuraOS Studio - Cognitive Edition - First Cognitive Orchestration Environment",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "studio": "vite --host"
+  },
+  "dependencies": {
+    "@auraos/core": "workspace:*",
+    "@auraos/ui": "workspace:*",
+    "@auraos/ai": "workspace:*",
+    "@auraos/database": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "reactflow": "^11.10.1",
+    "zustand": "^4.4.7",
+    "langchain": "^0.1.0",
+    "@langchain/openai": "^0.0.14",
+    "@langchain/anthropic": "^0.3.30",
+    "monaco-editor": "^0.45.0",
+    "xterm": "^5.3.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.10.0",
+    "lucide-react": "^0.294.0",
+    "framer-motion": "^10.16.16",
+    "tailwindcss": "^3.3.6",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.0.4",
+    "jsdom": "^23.0.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.4",
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0"
+  },
+  "keywords": [
+    "auraos",
+    "studio",
+    "cognitive",
+    "ai",
+    "orchestration",
+    "contextual",
+    "flow"
+  ],
+  "author": "Mohamed Abdelaziz",
+  "license": "MIT"
+}
