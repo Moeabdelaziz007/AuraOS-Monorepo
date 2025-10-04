@@ -44,49 +44,59 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Create or update user profile in Firestore
   const createUserProfile = async (user: User, additionalData?: any) => {
-    const userRef = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
 
-    if (!userSnap.exists()) {
-      const profile: UserProfile = {
-        uid: user.uid,
-        email: user.email || '',
-        displayName: user.displayName || 'User',
-        photoURL: user.photoURL || undefined,
-        createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp(),
-        preferences: {
-          theme: 'dark',
-          language: 'en',
-        },
-        ...additionalData,
-      };
-
-      await setDoc(userRef, profile);
-      return profile;
-    } else {
-      // Update last login
-      await setDoc(
-        userRef,
-        {
+      if (!userSnap.exists()) {
+        const profile: UserProfile = {
+          uid: user.uid,
+          email: user.email || '',
+          displayName: user.displayName || 'User',
+          photoURL: user.photoURL || undefined,
+          createdAt: serverTimestamp(),
           lastLogin: serverTimestamp(),
-        },
-        { merge: true }
-      );
-      return userSnap.data() as UserProfile;
+          preferences: {
+            theme: 'dark',
+            language: 'en',
+          },
+          ...additionalData,
+        };
+
+        await setDoc(userRef, profile);
+        return profile;
+      } else {
+        // Update last login
+        await setDoc(
+          userRef,
+          {
+            lastLogin: serverTimestamp(),
+          },
+          { merge: true }
+        );
+        return userSnap.data() as UserProfile;
+      }
+    } catch (error) {
+      console.error('Firestore error:', error);
+      return null;
     }
   };
 
   // Load user profile from Firestore
   const loadUserProfile = async (user: User) => {
-    const userRef = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
 
-    if (userSnap.exists()) {
-      setUserProfile(userSnap.data() as UserProfile);
-    } else {
-      const profile = await createUserProfile(user);
-      setUserProfile(profile);
+      if (userSnap.exists()) {
+        setUserProfile(userSnap.data() as UserProfile);
+      } else {
+        const profile = await createUserProfile(user);
+        setUserProfile(profile);
+      }
+    } catch (error) {
+      console.error('Failed to load user profile:', error);
+      setUserProfile(null);
     }
   };
 

@@ -2,6 +2,8 @@
  * Window and Desktop Types
  */
 
+import { LucideIcon } from 'lucide-react';
+
 export interface WindowState {
   id: string;
   title: string;
@@ -13,13 +15,13 @@ export interface WindowState {
   isMinimized: boolean;
   isMaximized: boolean;
   isActive: boolean;
-  icon?: string;
+  icon?: LucideIcon | string;
 }
 
 export interface DesktopApp {
   id: string;
   name: string;
-  icon: string;
+  icon: LucideIcon | string;
   component: React.ComponentType<any>;
   defaultSize?: { width: number; height: number };
   defaultPosition?: { x: number; y: number };
@@ -28,7 +30,7 @@ export interface DesktopApp {
 export interface TaskbarApp {
   id: string;
   name: string;
-  icon: string;
+  icon: LucideIcon | string;
   isRunning: boolean;
   windowId?: string;
 }

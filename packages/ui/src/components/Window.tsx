@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Minus, Square, X, LucideIcon } from 'lucide-react';
 import { WindowState } from '../types/window';
 
 interface WindowProps {
@@ -110,12 +112,28 @@ export const Window: React.FC<WindowProps> = ({
         zIndex: window.zIndex,
       };
 
+  const renderIcon = (icon: LucideIcon | string) => {
+    if (typeof icon === 'string') {
+      return <span className="text-base">{icon}</span>;
+    }
+    const IconComponent = icon;
+    return <IconComponent className="w-4 h-4" />;
+  };
+
   return (
-    <div
+    <motion.div
       ref={windowRef}
       className={`window ${window.isActive ? 'active' : ''}`}
       style={windowStyle}
       onMouseDown={() => onFocus(window.id)}
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      animate={{ 
+        opacity: window.isMinimized ? 0 : 1, 
+        scale: window.isMinimized ? 0.8 : 1,
+        y: window.isMinimized ? 100 : 0
+      }}
+      exit={{ opacity: 0, scale: 0.9, y: 20 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
     >
       {/* Window Title Bar */}
       <div
@@ -126,7 +144,7 @@ export const Window: React.FC<WindowProps> = ({
         }}
       >
         <div className="window-title">
-          {window.icon && <span className="window-icon">{window.icon}</span>}
+          {window.icon && <span className="window-icon">{renderIcon(window.icon)}</span>}
           <span>{window.title}</span>
         </div>
         <div className="window-controls">
@@ -135,21 +153,21 @@ export const Window: React.FC<WindowProps> = ({
             onClick={() => onMinimize(window.id)}
             title="Minimize"
           >
-            −
+            <Minus className="w-4 h-4" />
           </button>
           <button
             className="window-control maximize"
             onClick={() => onMaximize(window.id)}
             title={window.isMaximized ? 'Restore' : 'Maximize'}
           >
-            {window.isMaximized ? '❐' : '□'}
+            <Square className="w-4 h-4" />
           </button>
           <button
             className="window-control close"
             onClick={() => onClose(window.id)}
             title="Close"
           >
-            ×
+            <X className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -169,6 +187,6 @@ export const Window: React.FC<WindowProps> = ({
           }}
         />
       )}
-    </div>
+    </motion.div>
   );
 };

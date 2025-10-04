@@ -1,4 +1,5 @@
 import React from 'react';
+import { Pin, LucideIcon } from 'lucide-react';
 import { DesktopApp } from '../types/window';
 import { useLearningLoop } from '@auraos/hooks';
 import { useAuth } from '../contexts/AuthContext';
@@ -31,6 +32,14 @@ export const Desktop: React.FC<DesktopProps> = ({ apps, onAppLaunch }) => {
     return 0;
   });
 
+  const renderIcon = (icon: LucideIcon | string) => {
+    if (typeof icon === 'string') {
+      return <span className="text-2xl">{icon}</span>;
+    }
+    const IconComponent = icon;
+    return <IconComponent className="w-8 h-8" />;
+  };
+
   return (
     <div className="desktop">
       <div className="desktop-icons">
@@ -41,10 +50,12 @@ export const Desktop: React.FC<DesktopProps> = ({ apps, onAppLaunch }) => {
             onDoubleClick={() => handleDoubleClick(app.id)}
             title={app.name}
           >
-            <div className="icon-image">{app.icon}</div>
+            <div className="icon-image">{renderIcon(app.icon)}</div>
             <div className="icon-label">{app.name}</div>
             {pinnedApps.includes(app.id) && (
-              <div className="icon-pin" title="Pinned">📌</div>
+              <div className="icon-pin" title="Pinned">
+                <Pin className="w-3 h-3" />
+              </div>
             )}
           </div>
         ))}

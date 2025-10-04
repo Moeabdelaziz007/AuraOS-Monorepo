@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Zap, Power, Settings, Wifi, Volume2, Bell, Moon, Sun, LucideIcon } from 'lucide-react';
 import { WindowState, DesktopApp } from '../types/window';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface TaskbarProps {
   windows: WindowState[];
@@ -18,6 +20,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { effectiveTheme, toggleTheme } = useTheme();
 
   // Update time every second
   React.useEffect(() => {
@@ -50,6 +53,14 @@ export const Taskbar: React.FC<TaskbarProps> = ({
     onWindowFocus(window.id);
   };
 
+  const renderIcon = (icon: LucideIcon | string, className: string = "w-5 h-5") => {
+    if (typeof icon === 'string') {
+      return <span className="text-xl">{icon}</span>;
+    }
+    const IconComponent = icon;
+    return <IconComponent className={className} />;
+  };
+
   return (
     <div className="taskbar">
       {/* Start Button */}
@@ -58,7 +69,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
           className={`start-button ${showStartMenu ? 'active' : ''}`}
           onClick={() => setShowStartMenu(!showStartMenu)}
         >
-          <span className="start-icon">⚡</span>
+          <Zap className="start-icon w-5 h-5" />
           <span className="start-text">AuraOS</span>
         </button>
 
@@ -78,14 +89,18 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     setShowStartMenu(false);
                   }}
                 >
-                  <span className="app-icon">{app.icon}</span>
+                  <span className="app-icon">{renderIcon(app.icon, "w-6 h-6")}</span>
                   <span className="app-name">{app.name}</span>
                 </button>
               ))}
             </div>
             <div className="start-menu-footer">
-              <button className="start-menu-power">⏻ Power</button>
-              <button className="start-menu-settings">⚙️ Settings</button>
+              <button className="start-menu-power">
+                <Power className="w-4 h-4" /> Power
+              </button>
+              <button className="start-menu-settings">
+                <Settings className="w-4 h-4" /> Settings
+              </button>
             </div>
           </div>
         )}
@@ -102,7 +117,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             onClick={() => handleWindowClick(window)}
             title={window.title}
           >
-            {window.icon && <span className="window-icon">{window.icon}</span>}
+            {window.icon && <span className="window-icon">{renderIcon(window.icon, "w-4 h-4")}</span>}
             <span className="window-title">{window.title}</span>
           </button>
         ))}
@@ -111,14 +126,25 @@ export const Taskbar: React.FC<TaskbarProps> = ({
       {/* System Tray */}
       <div className="taskbar-tray">
         <div className="tray-icons">
+          <button 
+            className="tray-icon" 
+            title={`Switch to ${effectiveTheme === 'dark' ? 'light' : 'dark'} mode`}
+            onClick={toggleTheme}
+          >
+            {effectiveTheme === 'dark' ? (
+              <Sun className="w-4 h-4" />
+            ) : (
+              <Moon className="w-4 h-4" />
+            )}
+          </button>
           <button className="tray-icon" title="Network">
-            📶
+            <Wifi className="w-4 h-4" />
           </button>
           <button className="tray-icon" title="Volume">
-            🔊
+            <Volume2 className="w-4 h-4" />
           </button>
           <button className="tray-icon" title="Notifications">
-            🔔
+            <Bell className="w-4 h-4" />
           </button>
         </div>
         <div className="tray-clock">

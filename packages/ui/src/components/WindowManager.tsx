@@ -1,4 +1,5 @@
 import React from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { Window } from './Window';
 import { WindowState } from '../types/window';
 
@@ -26,18 +27,20 @@ export const WindowManager: React.FC<WindowManagerProps> = ({
 
   return (
     <div className="window-manager">
-      {sortedWindows.map((window) => (
-        <Window
-          key={window.id}
-          window={window}
-          onClose={onWindowClose}
-          onMinimize={onWindowMinimize}
-          onMaximize={onWindowMaximize}
-          onFocus={onWindowFocus}
-          onMove={onWindowMove}
-          onResize={onWindowResize}
-        />
-      ))}
+      <AnimatePresence mode="sync">
+        {sortedWindows.map((window) => (
+          <Window
+            key={window.id}
+            window={window}
+            onClose={onWindowClose}
+            onMinimize={onWindowMinimize}
+            onMaximize={onWindowMaximize}
+            onFocus={onWindowFocus}
+            onMove={onWindowMove}
+            onResize={onWindowResize}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { Newspaper, LayoutDashboard, Terminal, FolderOpen } from 'lucide-react';
 import { WindowManager } from './components/WindowManager';
 import { Taskbar } from './components/Taskbar';
 import { Desktop } from './components/Desktop';
@@ -6,6 +7,7 @@ import { WindowState, DesktopApp } from './types/window';
 import { DashboardApp } from './apps/DashboardApp';
 import { TerminalApp } from './apps/TerminalApp';
 import { FileManagerApp } from './apps/FileManagerApp';
+import { NewsDashboardApp } from './apps/NewsDashboardApp';
 
 export const DesktopOS: React.FC = () => {
   const [windows, setWindows] = useState<WindowState[]>([]);
@@ -14,9 +16,17 @@ export const DesktopOS: React.FC = () => {
   // Define available applications
   const apps: DesktopApp[] = [
     {
+      id: 'news',
+      name: 'News',
+      icon: Newspaper,
+      component: NewsDashboardApp,
+      defaultSize: { width: 1000, height: 700 },
+      defaultPosition: { x: 50, y: 50 },
+    },
+    {
       id: 'dashboard',
       name: 'Dashboard',
-      icon: '📊',
+      icon: LayoutDashboard,
       component: DashboardApp,
       defaultSize: { width: 800, height: 600 },
       defaultPosition: { x: 100, y: 100 },
@@ -24,7 +34,7 @@ export const DesktopOS: React.FC = () => {
     {
       id: 'terminal',
       name: 'Terminal',
-      icon: '💻',
+      icon: Terminal,
       component: TerminalApp,
       defaultSize: { width: 700, height: 500 },
       defaultPosition: { x: 150, y: 150 },
@@ -32,7 +42,7 @@ export const DesktopOS: React.FC = () => {
     {
       id: 'filemanager',
       name: 'Files',
-      icon: '📁',
+      icon: FolderOpen,
       component: FileManagerApp,
       defaultSize: { width: 900, height: 600 },
       defaultPosition: { x: 200, y: 100 },

@@ -35,9 +35,12 @@ export const TerminalApp: React.FC = () => {
       type: 'info',
     },
   ]);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const [isMaximized, setIsMaximized] = useState(false);
   const [currentPath] = useState('/home/user');
   const terminalRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const executeCommand = async (cmd: string) => {
     if (!cmd.trim()) return;
@@ -113,15 +116,44 @@ config.json`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    executeCommand(command);
-    setCommand('');
+    if (command.trim()) {
+      executeCommand(command);
+      setCommandHistory(prev => [...prev, command]);
+      setHistoryIndex(-1);
+      setCommand('');
+    }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowUp') {
       e.preventDefault();
-      executeCommand(command);
-      setCommand('');
+      if (commandHistory.length > 0) {
+        const newIndex = historyIndex === -1 
+          ? commandHistory.length - 1 
+          : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIndex);
+        setCommand(commandHistory[newIndex]);
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex !== -1) {
+        const newIndex = historyIndex + 1;
+        if (newIndex >= commandHistory.length) {
+          setHistoryIndex(-1);
+          setCommand('');
+        } else {
+          setHistoryIndex(newIndex);
+          setCommand(commandHistory[newIndex]);
+        }
+      }
+    } else if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (command.trim()) {
+        executeCommand(command);
+        setCommandHistory(prev => [...prev, command]);
+        setHistoryIndex(-1);
+        setCommand('');
+      }
     }
   };
 
@@ -134,6 +166,31 @@ config.json`;
       output.command ? `$ ${output.command}\n${output.output}` : output.output
     ).join('\n');
     navigator.clipboard.writeText(text);
+  };
+
+  const highlightSyntax = (text: string) => {
+    const keywords = ['PRINT', 'HELLO', 'VERSION', 'HELP', 'CLEAR', 'LS', 'PWD', 'DATE', 'LET', 'IF', 'THEN', 'GOTO', 'FOR', 'NEXT'];
+    const lines = text.split('\n');
+    
+    return lines.map((line, lineIndex) => {
+      let highlighted = line;
+      
+      // Highlight keywords
+      keywords.forEach(keyword => {
+        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+        highlighted = highlighted.replace(regex, match => `<span class="text-blue-400 font-bold">${match}</span>`);
+      });
+      
+      // Highlight strings
+      highlighted = highlighted.replace(/"([^"]*)"/g, '<span class="text-yellow-400">"$1"</span>');
+      
+      // Highlight numbers
+      highlighted = highlighted.replace(/\b(\d+)\b/g, '<span class="text-purple-400">$1</span>');
+      
+      return (
+        <div key={lineIndex} dangerouslySetInnerHTML={{ __html: highlighted }} />
+      );
+    });
   };
 
   const downloadOutput = () => {
@@ -222,7 +279,7 @@ config.json`;
                 output.type === 'success' ? 'text-green-400' : 
                 'text-gray-300'
               }`}>
-                {output.output}
+                {highlightSyntax(output.output)}
               </div>
             )}
           </div>
@@ -234,15 +291,21 @@ config.json`;
         <form onSubmit={handleSubmit} className="flex items-center space-x-2">
           <span className="text-green-400 font-mono">$</span>
           <Input
+            ref={inputRef}
             type="text"
             value={command}
             onChange={(e) => setCommand(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Enter command..."
+            onKeyDown={handleKeyDown}
+            placeholder="Enter command... (↑↓ for history)"
             className="flex-1 bg-transparent border-none focus:ring-0 font-mono"
             autoFocus
           />
         </form>
+        {commandHistory.length > 0 && (
+          <div className="text-xs text-gray-500 mt-1 font-mono">
+            History: {commandHistory.length} commands | Use ↑↓ to navigate
+          </div>
+        )}
       </div>
     </div>
   );
