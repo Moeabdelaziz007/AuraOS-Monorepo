@@ -11,19 +11,9 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@auraos/firebase';
+import type { UserProfile as FirebaseUserProfile } from '@auraos/firebase';
 
-interface UserProfile {
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL?: string;
-  createdAt: any;
-  lastLogin: any;
-  preferences?: {
-    theme?: 'light' | 'dark';
-    language?: string;
-  };
-}
+type UserProfile = FirebaseUserProfile;
 
 interface AuthContextType {
   user: User | null;
