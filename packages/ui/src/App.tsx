@@ -18,6 +18,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<AuthPage />} />
+            <Route path="/login" element={<AuthPage />} />
             <Route
               path="/dashboard"
               element={
@@ -43,7 +44,7 @@ function App() {
               }
             />
             <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/" element={<Navigate to="/desktop" replace />} />
+            <Route path="/" element={<Navigate to="/auth" replace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

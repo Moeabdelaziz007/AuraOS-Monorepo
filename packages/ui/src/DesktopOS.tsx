@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Newspaper, LayoutDashboard, Terminal, FolderOpen } from 'lucide-react';
 import { WindowManager } from './components/WindowManager';
 import { Taskbar } from './components/Taskbar';
@@ -8,10 +8,17 @@ import { DashboardApp } from './apps/DashboardApp';
 import { TerminalApp } from './apps/TerminalApp';
 import { FileManagerApp } from './apps/FileManagerApp';
 import { NewsDashboardApp } from './apps/NewsDashboardApp';
+import { QuantumLogo } from './components/quantum-elements/QuantumLogo';
 
 export const DesktopOS: React.FC = () => {
   const [windows, setWindows] = useState<WindowState[]>([]);
   const [nextZIndex, setNextZIndex] = useState(1000);
+  
+  // Voice state
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const voiceControllerRef = useRef<any>(null);
 
   // Define available applications
   const apps: DesktopApp[] = [
@@ -149,10 +156,55 @@ export const DesktopOS: React.FC = () => {
     []
   );
 
+  // Voice toggle handler
+  const handleVoiceToggle = useCallback(async () => {
+    if (!isVoiceEnabled) {
+      // Enable voice
+      setIsVoiceEnabled(true);
+      // Initialize voice controller here if needed
+      console.log('Voice enabled - ready to listen');
+    } else {
+      // Disable voice
+      setIsVoiceEnabled(false);
+      setIsRecording(false);
+      setIsProcessing(false);
+      console.log('Voice disabled');
+    }
+  }, [isVoiceEnabled]);
+
+  // Initialize voice features
+  useEffect(() => {
+    // Initialize voice controller when component mounts
+    const initVoice = async () => {
+      try {
+        // Check for microphone permission
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(track => track.stop());
+        console.log('Microphone access granted');
+      } catch (error) {
+        console.warn('Microphone access denied:', error);
+      }
+    };
+
+    initVoice();
+  }, []);
+
   return (
-    <div className="desktop-os">
+    <div className="desktop-os relative">
       {/* Desktop Background with Icons */}
       <Desktop apps={apps} onAppLaunch={handleAppLaunch} />
+
+      {/* Quantum Voice Logo - Centered */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-auto">
+        <QuantumLogo 
+          size={200} 
+          className="quantum-desktop-logo"
+          isVoiceEnabled={isVoiceEnabled}
+          onVoiceToggle={handleVoiceToggle}
+          isRecording={isRecording}
+          isProcessing={isProcessing}
+        />
+      </div>
 
       {/* Window Manager */}
       <WindowManager

@@ -242,7 +242,7 @@ function AppContent() {
                   } />
           <Route path="/auth" element={
             <PublicRoute>
-              <AuthPage />
+              <div>Redirecting to main auth page...</div>
             </PublicRoute>
           } />
         </Routes>
