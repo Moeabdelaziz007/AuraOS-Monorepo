@@ -72,5 +72,11 @@
   "packageManager": "pnpm@8.15.0",
   "dependencies": {
     "@playwright/test": "^1.55.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "request": "npm:@cypress/request@^3.0.0",
+      "tough-cookie": "^4.1.3"
+    }
   }
 }

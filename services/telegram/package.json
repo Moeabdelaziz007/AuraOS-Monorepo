@@ -30,7 +30,8 @@
   "license": "MIT",
   "dependencies": {
     "node-telegram-bot-api": "^0.66.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "request": "npm:@cypress/request@^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.19",
@@ -52,5 +53,10 @@
   "bugs": {
     "url": "https://github.com/Moeabdelaziz007/AuraOS-Monorepo/issues"
   },
-  "homepage": "https://github.com/Moeabdelaziz007/AuraOS-Monorepo#readme"
+  "homepage": "https://github.com/Moeabdelaziz007/AuraOS-Monorepo#readme",
+  "pnpm": {
+    "overrides": {
+      "request": "npm:@cypress/request@^3.0.0"
+    }
+  }
 }
