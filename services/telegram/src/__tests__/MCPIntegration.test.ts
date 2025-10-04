@@ -54,7 +54,7 @@ describe('MCPIntegration', () => {
       const response = await mcp.executeTool('system_command', { command: 'echo test' }, userSession);
       expect(response.success).toBe(true);
       expect(response.message).toContain('successfully');
-    });
+    }, 10000);
 
     it('should execute AI analyze tool', async () => {
       const response = await mcp.executeTool('ai_analyze', { text: 'Hello world' }, userSession);

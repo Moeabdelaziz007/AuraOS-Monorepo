@@ -7,13 +7,81 @@ import { EnhancedBot } from '../EnhancedBot.js';
 import { BotConfig } from '../types/index.js';
 
 // Mock dependencies
-vi.mock('../core/BotCore.js');
-vi.mock('../ai/AIIntegration.js');
-vi.mock('../mcp/MCPIntegration.js');
-vi.mock('../autopilot/AutopilotIntegration.js');
-vi.mock('../learning/LearningIntegration.js');
-vi.mock('../security/SecurityManager.js');
-vi.mock('../monitoring/MonitoringManager.js');
+vi.mock('../core/BotCore.js', () => ({
+  BotCore: vi.fn().mockImplementation(() => ({
+    getBot: vi.fn().mockReturnValue({
+      onText: vi.fn(),
+      sendMessage: vi.fn(),
+      on: vi.fn(),
+      getMe: vi.fn().mockResolvedValue({ id: 123456789, username: 'testbot' })
+    }),
+    start: vi.fn(),
+    stop: vi.fn(),
+    getAnalytics: vi.fn().mockReturnValue({
+      totalMessages: 0,
+      totalCommands: 0,
+      activeUsers: 0,
+      commandUsage: new Map(),
+      userActivity: new Map(),
+      systemMetrics: {},
+      startTime: new Date()
+    }),
+    getSystemMetrics: vi.fn().mockReturnValue({
+      uptime: 0,
+      memoryUsage: { rss: 0, heapTotal: 0, heapUsed: 0 },
+      cpuUsage: 0,
+      activeConnections: 0
+    })
+  }))
+}));
+
+vi.mock('../ai/AIIntegration.js', () => ({
+  AIIntegration: vi.fn().mockImplementation(() => ({
+    processMessage: vi.fn().mockResolvedValue({ success: true, message: 'AI response' }),
+    getInsights: vi.fn().mockReturnValue([]),
+    isActive: vi.fn().mockReturnValue(true)
+  }))
+}));
+
+vi.mock('../mcp/MCPIntegration.js', () => ({
+  MCPIntegration: vi.fn().mockImplementation(() => ({
+    executeTool: vi.fn().mockResolvedValue({ success: true, message: 'Tool executed' }),
+    getAvailableTools: vi.fn().mockReturnValue([]),
+    isMCPConnected: vi.fn().mockReturnValue(true)
+  }))
+}));
+
+vi.mock('../autopilot/AutopilotIntegration.js', () => ({
+  AutopilotIntegration: vi.fn().mockImplementation(() => ({
+    executeTask: vi.fn().mockResolvedValue({ success: true, message: 'Task executed' }),
+    getAllTasks: vi.fn().mockReturnValue([]),
+    isAutopilotActive: vi.fn().mockReturnValue(true)
+  }))
+}));
+
+vi.mock('../learning/LearningIntegration.js', () => ({
+  LearningIntegration: vi.fn().mockImplementation(() => ({
+    learnFromInteraction: vi.fn(),
+    getUserInsights: vi.fn().mockReturnValue([]),
+    isLearningActive: vi.fn().mockReturnValue(true)
+  }))
+}));
+
+vi.mock('../security/SecurityManager.js', () => ({
+  SecurityManager: vi.fn().mockImplementation(() => ({
+    checkAccess: vi.fn().mockReturnValue(true),
+    logSecurityEvent: vi.fn(),
+    isSecurityActive: vi.fn().mockReturnValue(true)
+  }))
+}));
+
+vi.mock('../monitoring/MonitoringManager.js', () => ({
+  MonitoringManager: vi.fn().mockImplementation(() => ({
+    trackEvent: vi.fn(),
+    getMetrics: vi.fn().mockReturnValue({}),
+    isMonitoringActive: vi.fn().mockReturnValue(true)
+  }))
+}));
 
 describe('EnhancedBot', () => {
   let bot: EnhancedBot;
