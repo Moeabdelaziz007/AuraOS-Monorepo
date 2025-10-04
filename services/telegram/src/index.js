@@ -4,6 +4,14 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import CursorIntegration from './cursor-integration.js';
 
+// Simple logger
+const logger = {
+  info: (message, ...args) => console.log(`[INFO] ${message}`, ...args),
+  error: (message, ...args) => console.error(`[ERROR] ${message}`, ...args),
+  warn: (message, ...args) => console.warn(`[WARN] ${message}`, ...args),
+  debug: (message, ...args) => console.debug(`[DEBUG] ${message}`, ...args)
+};
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -202,6 +210,9 @@ bot.onText(/\/help/, (msg) => {
 *System Commands:*
 • /memory - Memory usage
 • /version - AuraOS version
+
+*AI Commands:*
+• /summarize <url> - Summarize web articles
 `;
 
   if (isAdminUser) {
@@ -923,6 +934,82 @@ bot.onText(/\/ai (.+)/, async (msg, match) => {
   }
 });
 
+// Command: /summarize
+bot.onText(/\/summarize (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id;
+  const url = match[1];
+  
+  trackCommand('summarize');
+  
+  try {
+    // Send initial message
+    const processingMsg = await bot.sendMessage(
+      chatId,
+      '🔄 Analyzing web content...\nThis may take a few moments.',
+      { parse_mode: 'HTML' }
+    );
+
+    // For now, we'll create a simple mock response since the web summarizer handler isn't integrated
+    // In a real implementation, you would call the webSummarizerHandler here
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate processing time
+
+    // Delete processing message
+    await bot.deleteMessage(chatId, processingMsg.message_id);
+
+    // Mock response for testing
+    const mockResult = {
+      title: "AI News Article Summary",
+      summary: "This is a mock summary of the AI news article. The actual web summarizer would analyze the content and provide a detailed summary with key points, metadata, and insights.",
+      keyPoints: [
+        "Key point 1: Important AI development",
+        "Key point 2: Industry impact",
+        "Key point 3: Future implications"
+      ],
+      metadata: {
+        author: "AI News Author",
+        publishedDate: new Date().toISOString().split('T')[0],
+        wordCount: 500,
+        readingTime: 2,
+        confidence: 0.95
+      }
+    };
+
+    let message = `✅ <b>Summary Complete!</b>\n\n`;
+    message += `📰 <b>Title:</b> ${mockResult.title}\n\n`;
+    message += `👤 <b>Author:</b> ${mockResult.metadata.author}\n`;
+    message += `📅 <b>Published:</b> ${mockResult.metadata.publishedDate}\n`;
+    message += `📊 <b>Word Count:</b> ${mockResult.metadata.wordCount}\n`;
+    message += `⏱️ <b>Reading Time:</b> ${mockResult.metadata.readingTime} minutes\n`;
+    message += `🎯 <b>Confidence:</b> ${Math.round(mockResult.metadata.confidence * 100)}%\n\n`;
+    message += `📝 <b>Summary:</b>\n${mockResult.summary}\n\n`;
+    message += `🔑 <b>Key Points:</b>\n`;
+    mockResult.keyPoints.forEach((point, index) => {
+      message += `${index + 1}. ${point}\n`;
+    });
+    message += `\n💾 <b>Note:</b> This is a mock response. The actual web summarizer integration is in progress.`;
+
+    await bot.sendMessage(chatId, message, { 
+      parse_mode: 'HTML',
+      disable_web_page_preview: true 
+    });
+
+  } catch (error) {
+    logger.error('[Telegram Web Summarizer] Error:', error);
+    await bot.sendMessage(
+      chatId,
+      '❌ An error occurred while summarizing the content. Please try again later.',
+      { parse_mode: 'HTML' }
+    );
+  }
+});
+
+// Handle /summarize without URL
+bot.onText(/\/summarize$/, async (msg) => {
+  const chatId = msg.chat.id;
+  await bot.sendMessage(chatId, '❌ Please provide a URL to summarize.\nUsage: /summarize <url>');
+});
+
 // Handle callback queries (inline button clicks)
 bot.on('callback_query', (query) => {
   const chatId = query.message.chat.id;
@@ -1064,6 +1151,9 @@ Status: Production Ready ✅
 *System Commands:*
 • /memory - Memory usage
 • /version - AuraOS version
+
+*AI Commands:*
+• /summarize <url> - Summarize web articles
 
 *Admin Commands:* (Admins only)
 • /admin - Access admin panel
@@ -1266,6 +1356,7 @@ bot.setMyCommands([
   { command: 'uptime', description: 'Bot uptime' },
   { command: 'memory', description: 'Memory usage' },
   { command: 'version', description: 'AuraOS version' },
+  { command: 'summarize', description: 'Summarize web articles' },
   { command: 'admin', description: 'Admin panel (admins only)' },
   { command: 'code', description: 'Analyze code file (admin)' },
   { command: 'files', description: 'List files (admin)' },

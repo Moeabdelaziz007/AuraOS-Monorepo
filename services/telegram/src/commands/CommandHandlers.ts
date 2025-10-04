@@ -77,6 +77,7 @@ Ready to assist you! 🚀`;
 • /ai <prompt> - AI assistance
 • /analyze <text> - Text analysis
 • /generate <prompt> - Content generation
+• /summarize <url> - Summarize web articles
 
 **MCP Commands:**
 • /mcp list - List available tools
@@ -550,7 +551,7 @@ This is a simulated MCP tool execution. In a real implementation, this would exe
 4. **Actions:** (commands to execute)
 
 **Example:**
-```
+\`\`\`
 Name: Daily Backup
 Description: Backup user files
 Trigger: Every day at 2 AM
@@ -558,7 +559,7 @@ Actions:
 - Create backup folder
 - Copy files
 - Send notification
-```
+\`\`\`
 
 **Quick Templates:**
 • System monitoring
