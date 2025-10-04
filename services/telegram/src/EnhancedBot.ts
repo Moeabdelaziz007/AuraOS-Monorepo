@@ -11,6 +11,7 @@ import { SecurityManager } from './security/SecurityManager.js';
 import { MonitoringManager } from './monitoring/MonitoringManager.js';
 import { CommandHandlers } from './commands/CommandHandlers.js';
 import { WebSummarizerCommand } from './commands/WebSummarizerCommand.js';
+import { ResearchCommand } from './commands/ResearchCommand.js';
 import { logger } from './utils/logger';
 import type { 
   BotConfig, 
@@ -27,6 +28,7 @@ export class EnhancedBot {
   private security: SecurityManager;
   private monitoring: MonitoringManager;
   private webSummarizer: WebSummarizerCommand;
+  private researchCommand: ResearchCommand;
   private isInitialized: boolean = false;
 
   constructor(config: BotConfig) {
@@ -38,6 +40,7 @@ export class EnhancedBot {
     this.security = new SecurityManager(config);
     this.monitoring = new MonitoringManager();
     this.webSummarizer = new WebSummarizerCommand(this.core.getBot());
+    this.researchCommand = new ResearchCommand(this.core.getBot());
     
     this.setupIntegrations();
   }
