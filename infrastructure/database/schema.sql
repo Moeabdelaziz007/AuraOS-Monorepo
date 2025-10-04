@@ -147,6 +147,52 @@ CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
 CREATE TRIGGER update_programs_updated_at BEFORE UPDATE ON programs
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- Notes table (Sprint 2)
+CREATE TABLE IF NOT EXISTS notes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(500) NOT NULL,
+    content TEXT NOT NULL,
+    tags TEXT[] DEFAULT '{}',
+    is_pinned BOOLEAN DEFAULT false,
+    is_archived BOOLEAN DEFAULT false,
+    color VARCHAR(50) DEFAULT 'default',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    search_vector tsvector,
+    metadata JSONB DEFAULT '{}'::jsonb
+);
+
+-- Notes indexes
+CREATE INDEX IF NOT EXISTS idx_notes_user_id ON notes(user_id);
+CREATE INDEX IF NOT EXISTS idx_notes_created_at ON notes(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_notes_updated_at ON notes(updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_notes_is_pinned ON notes(is_pinned) WHERE is_pinned = true;
+CREATE INDEX IF NOT EXISTS idx_notes_is_archived ON notes(is_archived);
+CREATE INDEX IF NOT EXISTS idx_notes_tags ON notes USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_notes_search_vector ON notes USING GIN(search_vector);
+
+-- Function to update search_vector automatically
+CREATE OR REPLACE FUNCTION notes_search_vector_update() RETURNS trigger AS $$
+BEGIN
+    NEW.search_vector := 
+        setweight(to_tsvector('english', COALESCE(NEW.title, '')), 'A') ||
+        setweight(to_tsvector('english', COALESCE(NEW.content, '')), 'B') ||
+        setweight(to_tsvector('english', COALESCE(array_to_string(NEW.tags, ' '), '')), 'C');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to maintain search_vector on insert/update
+CREATE TRIGGER notes_search_vector_trigger
+    BEFORE INSERT OR UPDATE ON notes
+    FOR EACH ROW
+    EXECUTE FUNCTION notes_search_vector_update();
+
+-- Trigger to update notes updated_at timestamp
+CREATE TRIGGER update_notes_updated_at BEFORE UPDATE ON notes
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 -- Views for common queries
 CREATE OR REPLACE VIEW active_sessions AS
 SELECT s.*, u.username, u.telegram_id
@@ -167,3 +213,17 @@ JOIN programs p ON e.program_id = p.id
 JOIN users u ON e.user_id = u.id
 ORDER BY e.started_at DESC
 LIMIT 100;
+
+CREATE OR REPLACE VIEW active_notes AS
+SELECT n.*, u.username
+FROM notes n
+JOIN users u ON n.user_id = u.id
+WHERE n.is_archived = false
+ORDER BY n.is_pinned DESC, n.updated_at DESC;
+
+CREATE OR REPLACE VIEW pinned_notes AS
+SELECT n.*, u.username
+FROM notes n
+JOIN users u ON n.user_id = u.id
+WHERE n.is_pinned = true AND n.is_archived = false
+ORDER BY n.updated_at DESC;
