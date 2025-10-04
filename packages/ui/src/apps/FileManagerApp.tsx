@@ -38,16 +38,11 @@ import {
   Image,
   FileText,
   Music,
-  Video
+  Video,
+  FolderPlus,
+  FilePlus
 } from 'lucide-react';
-
-interface FileItem {
-  id: string;
-  name: string;
-  type: 'file' | 'folder';
-  size?: number;
-  modified: Date;
-  permissions: string;
+import { fileSystemService, type FileItem as FSFileItem } from '../services/fileSystemService';
   icon: string;
   mimeType?: string;
 }
