@@ -3,58 +3,24 @@
  */
 
 import React, { Suspense, lazy, ComponentType } from 'react';
-import { createLazyComponent, createLazyComponentWithPreload } from '../utils/codeSplitting';
+import { createLazyComponent } from '../utils/codeSplitting';
 
-// Desktop App Components
-export const LazyDesktopApp = createLazyComponent(
-  () => import('@auraos/desktop').then(module => ({ default: module.DesktopApp }))
+// Desktop App Components - Using actual app components
+export const LazyDashboardApp = createLazyComponent(
+  () => import('../apps/DashboardApp').then(module => ({ default: module.DashboardApp }))
 );
 
-export const LazyWindowManager = createLazyComponent(
-  () => import('@auraos/desktop').then(module => ({ default: module.WindowManager }))
-);
-
-export const LazyTaskbar = createLazyComponent(
-  () => import('@auraos/desktop').then(module => ({ default: module.Taskbar }))
-);
-
-// Terminal App Components
 export const LazyTerminalApp = createLazyComponent(
-  () => import('@auraos/terminal').then(module => ({ default: module.TerminalApp }))
+  () => import('../apps/TerminalApp').then(module => ({ default: module.TerminalApp }))
 );
 
-export const LazyTerminalEmulator = createLazyComponent(
-  () => import('@auraos/terminal').then(module => ({ default: module.TerminalEmulator }))
+export const LazyFileManagerApp = createLazyComponent(
+  () => import('../apps/FileManagerApp').then(module => ({ default: module.FileManagerApp }))
 );
 
-// Debugger App Components
-export const LazyDebuggerApp = createLazyComponent(
-  () => import('@auraos/debugger').then(module => ({ default: module.DebuggerApp }))
-);
-
-export const LazyCPUViewer = createLazyComponent(
-  () => import('@auraos/debugger').then(module => ({ default: module.CPUViewer }))
-);
-
-export const LazyMemoryViewer = createLazyComponent(
-  () => import('@auraos/debugger').then(module => ({ default: module.MemoryViewer }))
-);
-
-// UI Components with Preloading
-export const LazyFileManager = createLazyComponentWithPreload(
-  () => import('./FileManager/FileManager'),
-  () => import('./FileManager/FileManager').then(module => module.preload)
-);
-
-export const LazyTextEditor = createLazyComponentWithPreload(
-  () => import('./TextEditor/TextEditor'),
-  () => import('./TextEditor/TextEditor').then(module => module.preload)
-);
-
-export const LazyImageEditor = createLazyComponentWithPreload(
-  () => import('./ImageEditor/ImageEditor'),
-  () => import('./ImageEditor/ImageEditor').then(module => module.preload)
-);
+// Note: Removed non-existent package imports
+// @auraos/desktop, @auraos/terminal, @auraos/debugger packages don't exist
+// FileManager, TextEditor, ImageEditor components don't exist yet
 
 // Advanced Lazy Loading with Intersection Observer
 export const LazyWithIntersection = <T extends ComponentType<any>>(
@@ -63,7 +29,7 @@ export const LazyWithIntersection = <T extends ComponentType<any>>(
 ) => {
   const LazyComponent = lazy(importFunc);
   
-  return React.forwardRef<any, any>((props, ref) => {
+  const IntersectionWrapper = React.forwardRef<any, any>((props, ref) => {
     const [isVisible, setIsVisible] = React.useState(false);
     const elementRef = React.useRef<HTMLDivElement>(null);
     
@@ -97,6 +63,9 @@ export const LazyWithIntersection = <T extends ComponentType<any>>(
       </div>
     );
   });
+  
+  IntersectionWrapper.displayName = 'LazyWithIntersection';
+  return IntersectionWrapper;
 };
 
 // Lazy Loading with Priority
@@ -117,7 +86,7 @@ export const createPriorityLazyComponent = <T extends ComponentType<any>>(
       };
       
       loadComponent();
-    }, [priority]);
+    }, []);
     
     if (!isLoaded) {
       return <div className="loading-placeholder">Loading...</div>;
@@ -130,6 +99,7 @@ export const createPriorityLazyComponent = <T extends ComponentType<any>>(
     );
   };
   
+  PriorityComponent.displayName = 'PriorityLazyComponent';
   return PriorityComponent;
 };
 
@@ -150,11 +120,14 @@ export const createCachedLazyComponent = <T extends ComponentType<any>>(
     return module;
   });
   
-  return (props: any) => (
+  const CachedComponent = (props: any) => (
     <Suspense fallback={<div className="loading-placeholder">Loading...</div>}>
       <LazyComponent {...props} />
     </Suspense>
   );
+  
+  CachedComponent.displayName = 'CachedLazyComponent';
+  return CachedComponent;
 };
 
 // Lazy Loading with Error Recovery
@@ -164,11 +137,11 @@ export const createResilientLazyComponent = <T extends ComponentType<any>>(
 ) => {
   const LazyComponent = lazy(importFunc);
   
-  return (props: any) => {
+  const ResilientComponent = (props: any) => {
     const [hasError, setHasError] = React.useState(false);
     
     const handleError = (error: Error) => {
-      logger.error('Lazy component error:', error);
+      console.error('Lazy component error:', error);
       setHasError(true);
     };
     
@@ -178,10 +151,11 @@ export const createResilientLazyComponent = <T extends ComponentType<any>>(
     
     return (
       <Suspense fallback={<div className="loading-placeholder">Loading...</div>}>
-        <ErrorBoundary onError={handleError}>
-          <LazyComponent {...props} />
-        </ErrorBoundary>
+        <LazyComponent {...props} />
       </Suspense>
     );
   };
+  
+  ResilientComponent.displayName = 'ResilientLazyComponent';
+  return ResilientComponent;
 };

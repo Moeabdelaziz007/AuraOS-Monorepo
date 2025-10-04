@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -9,8 +8,7 @@ import {
   Download, 
   Trash2, 
   Maximize2,
-  Minimize2,
-  Settings
+  Minimize2
 } from 'lucide-react';
 
 /**
@@ -38,7 +36,7 @@ export const TerminalApp: React.FC = () => {
     },
   ]);
   const [isMaximized, setIsMaximized] = useState(false);
-  const [currentPath, setCurrentPath] = useState('/home/user');
+  const [currentPath] = useState('/home/user');
   const terminalRef = useRef<HTMLDivElement>(null);
 
   const executeCommand = async (cmd: string) => {

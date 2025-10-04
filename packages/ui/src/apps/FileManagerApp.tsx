@@ -35,10 +35,8 @@ import {
   Edit,
   Eye,
   Home,
-  HardDrive,
   Image,
   FileText,
-  Archive,
   Music,
   Video
 } from 'lucide-react';
@@ -67,7 +65,6 @@ export const FileManagerApp: React.FC<FileManagerAppProps> = ({
   const [files, setFiles] = useState<FileItem[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const [loading, setLoading] = useState(false);
 
   // Mock file system data
@@ -152,6 +149,7 @@ export const FileManagerApp: React.FC<FileManagerAppProps> = ({
 
   useEffect(() => {
     loadFiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPath]);
 
   const loadFiles = async () => {

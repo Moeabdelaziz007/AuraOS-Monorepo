@@ -39,6 +39,33 @@ export const DesktopOS: React.FC = () => {
     },
   ];
 
+  // Focus a window (bring to front)
+  const handleWindowFocus = useCallback(
+    (windowId: string) => {
+      setWindows((prev) => {
+        const window = prev.find((w) => w.id === windowId);
+        if (!window || window.isActive) return prev;
+
+        return prev.map((w) => ({
+          ...w,
+          isActive: w.id === windowId,
+          zIndex: w.id === windowId ? nextZIndex : w.zIndex,
+        }));
+      });
+      setNextZIndex((z) => z + 1);
+    },
+    [nextZIndex]
+  );
+
+  // Minimize/restore a window
+  const handleWindowMinimize = useCallback((windowId: string) => {
+    setWindows((prev) =>
+      prev.map((w) =>
+        w.id === windowId ? { ...w, isMinimized: !w.isMinimized } : w
+      )
+    );
+  }, []);
+
   // Launch an application
   const handleAppLaunch = useCallback(
     (appId: string) => {
@@ -74,21 +101,12 @@ export const DesktopOS: React.FC = () => {
       );
       setNextZIndex((z) => z + 1);
     },
-    [windows, nextZIndex, apps]
+    [windows, nextZIndex, apps, handleWindowFocus, handleWindowMinimize]
   );
 
   // Close a window
   const handleWindowClose = useCallback((windowId: string) => {
     setWindows((prev) => prev.filter((w) => w.id !== windowId));
-  }, []);
-
-  // Minimize/restore a window
-  const handleWindowMinimize = useCallback((windowId: string) => {
-    setWindows((prev) =>
-      prev.map((w) =>
-        w.id === windowId ? { ...w, isMinimized: !w.isMinimized } : w
-      )
-    );
   }, []);
 
   // Maximize/restore a window
@@ -99,24 +117,6 @@ export const DesktopOS: React.FC = () => {
       )
     );
   }, []);
-
-  // Focus a window (bring to front)
-  const handleWindowFocus = useCallback(
-    (windowId: string) => {
-      setWindows((prev) => {
-        const window = prev.find((w) => w.id === windowId);
-        if (!window || window.isActive) return prev;
-
-        return prev.map((w) => ({
-          ...w,
-          isActive: w.id === windowId,
-          zIndex: w.id === windowId ? nextZIndex : w.zIndex,
-        }));
-      });
-      setNextZIndex((z) => z + 1);
-    },
-    [nextZIndex]
-  );
 
   // Move a window
   const handleWindowMove = useCallback((windowId: string, x: number, y: number) => {

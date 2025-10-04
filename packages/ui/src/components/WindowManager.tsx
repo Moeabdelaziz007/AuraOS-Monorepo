@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Window } from './Window';
 import { WindowState } from '../types/window';
 

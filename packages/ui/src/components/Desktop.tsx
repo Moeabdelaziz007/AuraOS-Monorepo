@@ -22,7 +22,7 @@ export const Desktop: React.FC<DesktopProps> = ({ apps, onAppLaunch }) => {
   };
 
   // Get pinned apps from user preferences
-  const pinnedApps = profile?.preferences.desktopLayout.pinnedApps || [];
+  const pinnedApps = profile?.preferences?.desktopLayout?.pinnedApps || [];
   const sortedApps = [...apps].sort((a, b) => {
     const aIsPinned = pinnedApps.includes(a.id);
     const bIsPinned = pinnedApps.includes(b.id);
