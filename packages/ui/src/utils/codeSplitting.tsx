@@ -3,11 +3,15 @@
  * Advanced code splitting strategies for optimal performance
  */
 
-import { lazy, ComponentType } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import React, { lazy, ComponentType, Suspense } from 'react';
+
+interface ErrorFallbackProps {
+  error: Error;
+  resetErrorBoundary: () => void;
+}
 
 // Error fallback component
-const ErrorFallback = ({ error, resetErrorBoundary }: any) => (
+const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => (
   <div className="error-boundary">
     <h2>Something went wrong:</h2>
     <pre>{error.message}</pre>
@@ -33,16 +37,9 @@ export const createLazyComponent = <T extends ComponentType<any>>(
   const LazyComponent = lazy(importFunc);
   
   return (props: any) => (
-    <ErrorBoundary
-      FallbackComponent={fallback || ErrorFallback}
-      onError={(error, errorInfo) => {
-        logger.error('Lazy component error:', error, errorInfo);
-      }}
-    >
-      <React.Suspense fallback={<LoadingSpinner />}>
-        <LazyComponent {...props} />
-      </React.Suspense>
-    </ErrorBoundary>
+    <Suspense fallback={<LoadingSpinner />}>
+      <LazyComponent {...props} />
+    </Suspense>
   );
 };
 
@@ -72,11 +69,9 @@ export const createLazyComponentWithPreload = <T extends ComponentType<any>>(
   
   return {
     Component: (props: any) => (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <React.Suspense fallback={<LoadingSpinner />}>
-          <LazyComponent {...props} />
-        </React.Suspense>
-      </ErrorBoundary>
+      <Suspense fallback={<LoadingSpinner />}>
+        <LazyComponent {...props} />
+      </Suspense>
     ),
     preload
   };
@@ -89,21 +84,21 @@ export const splitLibraries = {
   // Split large libraries
   lodash: () => import('lodash'),
   moment: () => import('moment'),
-  'framer-motion': () => import('framer-motion'),
+  framerMotion: () => import('framer-motion'),
   
   // Split UI libraries
-  'react-router': () => import('react-router-dom'),
-  'react-query': () => import('@tanstack/react-query'),
+  reactRouter: () => import('react-router-dom'),
+  reactQuery: () => import('@tanstack/react-query'),
   
   // Split utility libraries
-  'date-fns': () => import('date-fns'),
-  'uuid': () => import('uuid'),
+  dateFns: () => import('date-fns'),
+  uuid: () => import('uuid'),
 };
 
 /**
  * Dynamic import with retry logic
  */
-export const dynamicImportWithRetry = async <T>(
+export const dynamicImportWithRetry = async <T extends any>(
   importFunc: () => Promise<T>,
   maxRetries: number = 3,
   delay: number = 1000
@@ -153,7 +148,7 @@ export const performanceMonitor = {
   },
   
   trackComponentLoad: (componentName: string, loadTime: number) => {
-    logger.info(`Component ${componentName} loaded in ${loadTime}ms`);
+    console.info(`Component ${componentName} loaded in ${loadTime}ms`);
   },
   
   trackMemoryUsage: () => {

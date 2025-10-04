@@ -18,5 +18,5 @@
       "@auraos/hooks": ["../hooks/src/index.ts"]
     }
   },
-  "include": ["src", "@"]
+  "include": ["src"]
 }
