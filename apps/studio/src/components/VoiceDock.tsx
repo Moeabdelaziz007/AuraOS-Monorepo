@@ -47,7 +47,7 @@ export const VoiceDock: React.FC<VoiceDockProps> = ({ className = '' }) => {
     const initVoice = async () => {
       try {
         // Initialize voice controller
-        const deepgramApiKey = process.env.REACT_APP_DEEPGRAM_API_KEY;
+        const deepgramApiKey = process.env.REACT_APP_DEEPGRAM_API_KEY || '93864582c2ebad608ed5755acb932bddead173cd';
         voiceControllerRef.current = createVoiceController(deepgramApiKey);
         
         // Initialize TTS client
@@ -92,7 +92,7 @@ export const VoiceDock: React.FC<VoiceDockProps> = ({ className = '' }) => {
 
   const handleStartRecording = async () => {
     try {
-      setError(undefined);
+      setError(null);
       
       if (!voiceControllerRef.current) {
         throw new Error('Voice controller not initialized');
