@@ -55,7 +55,7 @@ export const LazyWithIntersection = <T extends ComponentType<any>>(
       <div ref={elementRef}>
         {isVisible ? (
           <Suspense fallback={<div className="loading-placeholder">Loading...</div>}>
-            <LazyComponent {...props} ref={ref} />
+            <LazyComponent {...props} />
           </Suspense>
         ) : (
           <div className="loading-placeholder">Loading...</div>
