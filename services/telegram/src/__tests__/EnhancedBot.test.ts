@@ -31,7 +31,11 @@ vi.mock('../core/BotCore.js', () => ({
       memoryUsage: { rss: 0, heapTotal: 0, heapUsed: 0 },
       cpuUsage: 0,
       activeConnections: 0
-    })
+    }),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn(),
+    isBotRunning: vi.fn().mockReturnValue(true)
   }))
 }));
 
@@ -39,7 +43,11 @@ vi.mock('../ai/AIIntegration.js', () => ({
   AIIntegration: vi.fn().mockImplementation(() => ({
     processMessage: vi.fn().mockResolvedValue({ success: true, message: 'AI response' }),
     getInsights: vi.fn().mockReturnValue([]),
-    isActive: vi.fn().mockReturnValue(true)
+    isActive: vi.fn().mockReturnValue(true),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn(),
+    getUserInsights: vi.fn().mockReturnValue([])
   }))
 }));
 
@@ -47,7 +55,10 @@ vi.mock('../mcp/MCPIntegration.js', () => ({
   MCPIntegration: vi.fn().mockImplementation(() => ({
     executeTool: vi.fn().mockResolvedValue({ success: true, message: 'Tool executed' }),
     getAvailableTools: vi.fn().mockReturnValue([]),
-    isMCPConnected: vi.fn().mockReturnValue(true)
+    isMCPConnected: vi.fn().mockReturnValue(true),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn()
   }))
 }));
 
@@ -55,7 +66,10 @@ vi.mock('../autopilot/AutopilotIntegration.js', () => ({
   AutopilotIntegration: vi.fn().mockImplementation(() => ({
     executeTask: vi.fn().mockResolvedValue({ success: true, message: 'Task executed' }),
     getAllTasks: vi.fn().mockReturnValue([]),
-    isAutopilotActive: vi.fn().mockReturnValue(true)
+    isAutopilotActive: vi.fn().mockReturnValue(true),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn()
   }))
 }));
 
@@ -63,7 +77,11 @@ vi.mock('../learning/LearningIntegration.js', () => ({
   LearningIntegration: vi.fn().mockImplementation(() => ({
     learnFromInteraction: vi.fn(),
     getUserInsights: vi.fn().mockReturnValue([]),
-    isLearningActive: vi.fn().mockReturnValue(true)
+    isLearningActive: vi.fn().mockReturnValue(true),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn(),
+    getUserInsights: vi.fn().mockReturnValue([])
   }))
 }));
 
@@ -71,7 +89,11 @@ vi.mock('../security/SecurityManager.js', () => ({
   SecurityManager: vi.fn().mockImplementation(() => ({
     checkAccess: vi.fn().mockReturnValue(true),
     logSecurityEvent: vi.fn(),
-    isSecurityActive: vi.fn().mockReturnValue(true)
+    isSecurityActive: vi.fn().mockReturnValue(true),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn(),
+    getUserSecurityInfo: vi.fn().mockReturnValue({})
   }))
 }));
 
@@ -79,7 +101,19 @@ vi.mock('../monitoring/MonitoringManager.js', () => ({
   MonitoringManager: vi.fn().mockImplementation(() => ({
     trackEvent: vi.fn(),
     getMetrics: vi.fn().mockReturnValue({}),
-    isMonitoringActive: vi.fn().mockReturnValue(true)
+    isMonitoringActive: vi.fn().mockReturnValue(true),
+    on: vi.fn(),
+    emit: vi.fn(),
+    off: vi.fn(),
+    getAnalytics: vi.fn().mockReturnValue({}),
+    getDashboardData: vi.fn().mockReturnValue({
+      system: { status: 'active', uptime: 1000 },
+      analytics: { totalUsers: 10, messages: 100 },
+      performance: { cpu: 50, memory: 60 },
+      users: { active: 5, total: 10 }
+    }),
+    getPerformanceMetrics: vi.fn().mockReturnValue({}),
+    getUserActivity: vi.fn().mockReturnValue({})
   }))
 }));
 

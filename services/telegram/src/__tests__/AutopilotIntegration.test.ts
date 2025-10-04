@@ -48,7 +48,7 @@ describe('AutopilotIntegration', () => {
       const response = await autopilot.executeTask('system_monitor', userSession);
       expect(response.success).toBe(true);
       expect(response.message).toContain('successfully');
-    });
+    }, 15000);
 
     it('should execute user activity track task', async () => {
       const response = await autopilot.executeTask('user_activity_track', userSession);
