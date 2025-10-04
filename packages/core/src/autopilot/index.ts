@@ -11,7 +11,9 @@ export * from './reward-system';
 export * from './storage';
 export * from './mcp-integration';
 export * from './mcp-servers';
+export * from './orchestration-agent';
 
 export { autopilotService } from './autopilot.service';
 export { smartAnalyzer } from './smart-analyzer';
 export { rewardSystem } from './reward-system';
+export { orchestrationAgent } from './orchestration-agent';
