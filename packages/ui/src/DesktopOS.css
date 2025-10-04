@@ -61,12 +61,12 @@ code, pre, .terminal-app {
   width: 100%;
   height: calc(100vh - 48px);
   position: relative;
-  background: var(--aurora-background);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(88, 28, 135, 0.6) 50%, rgba(15, 23, 42, 0.8) 100%);
   transition: all 0.3s ease;
 }
 
 .dark .desktop-enhanced {
-  background: var(--cosmic-background);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(88, 28, 135, 0.7) 50%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 .desktop-icons-grid {
@@ -76,6 +76,22 @@ code, pre, .terminal-app {
   padding: 32px;
   grid-auto-flow: column;
   grid-template-rows: repeat(auto-fill, 120px);
+}
+
+/* Quantum Desktop Logo */
+.quantum-desktop-logo {
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Quantum App Icons */
+.desktop-quantum-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.desktop-quantum-icon:hover {
+  transform: translateY(-8px) scale(1.05);
+  z-index: 10;
 }
 
 .desktop-icon-card {

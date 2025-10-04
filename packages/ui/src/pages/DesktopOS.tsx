@@ -8,6 +8,7 @@ import { Desktop } from '../components/Desktop';
 import { WindowManager } from '../components/WindowManager';
 import { Taskbar } from '../components/Taskbar';
 import { DesktopApp, WindowState } from '../types/window';
+import { QuantumLogo, QuantumAppIcon } from '../components/quantum-elements';
 
 // Sample apps
 const desktopApps: DesktopApp[] = [
@@ -133,8 +134,13 @@ export function DesktopOS() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-400 to-purple-500">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="flex-1 relative overflow-hidden">
+        {/* Quantum Logo - Centered */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+          <QuantumLogo size={200} className="quantum-desktop-logo" />
+        </div>
+        
         <Desktop apps={desktopApps} onAppLaunch={handleAppLaunch} />
         <WindowManager
           windows={windows}
