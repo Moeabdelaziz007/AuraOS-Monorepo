@@ -71,6 +71,7 @@
   },
   "packageManager": "pnpm@8.15.0",
   "dependencies": {
+    "@anthropic-ai/claude-code": "^2.0.5",
     "@playwright/test": "^1.55.1"
   },
   "pnpm": {
