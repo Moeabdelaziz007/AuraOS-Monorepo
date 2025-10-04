@@ -1,64 +1,143 @@
-# دليل الإعداد - AuraOS Setup Guide
+# 🛠️ AuraOS Setup Guide | دليل الإعداد
 
-## 📋 المتطلبات
+Complete setup guide for AuraOS development environment.
 
-- Node.js 18+ 
-- pnpm 8+
-- Git
+## 📋 Prerequisites | المتطلبات
 
-## 🚀 خطوات التثبيت
+### Required Software
+- **Node.js** >= 18.0.0
+- **pnpm** >= 8.0.0
+- **Git** >= 2.0.0
 
-### 1. تثبيت المكتبات
+### Optional Tools
+- **VS Code** (recommended IDE)
+- **Firebase CLI** (for deployment)
+- **Docker** (for containerized development)
+
+## 🚀 Installation Steps | خطوات التثبيت
+
+### 1. Install Package Manager | تثبيت مدير الحزم
 
 ```bash
-# تثبيت pnpm إذا لم يكن مثبتاً
-npm install -g pnpm
+# Install pnpm globally if not already installed
+npm install -g pnpm@latest
 
-# تثبيت جميع المكتبات
-pnpm install
-
-# بناء جميع الـ packages
-pnpm -r build
+# Verify installation
+pnpm --version
 ```
 
-### 2. إعداد المتغيرات البيئية
-
-انسخ ملف `.env.example` إلى `.env`:
+### 2. Clone Repository | استنساخ المشروع
 
 ```bash
+# Clone the repository
+git clone https://github.com/Moeabdelaziz007/AuraOS-Monorepo.git
+
+# Navigate to project directory
+cd AuraOS-Monorepo
+```
+
+### 3. Install Dependencies | تثبيت المكتبات
+
+```bash
+# Install all dependencies for all packages
+pnpm install
+
+# This will install dependencies for:
+# - Root workspace
+# - All packages in packages/
+# - All apps in apps/
+# - All services in services/
+```
+
+### 4. Build Packages | بناء الحزم
+
+```bash
+# Build all packages in correct order
+pnpm -r build
+
+# Or build specific package
+pnpm --filter @auraos/core build
+pnpm --filter @auraos/ui build
+```
+
+### 5. Environment Configuration | إعداد المتغيرات البيئية
+
+#### Create Environment File
+
+```bash
+# Copy example environment file
 cp .env.example .env
 ```
 
-ثم عدّل الملف وأضف المفاتيح:
+#### Configure Firebase
+
+1. Go to [Firebase Console](https://console.firebase.google.com)
+2. Create a new project or select existing one
+3. Go to Project Settings > General
+4. Scroll to "Your apps" section
+5. Click "Add app" > Web
+6. Copy the configuration values
+
+#### Configure AI Services (Optional)
+
+1. **Google Gemini**: Get API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. **z.ai**: Get API key from [z.ai](https://z.ai)
+
+#### Update .env File
 
 ```env
-# Firebase Configuration
-VITE_FIREBASE_API_KEY=AIzaSyCiZQHxCQZ0Jy_PjUTBX1cdJ7YfHnsJ8zQ
-VITE_FIREBASE_AUTH_DOMAIN=selfos-62f70.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=selfos-62f70
-VITE_FIREBASE_STORAGE_BUCKET=selfos-62f70.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID=693748251235
-VITE_FIREBASE_APP_ID=1:693748251235:web:4fe7e5cefae61f127e1656
-VITE_FIREBASE_MEASUREMENT_ID=G-GNFLCQJX48
+# Firebase Configuration (Get from Firebase Console)
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 
-# AI API Keys
-VITE_GEMINI_API_KEY=AIzaSyBYjIqWUoNj8ZmQ1CGc_AofAqN-8oBQ-iI
-VITE_ZAI_API_KEY=4e4ab4737d0b4f0ca810ae233d4cbad3.BY1p4wRAwHCezeMh
+# AI API Keys (Optional - Get from respective providers)
+VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_ZAI_API_KEY=your_zai_api_key
 
 # Application Settings
 VITE_APP_NAME=AuraOS
 VITE_APP_VERSION=1.0.0
 ```
 
-### 3. تشغيل التطبيق
+### 6. Start Development Server | تشغيل خادم التطوير
 
 ```bash
-# تشغيل UI في وضع التطوير
-cd packages/ui
+# Option 1: Run desktop UI only
+pnpm dev:desktop
+
+# Option 2: Run all packages in parallel
 pnpm dev
 
-# أو من الجذر
+# Option 3: Run specific package
 pnpm --filter @auraos/ui dev
+
+# Option 4: Navigate to package directory
+cd packages/ui
+pnpm dev
+```
+
+The application will be available at:
+- **Desktop UI**: [http://localhost:5173](http://localhost:5173)
+
+### 7. Verify Installation | التحقق من التثبيت
+
+```bash
+# Check TypeScript compilation
+pnpm typecheck
+
+# Run linting
+pnpm lint
+
+# Run tests
+pnpm test
+
+# Check build
+pnpm build
 ```
 
 ## 📦 هيكل المشروع
@@ -121,33 +200,111 @@ AuraOS-Monorepo/
 └── package.json
 ```
 
-## 🔧 الأوامر المتاحة
+## 🔧 Available Commands | الأوامر المتاحة
 
-### بناء المشروع
+### Development Commands | أوامر التطوير
+
 ```bash
-# بناء جميع الـ packages
-pnpm -r build
+# Run all packages in development mode
+pnpm dev
 
-# بناء package معين
-pnpm --filter @auraos/core build
+# Run desktop UI only
+pnpm dev:desktop
+
+# Run terminal app
+pnpm dev:terminal
+
+# Run debugger app
+pnpm dev:debugger
 ```
 
-### التطوير
-```bash
-# تشغيل UI
-pnpm --filter @auraos/ui dev
+### Build Commands | أوامر البناء
 
-# مراقبة التغييرات في core
-pnpm --filter @auraos/core dev
+```bash
+# Build all packages
+pnpm build
+
+# Build desktop UI
+pnpm build:desktop
+
+# Build terminal app
+pnpm build:terminal
+
+# Production build with optimizations
+pnpm build:production
+
+# Build with bundle analysis
+pnpm build:analyze
 ```
 
-### الاختبار
-```bash
-# تشغيل جميع الاختبارات
-pnpm -r test
+### Testing Commands | أوامر الاختبار
 
-# اختبار package معين
-pnpm --filter @auraos/core test
+```bash
+# Run all tests
+pnpm test
+
+# Run unit tests
+pnpm test:unit
+
+# Run integration tests
+pnpm test:integration
+
+# Run E2E tests
+pnpm test:e2e
+
+# Run tests with coverage
+pnpm test:coverage
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run specific test suite
+pnpm test:mcp
+pnpm test:apps
+```
+
+### Code Quality Commands | أوامر جودة الكود
+
+```bash
+# Lint all packages
+pnpm lint
+
+# Fix linting issues
+pnpm lint:fix
+
+# Format code with Prettier
+pnpm format
+
+# Type check all packages
+pnpm typecheck
+```
+
+### Deployment Commands | أوامر النشر
+
+```bash
+# Deploy to Firebase
+pnpm deploy
+
+# Deploy desktop only
+firebase deploy --only hosting
+```
+
+### Maintenance Commands | أوامر الصيانة
+
+```bash
+# Clean all build artifacts
+pnpm clean
+
+# Remove node_modules and reinstall
+pnpm clean
+rm -rf node_modules
+pnpm install
+
+# Update dependencies
+pnpm update
+
+# Check for outdated packages
+pnpm outdated
 ```
 
 ### التنظيف
