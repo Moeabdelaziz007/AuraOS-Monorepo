@@ -51,13 +51,13 @@ export function DesktopOS() {
     if (!app) return;
 
     // Check if window already exists
-    const existingWindow = windows.find(w => w.appId === appId);
+    const existingWindow = windows.find(w => w.title === app.name);
     if (existingWindow) {
       // Bring to front
       setWindows(prev =>
         prev.map(w =>
           w.id === existingWindow.id
-            ? { ...w, zIndex: Math.max(...prev.map(win => win.zIndex)) + 1, minimized: false }
+            ? { ...w, zIndex: Math.max(...prev.map(win => win.zIndex)) + 1, isMinimized: false }
             : w
         )
       );
@@ -77,18 +77,18 @@ export function DesktopOS() {
 
     const newWindow: WindowState = {
       id: `window-${Date.now()}`,
-      appId,
       title: app.name,
-      x: centerX,
-      y: centerY,
-      width: windowWidth,
-      height: windowHeight,
-      minimized: false,
-      maximized: false,
+      component: app.component,
+      position: { x: centerX, y: centerY },
+      size: { width: windowWidth, height: windowHeight },
+      isMinimized: false,
+      isMaximized: false,
+      isActive: true,
       zIndex: windows.length + 1,
+      icon: app.icon,
     };
 
-    setWindows(prev => [...prev, newWindow]);
+    setWindows(prev => [...prev.map(w => ({ ...w, isActive: false })), newWindow]);
   };
 
   const handleWindowClose = (windowId: string) => {
@@ -98,7 +98,7 @@ export function DesktopOS() {
   const handleWindowMinimize = (windowId: string) => {
     setWindows(prev =>
       prev.map(w =>
-        w.id === windowId ? { ...w, minimized: !w.minimized } : w
+        w.id === windowId ? { ...w, isMinimized: !w.isMinimized } : w
       )
     );
   };
@@ -106,7 +106,7 @@ export function DesktopOS() {
   const handleWindowMaximize = (windowId: string) => {
     setWindows(prev =>
       prev.map(w =>
-        w.id === windowId ? { ...w, maximized: !w.maximized } : w
+        w.id === windowId ? { ...w, isMaximized: !w.isMaximized } : w
       )
     );
   };
@@ -122,13 +122,13 @@ export function DesktopOS() {
 
   const handleWindowMove = (windowId: string, x: number, y: number) => {
     setWindows(prev =>
-      prev.map(w => (w.id === windowId ? { ...w, x, y } : w))
+      prev.map(w => (w.id === windowId ? { ...w, position: { x, y } } : w))
     );
   };
 
   const handleWindowResize = (windowId: string, width: number, height: number) => {
     setWindows(prev =>
-      prev.map(w => (w.id === windowId ? { ...w, width, height } : w))
+      prev.map(w => (w.id === windowId ? { ...w, size: { width, height } } : w))
     );
   };
 
@@ -138,20 +138,20 @@ export function DesktopOS() {
         <Desktop apps={desktopApps} onAppLaunch={handleAppLaunch} />
         <WindowManager
           windows={windows}
-          apps={desktopApps}
-          onClose={handleWindowClose}
-          onMinimize={handleWindowMinimize}
-          onMaximize={handleWindowMaximize}
-          onFocus={handleWindowFocus}
-          onMove={handleWindowMove}
-          onResize={handleWindowResize}
+          onWindowClose={handleWindowClose}
+          onWindowMinimize={handleWindowMinimize}
+          onWindowMaximize={handleWindowMaximize}
+          onWindowFocus={handleWindowFocus}
+          onWindowMove={handleWindowMove}
+          onWindowResize={handleWindowResize}
         />
       </div>
       <Taskbar
         windows={windows}
         apps={desktopApps}
-        onWindowClick={handleWindowMinimize}
         onAppLaunch={handleAppLaunch}
+        onWindowFocus={handleWindowFocus}
+        onWindowMinimize={handleWindowMinimize}
       />
     </div>
   );

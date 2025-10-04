@@ -3,7 +3,7 @@
  * Advanced memory management for optimal performance
  */
 
-import { useEffect, useRef, useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useCallback, useMemo, useState, ComponentType } from 'react';
 
 /**
  * Hook for memory leak prevention

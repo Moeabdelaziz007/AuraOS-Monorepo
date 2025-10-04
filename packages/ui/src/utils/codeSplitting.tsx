@@ -79,20 +79,21 @@ export const createLazyComponentWithPreload = <T extends ComponentType<any>>(
 
 /**
  * Library splitting utilities
+ * Note: Only include libraries that are actually installed
  */
 export const splitLibraries = {
-  // Split large libraries
-  lodash: () => import('lodash'),
-  moment: () => import('moment'),
-  framerMotion: () => import('framer-motion'),
-  
   // Split UI libraries
   reactRouter: () => import('react-router-dom'),
-  reactQuery: () => import('@tanstack/react-query'),
   
   // Split utility libraries
   dateFns: () => import('date-fns'),
-  uuid: () => import('uuid'),
+  
+  // Commented out - install if needed:
+  // lodash: () => import('lodash'),
+  // moment: () => import('moment'),
+  // framerMotion: () => import('framer-motion'),
+  // reactQuery: () => import('@tanstack/react-query'),
+  // uuid: () => import('uuid'),
 };
 
 /**

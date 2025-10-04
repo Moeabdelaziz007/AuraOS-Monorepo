@@ -3,6 +3,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { doc, getDoc } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '@auraos/firebase';
+import { logger } from '../utils/logger';
 
 type ContentType = 'blog_post' | 'social_media' | 'email_template';
 type WritingStyle = 'professional' | 'casual' | 'friendly' | 'formal' | 'creative' | 'persuasive' | 'informative';

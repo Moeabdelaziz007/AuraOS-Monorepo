@@ -8,6 +8,7 @@ import { useLearningLoop } from '@auraos/hooks';
 import { useAuth } from '../contexts/AuthContext';
 import Layout from '../components/layout/Layout';
 import DashboardComponent from '../components/dashboard/Dashboard';
+import { logger } from '../utils/logger';
 import DataTable from '../components/dashboard/DataTable';
 
 export function Dashboard() {

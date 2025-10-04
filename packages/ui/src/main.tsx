@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { DesktopOS } from './DesktopOS.tsx'
+import { DesktopOS } from './DesktopOS'
 import './index.css'
 import './DesktopOS.css'
 
