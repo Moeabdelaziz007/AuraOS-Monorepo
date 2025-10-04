@@ -3,6 +3,7 @@ import { Pin, LucideIcon } from 'lucide-react';
 import { DesktopApp } from '../types/window';
 import { useLearningLoop } from '@auraos/hooks';
 import { useAuth } from '../contexts/AuthContext';
+import { QuantumAppIcon } from './quantum-elements';
 
 interface DesktopProps {
   apps: DesktopApp[];
@@ -32,34 +33,19 @@ export const Desktop: React.FC<DesktopProps> = ({ apps, onAppLaunch }) => {
     return 0;
   });
 
-  const renderIcon = (icon: LucideIcon | string) => {
-    if (typeof icon === 'string') {
-      return <span className="text-2xl">{icon}</span>;
-    }
-    const IconComponent = icon;
-    return <IconComponent className="w-8 h-8" />;
-  };
-
   return (
     <div className="desktop-enhanced">
       <div className="desktop-icons-grid">
         {sortedApps.map((app) => (
-          <div
+          <QuantumAppIcon
             key={app.id}
-            className="desktop-icon-card"
-            onDoubleClick={() => handleDoubleClick(app.id)}
-            title={app.name}
-          >
-            <div className="icon-container">
-              <div className="icon-image">{renderIcon(app.icon)}</div>
-              {pinnedApps.includes(app.id) && (
-                <div className="icon-pin-badge" title="Pinned">
-                  <Pin className="w-3 h-3" />
-                </div>
-              )}
-            </div>
-            <div className="icon-label">{app.name}</div>
-          </div>
+            icon={app.icon}
+            label={app.name}
+            onClick={() => handleDoubleClick(app.id)}
+            size="medium"
+            isPinned={pinnedApps.includes(app.id)}
+            className="desktop-quantum-icon"
+          />
         ))}
       </div>
     </div>
